@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GroupCreateRequest;
 use App\Http\Requests\GroupUpdateRequest;
+use App\Http\Requests\TableRequest;
 use App\Models\Group;
 use Illuminate\Http\JsonResponse;
 
@@ -14,11 +15,12 @@ class GroupActionController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(TableRequest $request)
     {
+        $paginate = Group::paginate($request->getLimit());
         return response()->json(["message" => "success",
-            "records" => Group::all(),
-            "total" => 2], 200);
+            "records" => $paginate->items(),
+            "total" => $paginate->total()], 200);
     }
 
     /**

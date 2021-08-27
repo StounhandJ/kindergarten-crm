@@ -18,39 +18,44 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
     return response()->json([
-   "records" => [
-         [
-            "id" => 1,
-            "name" => "П-12",
-            "children_age" => 6,
-            "fillName" => "Bulgaria",
-             "fillId" => 2,
-             "IsTest" => True,
-         ],
-       [
-            "id" => 2,
-            "name" => "П-12",
-            "children_age" => 5,
-            "fillName" => "Junkl",
-             "fillId" => 3,
-             "IsTest" => False,
-         ],
-      ],
-   "total" => 2
-]);
+        "records" => [
+            [
+                "id" => 1,
+                "name" => "П-12",
+                "children_age" => 6,
+                "fillName" => "Bulgaria",
+                "fillId" => 2,
+                "IsTest" => True,
+            ],
+            [
+                "id" => 2,
+                "name" => "П-12",
+                "children_age" => 5,
+                "fillName" => "Junkl",
+                "fillId" => 3,
+                "IsTest" => False,
+            ],
+        ],
+        "total" => 2
+    ]);
 });
 
 Route::get('/test2', function () {
     return response()->json([
-        ["name"=>"Bulgaria", "id"=>2],
-        ["name"=>"Junkl", "id"=>3],
-        ["name"=>"ghk", "id"=>4]
+        ["name" => "Bulgaria", "id" => 2],
+        ["name" => "Junkl", "id" => 3],
+        ["name" => "ghk", "id" => 4]
     ]);
 });
 
-Route::get("/branch", [BranchActionController::class,"indexArray"]);
 
-Route::apiResource("group",GroupActionController::class);
+
+Route::prefix("action")->name("action.")->group(function () {
+
+    Route::get("/branches", [BranchActionController::class, "indexArray"]);
+
+    Route::apiResource("group", GroupActionController::class);
+});
 
 Route::get('/', function () {
     return view("pages-blank");

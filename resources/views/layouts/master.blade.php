@@ -6,6 +6,7 @@
     <title>@yield('title')</title>
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('/assets/images/favicon.ico') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('layouts.head')
 </head>
 
