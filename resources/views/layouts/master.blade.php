@@ -12,7 +12,7 @@
 
 
 @section('body')
-    <body data-sidebar="dark">
+    <body data-sidebar="dark" class="modal-open" style="padding-right: 17px;">
     <div id="preloader">
         <div id="status">
             <div class="spinner-chase">
@@ -53,6 +53,7 @@
 
     <!-- JAVASCRIPT -->
     @include('layouts.footer-script')
+{{--    <div class="modal-backdrop fade show"></div>--}}
 </body>
 
 </html>
