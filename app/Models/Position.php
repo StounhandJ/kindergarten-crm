@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Institution extends Model
+class Position extends Model
 {
     use HasFactory;
+
     //<editor-fold desc="Setting">
     public $timestamps = false;
     //</editor-fold>
@@ -32,14 +33,14 @@ class Institution extends Model
     //</editor-fold>
 
     //<editor-fold desc="Search Branch">
-    public static function getById($id) : Institution
+    public static function getById($id) : Position
     {
-        return Institution::where("id", $id)->first() ?? new Institution();
+        return Position::where("id", $id)->first() ?? new Position();
     }
     //</editor-fold>
 
     public static function make($name)
     {
-        return Branch::factory(["name"=>$name] )->make();
+        return Position::factory(["name"=>$name] )->make();
     }
 }

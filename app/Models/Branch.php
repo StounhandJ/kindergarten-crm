@@ -33,13 +33,13 @@ class Branch extends Model
     //</editor-fold>
 
     //<editor-fold desc="Search Branch">
-    public static function getBranchById($id) : Branch
+    public static function getById($id) : Branch
     {
         return Branch::where("id", $id)->first() ?? new Branch();
     }
     //</editor-fold>
 
-    public static function create($name)
+    public static function make($name)
     {
         return Branch::factory(["name"=>$name] )->make();
     }

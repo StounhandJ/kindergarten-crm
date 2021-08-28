@@ -33,7 +33,7 @@ class ChildrenActionController extends Controller
      */
     public function store(ChildrenCreateRequest $request)
     {
-        $children = Children::create(
+        $children = Children::make(
             $request->getFio(), $request->getAddress(), $request->getFioMother(), $request->getPhoneMother(), $request->getFioFather(),
             $request->getPhoneFather(), $request->getComment(), $request->getRate(), $request->getDateExclusion(), $request->getReasonExclusion(), $request->getDateBirth(),
             $request->getDateEnrollment(), $request->getGroup(), $request->getInstitution()

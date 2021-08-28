@@ -38,7 +38,7 @@ class GroupCreateRequest extends FormRequest
 
     public function getBranch()
     {
-        return Branch::getBranchById($this->input("branch_id"));
+        return Branch::getById($this->input("branch_id"));
     }
 
     public function getChildrenAge()

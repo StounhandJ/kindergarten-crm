@@ -13,11 +13,8 @@ class ChildrensDelete extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('childrens', function (Blueprint $table) {
             $table->dropColumn("contract");
-            $table->dropColumn("description");
-            $table->dropColumn("img_src");
-            $table->dropColumn("price");
         });
     }
 
@@ -28,7 +25,7 @@ class ChildrensDelete extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('childrens', function (Blueprint $table) {
             $table->string("contract")->default("");
         });
     }

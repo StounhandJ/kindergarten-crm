@@ -55,7 +55,7 @@ class Group extends Model
     //</editor-fold>
 
     //<editor-fold desc="Search Branch">
-    public static function getGroupById($id) : Group
+    public static function getById($id) : Group
     {
         return Group::where("id", $id)->first() ?? new Group();
     }
@@ -66,7 +66,7 @@ class Group extends Model
         if ($children_age!="") $this->children_age = $children_age;
     }
 
-    public static function create($name, $children_age, Branch $branch)
+    public static function make($name, $children_age, Branch $branch)
     {
         return Group::factory([
             "name"=>$name,

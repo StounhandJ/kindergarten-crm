@@ -31,7 +31,7 @@ class GroupActionController extends Controller
      */
     public function store(GroupCreateRequest $request)
     {
-        $group = Group::create($request->getName(), $request->getChildrenAge(), $request->getBranch());
+        $group = Group::make($request->getName(), $request->getChildrenAge(), $request->getBranch());
         $group->save();
         return response()->json(["message"=>"success", "records"=>$group], 200);
     }

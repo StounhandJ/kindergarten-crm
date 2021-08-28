@@ -85,12 +85,12 @@ class Children extends Model
 
     public function getGroup(): Group
     {
-        return Group::getGroupById($this->group_id);
+        return Group::getById($this->group_id);
     }
 
     public function getInstitution(): Institution
     {
-        return Institution::getInstitutionById($this->institution_id);
+        return Institution::getById($this->institution_id);
     }
     //</editor-fold>
 
@@ -166,9 +166,9 @@ class Children extends Model
     }
     //</editor-fold>
 
-    public static function create($name, $address, $fio_mother, $phone_mother, $fio_father,
-    $phone_father, $comment, $rate, $date_exclusion, $reason_exclusion, $date_birth, $date_enrollment,
-    Group $group, Institution $institution)
+    public static function make($name, $address, $fio_mother, $phone_mother, $fio_father,
+        $phone_father, $comment, $rate, $date_exclusion, $reason_exclusion, $date_birth, $date_enrollment,
+                                Group $group, Institution $institution)
     {
         return Group::factory([
             "fio"=>$name,

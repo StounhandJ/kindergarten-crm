@@ -75,11 +75,11 @@ class ChildrenRequest extends FormRequest
 
     public function getGroup(): Group
     {
-        return Group::getGroupById($this->input("group_id"));
+        return Group::getById($this->input("group_id"));
     }
 
     public function getInstitution(): Institution
     {
-        return Institution::getInstitutionById($this->input("institution_id"));
+        return Institution::getById($this->input("institution_id"));
     }
 }
