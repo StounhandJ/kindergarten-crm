@@ -16,7 +16,7 @@ $(document).ready(function () {
     var grid, countries;
     var tapath = $('#grid')[0].attributes.getNamedItem("tapath").value;
     var column = {
-        dataSource: '/action/group',
+        dataSource: '/action/'+tapath,
         uiLibrary: 'bootstrap4',
         primaryKey: 'id',
         inlineEditing: {mode: 'command'},
@@ -46,7 +46,7 @@ $(document).ready(function () {
     switch (tapath) {
         case "group":
             column["columns"] = [
-                {field: 'id', width: 60, hidden: true},
+                {field: 'id', hidden: true},
                 {field: 'name', title: 'Наименование группы', editor: true},
                 {
                     field: 'branch_name',
@@ -59,8 +59,27 @@ $(document).ready(function () {
             ]
             break;
         case "children":
+            column["columns"] = [
+                {field: 'id', hidden: true},
+                {field: 'fio', title: 'ФИО', width: 200, editor: true},
+                {field: '-', title: 'Филиал', width: 200, editor: false},
+                {field: 'date_birth', title: 'Дата рождения', editor: true},
+                {field: '-', title: 'Учреждение', editor: true},
+                {field: 'date_enrollment', title: 'Дата зачисления', editor: true},
+                {field: 'address', title: 'Адрес проживания', width: 200, editor: true},
+                {field: 'fio_mother', title: 'ФИО матери', editor: true},
+                {field: 'phone_mother', title: 'Телефон матери', editor: true},
+                {field: 'fio_father', title: 'ФИО отца', editor: true},
+                {field: 'phone_father', title: 'Телефон отца', editor: true},
+                {field: 'comment', title: 'Комментарий', editor: true},
+                {field: 'rate', title: 'Тариф', editor: true},
+                {field: '-', title: 'Группа', editor: true},
+                {field: 'date_exclusion', title: 'Дата ухода', editor: true},
+                {field: 'reason_exclusion', title: 'Причина ухода', editor: true},
+            ]
             break;
     }
+    console.log(column);
     grid = $('#grid').grid(column);
     grid.on('rowDataChanged', function (e, id, record) {
         var data = $.extend(true, {"_method": "PUT"}, record);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BranchActionController;
+use App\Http\Controllers\ChildrenActionController;
 use App\Http\Controllers\GroupActionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,45 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function () {
-    return response()->json([
-        "records" => [
-            [
-                "id" => 1,
-                "name" => "П-12",
-                "children_age" => 6,
-                "fillName" => "Bulgaria",
-                "fillId" => 2,
-                "IsTest" => True,
-            ],
-            [
-                "id" => 2,
-                "name" => "П-12",
-                "children_age" => 5,
-                "fillName" => "Junkl",
-                "fillId" => 3,
-                "IsTest" => False,
-            ],
-        ],
-        "total" => 2
-    ]);
-});
-
-Route::get('/test2', function () {
-    return response()->json([
-        ["name" => "Bulgaria", "id" => 2],
-        ["name" => "Junkl", "id" => 3],
-        ["name" => "ghk", "id" => 4]
-    ]);
-});
-
-
-
 Route::prefix("action")->name("action.")->group(function () {
 
     Route::get("/branches", [BranchActionController::class, "indexArray"]);
 
     Route::apiResource("group", GroupActionController::class);
+
+    Route::apiResource("children", ChildrenActionController::class);
 });
 
 Route::get('/', function () {
@@ -66,7 +35,7 @@ Route::get('/groups', function () {
 })->name("groups");
 
 Route::get('/children', function () {
-    return view("pages-blank");
+    return view("children");
 })->name("children");
 
 Route::get('/staffs', function () {
