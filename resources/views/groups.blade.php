@@ -26,23 +26,45 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title mt-0">Center modal</h5>
+                                    <h5 class="modal-title mt-0">Создание группы</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Cras mattis consectetur purus sit amet fermentum.
-                                        Cras justo odio, dapibus ac facilisis in,
-                                        egestas eget quam. Morbi leo risus, porta ac
-                                        consectetur ac, vestibulum at eros.</p>
-                                    <p>Praesent commodo cursus magna, vel scelerisque
-                                        nisl consectetur et. Vivamus sagittis lacus vel
-                                        augue laoreet rutrum faucibus dolor auctor.</p>
-                                    <p class="mb-0">Aenean lacinia bibendum nulla sed consectetur.
-                                        Praesent commodo cursus magna, vel scelerisque
-                                        nisl consectetur et. Donec sed odio dui. Donec
-                                        ullamcorper nulla non metus auctor
-                                        fringilla.</p>
+                                    <form class="custom-validation" tapath="group" novalidate>
+                                        <div class="form-group">
+                                            <label>Наименование группы</label>
+                                            <div>
+                                                <input name="name" type="text" class="form-control" required="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Филиал</label>
+                                            <div>
+                                                <select name="branch_id" class="form-control">
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Возраст детей</label>
+                                            <div>
+                                                <input name="children_age" data-parsley-type="number" type="text" class="form-control"
+                                                       required="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group mb-0">
+                                            <div>
+                                                <button type="submit"
+                                                        class="btn btn-primary waves-effect waves-light mr-1">
+                                                    Создать
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
@@ -50,9 +72,9 @@
                 </div>
 
 
-{{--                <button type="button" class="btn btn-success waves-effect waves-light "--}}
-{{--                        style="margin-bottom: 10px;">Создать--}}
-{{--                </button>--}}
+                {{--                <button type="button" class="btn btn-success waves-effect waves-light "--}}
+                {{--                        style="margin-bottom: 10px;">Создать--}}
+                {{--                </button>--}}
             </div>
             <div class="container-fluid">
                 <div class="row">
@@ -70,7 +92,11 @@
 
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.js" type="text/javascript"></script>
 
-    <script src="{{ URL::asset('/js/table.js') }}" type="text/javascript"></script>
-
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.css" rel="stylesheet" type="text/css"/>
+
+    <script src="{{ URL::asset('/assets/libs/parsleyjs/parsleyjs.min.js') }}"></script>
+
+    <script src="{{ URL::asset('/js/form-validation.init.js') }}"></script>
+
+    <script src="{{ URL::asset('/js/table.js') }}" type="text/javascript"></script>
 @endsection

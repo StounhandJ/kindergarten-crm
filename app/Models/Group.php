@@ -48,7 +48,7 @@ class Group extends Model
         if ($name!="") $this->name = $name;
     }
 
-    public function setDepartmentIfNotEmpty(Branch $branch)
+    public function setBranchIfNotEmpty(Branch $branch)
     {
         if ($branch->exists) $this->branch_id = $branch->getId();
     }
@@ -66,6 +66,14 @@ class Group extends Model
         if ($children_age!="") $this->children_age = $children_age;
     }
 
+    public static function create($name, $children_age, Branch $branch)
+    {
+        return Group::factory([
+            "name"=>$name,
+            "children_age"=>$children_age,
+            "branch_id"=>$branch->getId()
+        ] )->make();
+    }
 
 
 }

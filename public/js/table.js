@@ -3,6 +3,15 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+
+function closeForm(clear = false) {
+    $(".form-create").css('display', 'none');
+    $(".form-create").css('padding-right', '');
+    $(".form-create").removeClass("show");
+    $(".form-create-dark").remove();
+    if (clear) $(".form-create").find("input").each(function (i,item) { item.value = ""});
+};
+
 $(document).ready(function () {
     var grid, countries;
     var tapath = $('#grid')[0].attributes.getNamedItem("tapath").value;
@@ -79,23 +88,45 @@ $(document).ready(function () {
         $(".form-create").addClass("show");
         $("body").append('<div class="modal-backdrop fade show form-create-dark"></div>')
 
-        $(document).click(function (event) {
+        $(document).mousedown(function (event) {
             if (event.target, $(event.target).is(".form-create")) {
-                $(".form-create").css('display', 'none');
-                $(".form-create").css('padding-right', '');
-                $(".form-create").removeClass("show");
-                $(".form-create-dark").remove();
+                closeForm();
             }
         });
 
         $(".modal-header>.close").click(function (event) {
-                $(".form-create").css('display', 'none');
-            $(".form-create").css('padding-right', '');
-            $(".form-create").removeClass("show");
-            $(".form-create-dark").remove();
+            closeForm();
         });
 
     })
+
+    // Формы //
+    $.ajax({
+        url: '/action/branches',
+        method: 'GET',
+        success: function (data) {
+            data.forEach(item => {
+                $('select[name="branch_id"]').append(new Option(item.name, item.id));
+            })
+        }
+    })
+
+    $('.custom-validation').submit(function (d) {
+        var data = {}
+        $(this).serializeArray().forEach(item => {
+            data[item.name] = item.value;
+        })
+        var tapath = $(this)[0].attributes.getNamedItem("tapath").value
+        $.ajax({url: '/action/' + tapath, data: data, method: 'POST'})
+            .done(function () {
+                closeForm(true);
+                grid.reload();
+            })
+            .fail(function () {
+                alert('Failed to delete.');
+            });
+        return false;
+    });
 
 
 });

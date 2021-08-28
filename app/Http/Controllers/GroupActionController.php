@@ -31,7 +31,7 @@ class GroupActionController extends Controller
      */
     public function store(GroupCreateRequest $request)
     {
-        $group = Group::create($request->getName(), $request->getEName());
+        $group = Group::create($request->getName(), $request->getChildrenAge(), $request->getBranch());
         $group->save();
         return response()->json(["message"=>"success", "records"=>$group], 200);
     }
@@ -58,7 +58,7 @@ class GroupActionController extends Controller
     {
         $group->setNameIfNotEmpty($request->getName());
         $group->setChildrenAgeIfNotEmpty($request->getChildrenAge());
-        $group->setDepartmentIfNotEmpty($request->getBranch());
+        $group->setBranchIfNotEmpty($request->getBranch());
         $group->save();
 
         return response()->json(["message"=>"success", "records"=>$group], 200);
