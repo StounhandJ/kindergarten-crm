@@ -12,7 +12,7 @@
 
 
 @section('body')
-    <body data-sidebar="dark" class="modal-open" style="padding-right: 17px;">
+    <body data-sidebar="dark" style="padding-right: 17px;">
     <div id="preloader">
         <div id="status">
             <div class="spinner-chase">
@@ -36,7 +36,8 @@
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
-                <div class="container-fluid">
+                @yield('table-add-btn')
+                <div class="container-fluid table-scroll">
                     @yield('content')
                 </div>
                 <!-- container-fluid -->

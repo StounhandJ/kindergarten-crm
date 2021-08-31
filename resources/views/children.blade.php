@@ -2,27 +2,31 @@
 
 @section('title') @lang('translation.Responsive_Table') @endsection
 
-@section('css')
-
+@section('table-add-btn')
+    <div class="table-add-btn">
+        <!-- Small modal -->
+        <button type="button" class="btn btn-success waves-effect waves-light btn-create-row">
+            Создать
+        </button>
+    </div>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="card-body">
-            <div style="display: flex;justify-content: flex-end;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div>
+                        <table id="grid" tapath="children">
 
-
-                <div class="col-sm-6 col-md-3 mt-4">
-                    <div class="text-center">
-                        <!-- Small modal -->
-                        <button type="button" class="btn btn-success waves-effect waves-light btn-create-row"
-                                style="margin-bottom: 10px;">Создать
-                        </button>
+                        </table>
                     </div>
-
+                </div>
+            </div>
+            <div style="display: flex;justify-content: flex-end;">
+                <div class="col-sm-6 col-md-3 mt-4">
                     <div class="modal fade bs-example-modal-center form-create" tabindex="-1"
-                         aria-labelledby="mySmallModalLabel" style="display: none;"
-                         aria-modal="true" role="dialog">
+                        aria-labelledby="mySmallModalLabel" style="display: none;" aria-modal="true" role="dialog">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -51,15 +55,14 @@
                                         <div class="form-group">
                                             <label>Возраст детей</label>
                                             <div>
-                                                <input name="children_age" data-parsley-type="number" type="text" class="form-control"
-                                                       required="">
+                                                <input name="children_age" data-parsley-type="number" type="text"
+                                                    class="form-control" required="">
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-0">
                                             <div>
-                                                <button type="submit"
-                                                        class="btn btn-primary waves-effect waves-light mr-1">
+                                                <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
                                                     Создать
                                                 </button>
                                             </div>
@@ -72,13 +75,6 @@
                 </div>
 
             </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <table id="grid" tapath="children" style="overflow: auto"></table>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
@@ -88,7 +84,7 @@
 
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.js" type="text/javascript"></script>
 
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.css" rel="stylesheet" type="text/css"/>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.css" rel="stylesheet" type="text/css" />
 
     <script src="{{ URL::asset('/assets/libs/parsleyjs/parsleyjs.min.js') }}"></script>
 
@@ -96,4 +92,3 @@
 
     <script src="{{ URL::asset('/js/table.js') }}" type="text/javascript"></script>
 @endsection
-

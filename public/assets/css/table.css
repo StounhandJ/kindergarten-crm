@@ -1,0 +1,25 @@
+TABLE.gj-grid {
+    table-layout: auto !important;
+}
+
+thead, tbody, tfoot {
+    width: 300px !important;
+}
+
+thead, th, td, td>div {
+    white-space: nowrap !important;
+}
+
+.table-scroll {
+    overflow-x: auto !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.table-add-btn {
+    margin-bottom: 10px;
+    margin-top: 40px;
+    padding: 0 15px;
+}

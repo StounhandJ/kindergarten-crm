@@ -2,24 +2,29 @@
 
 @section('title') @lang('translation.Responsive_Table') @endsection
 
-@section('css')
-
+@section('table-add-btn')
+    <div class="table-add-btn">
+        <!-- Small modal -->
+        <button type="button" class="btn btn-success waves-effect waves-light btn-create-row">
+            Создать
+        </button>
+    </div>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="card-body">
-            <div style="display: flex;justify-content: flex-end;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <table id="grid" tapath="group">
 
-
-                <div class="col-sm-6 col-md-3 mt-4">
-                    <div class="text-center">
-                        <!-- Small modal -->
-                        <button type="button" class="btn btn-success waves-effect waves-light btn-create-row"
-                                style="margin-bottom: 10px;">Создать
-                        </button>
+                        </table>
                     </div>
-
+                </div>
+            </div>
+            <div style="display: flex;justify-content: flex-end;">
+                <div class="col-sm-6 col-md-3 mt-4">
                     <div class="modal fade bs-example-modal-center form-create" tabindex="-1"
                          aria-labelledby="mySmallModalLabel" style="display: none;"
                          aria-modal="true" role="dialog">
@@ -75,13 +80,6 @@
                 {{--                <button type="button" class="btn btn-success waves-effect waves-light "--}}
                 {{--                        style="margin-bottom: 10px;">Создать--}}
                 {{--                </button>--}}
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <table id="grid" tapath="group"></table>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
