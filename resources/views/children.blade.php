@@ -3,7 +3,7 @@
 @section('title') @lang('translation.Responsive_Table') @endsection
 
 @section('table-add-btn')
-    <div class="table-add-btn">
+    <div class="table-add-btn" style="padding:0">
         <!-- Small modal -->
         <button type="button" class="btn btn-success waves-effect waves-light btn-create-row">
             Создать
