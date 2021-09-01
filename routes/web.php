@@ -51,7 +51,7 @@ Route::get('/card/staffs', function () {
 })->name("card.staffs");
 
 Route::get('/journal/children', function () {
-    return view("pages-blank");
+    return view("journal-children");
 })->name("journal.children");
 
 Route::get('/journal/staffs', function () {

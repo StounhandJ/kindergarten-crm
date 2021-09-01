@@ -2,10 +2,6 @@ TABLE.gj-grid {
     table-layout: auto !important;
 }
 
-thead, tbody, tfoot {
-    width: 300px !important;
-}
-
 thead, th, td, td>div {
     white-space: nowrap !important;
 }
@@ -22,4 +18,38 @@ thead, th, td, td>div {
     margin-bottom: 10px;
     margin-top: 40px;
     padding: 0 15px;
+}
+
+.table-save-btn {
+    margin-bottom: 40px;
+    margin-top: 10px;
+    padding: 0;
+    text-align: right;
+}
+
+.j_children_table .table caption{
+    caption-side: top;
+}
+
+.j_children_table .table{
+    height: 100vh;
+}
+
+.j_children_table .table .thead-dark th {
+    color: #fff;
+    background-color: #333547;
+    border-color: #333547;
+    text-align: center;
+}
+
+.table td, .table th{
+    vertical-align: middle;   
+}
+
+.table-striped tbody tr:nth-of-type(odd){
+    background-color: rgba(0,0,0,0.1);
+}
+
+.input-group{
+    width: 130px;
 }
