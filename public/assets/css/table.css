@@ -51,5 +51,63 @@ thead, th, td, td>div {
 }
 
 .input-group{
-    width: 130px;
+    width: 135px;
+}
+
+select{
+    border: 0;
+}
+
+.zero{
+    background: white;
+}
+
+.zero select{
+    background: white;
+    color: black;
+}
+
+.full-day{
+    background: lightgreen;
+}
+
+.full-day select{
+    background: lightgreen;
+    color: white;
+}
+
+.half-day{
+    background: yellow;
+}
+
+.half-day select{
+    background: yellow;
+    color: white;
+}
+
+.medic{
+    background: orange;
+}
+
+.medic select{
+    background: orange;
+    color: white;
+}
+
+.arroad{
+    background: lightblue;
+}
+
+.arroad select{
+    background: lightblue;
+    color: white;
+}
+
+.out{
+    background: red;
+}
+
+.out select{
+    background: red;
+    color: white;
 }
