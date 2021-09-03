@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Child;
+use App\Models\JournalChild;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ChildrenFactory extends Factory
+class JournalChildFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Child::class;
+    protected $model = JournalChild::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class ChildrenFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "create_date"=>now()
         ];
     }
 }

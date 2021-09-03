@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\BranchActionController;
 use App\Http\Controllers\ChildrenActionController;
+use App\Http\Controllers\CostActionController;
 use App\Http\Controllers\GroupActionController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\JournalChildrenActionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,8 +26,11 @@ Route::prefix("action")->name("action.")->group(function () {
 
     Route::apiResource("children", ChildrenActionController::class);
 
-    Route::apiResource("cost", \App\Http\Controllers\CostActionController::class)
+    Route::apiResource("cost", CostActionController::class)
         ->only("index", "show", "store");
+
+    Route::apiResource("journal-children", JournalChildrenActionController::class)
+        ->only("index", "store", "update");
 });
 
 Route::get('/', function () {

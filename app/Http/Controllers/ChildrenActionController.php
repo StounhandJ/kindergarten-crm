@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ChildrenCreateRequest;
 use App\Http\Requests\ChildrenUpdateRequest;
 use App\Http\Requests\TableRequest;
-use App\Models\Children;
+use App\Models\Child;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class ChildrenActionController extends Controller
 {
@@ -19,7 +17,7 @@ class ChildrenActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Children::paginate($request->getLimit());
+        $paginate = Child::paginate($request->getLimit());
         return response()->json(["message" => "success",
             "records" => $paginate->items(),
             "total" => $paginate->total()], 200);
@@ -33,7 +31,7 @@ class ChildrenActionController extends Controller
      */
     public function store(ChildrenCreateRequest $request)
     {
-        $children = Children::make(
+        $children = Child::make(
             $request->getFio(), $request->getAddress(), $request->getFioMother(), $request->getPhoneMother(), $request->getFioFather(),
             $request->getPhoneFather(), $request->getComment(), $request->getRate(), $request->getDateExclusion(), $request->getReasonExclusion(), $request->getDateBirth(),
             $request->getDateEnrollment(), $request->getGroup(), $request->getInstitution()
@@ -45,10 +43,10 @@ class ChildrenActionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Children $children
+     * @param Child $children
      * @return JsonResponse
      */
-    public function show(Children $children)
+    public function show(Child $children)
     {
         return response()->json(["message"=>"success", "records"=>$children], 200);
     }
@@ -57,10 +55,10 @@ class ChildrenActionController extends Controller
      * Update the specified resource in storage.
      *
      * @param ChildrenUpdateRequest $request
-     * @param Children $children
+     * @param Child $children
      * @return JsonResponse
      */
-    public function update(ChildrenUpdateRequest $request, Children $children)
+    public function update(ChildrenUpdateRequest $request, Child $children)
     {
         $children->setFioIfNotEmpty($request->getFio());
         $children->setAddressIfNotEmpty($request->getAddress());
@@ -85,10 +83,10 @@ class ChildrenActionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Children $children
+     * @param Child $children
      * @return JsonResponse
      */
-    public function destroy(Children $children)
+    public function destroy(Child $children)
     {
         $result = $children->delete();
         return response()->json(["message"=>$result?"success":"error"], $result?200:500);

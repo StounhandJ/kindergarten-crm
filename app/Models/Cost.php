@@ -30,7 +30,7 @@ class Cost extends Model
 
     public function getDate()
     {
-//        return $this->date;
+        return $this->created_at;
     }
     //</editor-fold>
 
