@@ -53,7 +53,7 @@ $(document).ready(function () {
                     title: 'Филиал',
                     type: "dropdown",
                     editField: "branch_id",
-                    editor: {dataSource: '/action/branches', valueField: 'id', textField: "name"}
+                    editor: {dataSource: '/action/branch', valueField: 'id', textField: "name"}
                 },
                 {field: 'children_age', title: 'Возраст детей', editor: true},
             ]
@@ -121,7 +121,7 @@ $(document).ready(function () {
 
     // Формы //
     $.ajax({
-        url: '/action/branches',
+        url: '/action/branch',
         method: 'GET',
         success: function (data) {
             data.forEach(item => {

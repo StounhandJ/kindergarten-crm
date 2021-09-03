@@ -19,11 +19,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix("action")->name("action.")->group(function () {
 
-    Route::get("/branches", [BranchActionController::class, "indexArray"]);
+    Route::apiResource("branch", BranchActionController::class)->only("index");
 
     Route::apiResource("group", GroupActionController::class);
 
     Route::apiResource("children", ChildrenActionController::class);
+
+    Route::apiResource("cost", \App\Http\Controllers\CostActionController::class)
+        ->only("index", "show", "store");
 });
 
 Route::get('/', function () {

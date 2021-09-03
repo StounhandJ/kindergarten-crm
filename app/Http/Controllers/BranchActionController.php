@@ -12,7 +12,7 @@ class BranchActionController extends Controller
      *
      * @return JsonResponse
      */
-    public function indexArray()
+    public function index()
     {
         return response()->json(Branch::all(), 200);
     }
