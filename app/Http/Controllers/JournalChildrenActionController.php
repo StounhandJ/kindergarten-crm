@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JournalChildrenCreateRequest;
 use App\Http\Requests\JournalChildrenUpdateRequest;
+use App\Http\Resources\JournalChildrenResource;
+use App\Http\Resources\JournalResource;
+use App\Models\Child;
 use App\Models\JournalChild;
 use App\Models\Visit;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 class JournalChildrenActionController extends Controller
@@ -13,11 +17,11 @@ class JournalChildrenActionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JournalChildrenResource
      */
     public function index()
     {
-        //
+        return JournalChildrenResource::make(Child::all());
     }
 
     /**

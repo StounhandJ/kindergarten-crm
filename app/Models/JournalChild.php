@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,14 +16,24 @@ class JournalChild extends Model
         return $this->id;
     }
 
+    public function getVisit(): Visit
+    {
+        return Visit::getById($this->visit_id);
+    }
+
     public function getVisitId()
     {
         return $this->visit_id;
     }
 
+    public function getChild(): Child
+    {
+        return Child::getById($this->child_id);
+    }
+
     public function getCreateDate()
     {
-        return $this->create_date;
+        return Carbon::make($this->create_date);
     }
     //</editor-fold>
 

@@ -13,6 +13,11 @@ class Child extends Model
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
+    public function getJournal()
+    {
+        return $this->hasMany(JournalChild::class);
+    }
+
     public function getId()
     {
         return $this->id;
@@ -163,6 +168,13 @@ class Child extends Model
     public function setInstitutionIfNotEmpty(Institution $institution)
     {
         if ($institution->exists) $this->group = $institution->getId();
+    }
+    //</editor-fold>
+
+     //<editor-fold desc="Search Branch">
+    public static function getById($id): Child
+    {
+        return Child::where("id", $id)->first() ?? new Child();
     }
     //</editor-fold>
 
