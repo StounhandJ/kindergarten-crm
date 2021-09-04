@@ -22,7 +22,7 @@ class JournalChildFactory extends Factory
     public function definition()
     {
         return [
-            "create_date"=>now()
+
         ];
     }
 }

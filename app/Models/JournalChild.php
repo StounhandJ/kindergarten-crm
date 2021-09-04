@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class JournalChild extends Model
 {
     use HasFactory;
+    //<editor-fold desc="Setting">
+    public $timestamps = false;
+    //</editor-fold>
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
@@ -48,10 +51,12 @@ class JournalChild extends Model
     }
     //</editor-fold>
 
-    public static function make(Visit $visit)
+    public static function make(Child $child, Visit $visit, Carbon $date)
     {
-        return Group::factory([
-            "visit_id"=>$visit->getId()
+        return JournalChild::factory([
+            "child_id"=>$child->getId(),
+            "visit_id"=>$visit->getId(),
+            "create_date"=>$date
         ] )->make();
     }
 }

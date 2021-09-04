@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\JournalChildrenCreateRequest;
 use App\Http\Requests\JournalChildrenUpdateRequest;
 use App\Http\Resources\JournalChildrenResource;
-use App\Http\Resources\JournalResource;
 use App\Models\Child;
 use App\Models\JournalChild;
-use App\Models\Visit;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 class JournalChildrenActionController extends Controller
@@ -25,19 +21,6 @@ class JournalChildrenActionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param JournalChildrenCreateRequest $request
-     * @return JsonResponse
-     */
-    public function store(JournalChildrenCreateRequest $request)
-    {
-        $visit = Visit::make($request->getVisit());
-        $visit->save();
-        return response()->json(["message"=>"success", "records"=>$visit], 200);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param JournalChildrenUpdateRequest $request
@@ -49,6 +32,6 @@ class JournalChildrenActionController extends Controller
         $journalChild->setVisitIfNotEmpty($request->getVisit());
         $journalChild->save();
 
-        return response()->json(["message"=>"success", "records"=>$journalChild], 200);
+        return response()->json(["message" => "success", "records" => $journalChild], 200);
     }
 }

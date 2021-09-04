@@ -30,7 +30,7 @@ Route::prefix("action")->name("action.")->group(function () {
         ->only("index", "show", "store");
 
     Route::apiResource("journal-children", JournalChildrenActionController::class)
-        ->only("index", "store", "update");
+        ->only("index", "update");
 });
 
 Route::get('/', function () {

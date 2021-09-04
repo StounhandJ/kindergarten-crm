@@ -2,20 +2,29 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Child extends Model
 {
     use HasFactory;
 
-     //<editor-fold desc="Setting">
+    //<editor-fold desc="Setting">
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
-    public function getJournal()
+    public function getJournal(): HasMany
     {
         return $this->hasMany(JournalChild::class);
+    }
+
+    public function getJournalOnMonth(Carbon $data): Collection
+    {
+        return $this->getJournal()->whereDate("create_date", ">=", $data->firstOfMonth())
+        ->whereDate("create_date", "<=", $data->lastOfMonth())->get()->sortBy("create_date");
     }
 
     public function getId()
@@ -102,62 +111,62 @@ class Child extends Model
     //<editor-fold desc="Set Attribute">
     public function setFioIfNotEmpty($fio)
     {
-        if ($fio!="") $this->fio = $fio;
+        if ($fio != "") $this->fio = $fio;
     }
 
     public function setAddressIfNotEmpty($address)
     {
-        if ($address!="") $this->address = $address;
+        if ($address != "") $this->address = $address;
     }
 
     public function setFioMotherIfNotEmpty($fio_mother)
     {
-        if ($fio_mother!="") $this->fio_mother = $fio_mother;
+        if ($fio_mother != "") $this->fio_mother = $fio_mother;
     }
 
     public function setPhoneMotherIfNotEmpty($phone_mother)
     {
-        if ($phone_mother!="") $this->phone_mother = $phone_mother;
+        if ($phone_mother != "") $this->phone_mother = $phone_mother;
     }
 
     public function setFioFatherIfNotEmpty($fio_father)
     {
-        if ($fio_father!="") $this->fio_father = $fio_father;
+        if ($fio_father != "") $this->fio_father = $fio_father;
     }
 
     public function setPhoneFatherIfNotEmpty($phone_father)
     {
-        if ($phone_father!="") $this->phone_father = $phone_father;
+        if ($phone_father != "") $this->phone_father = $phone_father;
     }
 
     public function setCommentIfNotEmpty($comment)
     {
-        if ($comment!="") $this->comment = $comment;
+        if ($comment != "") $this->comment = $comment;
     }
 
     public function setRateIfNotEmpty($rate)
     {
-        if ($rate!="") $this->rate = $rate;
+        if ($rate != "") $this->rate = $rate;
     }
 
     public function setDateExclusionIfNotEmpty($date_exclusion)
     {
-        if ($date_exclusion!="") $this->date_exclusion = $date_exclusion;
+        if ($date_exclusion != "") $this->date_exclusion = $date_exclusion;
     }
 
     public function setReasonExclusionIfNotEmpty($reason_exclusion)
     {
-        if ($reason_exclusion!="") $this->reason_exclusion = $reason_exclusion;
+        if ($reason_exclusion != "") $this->reason_exclusion = $reason_exclusion;
     }
 
     public function setDateBirthIfNotEmpty($date_birth)
     {
-        if ($date_birth!="") $this->date_birth = $date_birth;
+        if ($date_birth != "") $this->date_birth = $date_birth;
     }
 
     public function setDateEnrollmentIfNotEmpty($date_enrollment)
     {
-        if ($date_enrollment!="") $this->date_enrollment = $date_enrollment;
+        if ($date_enrollment != "") $this->date_enrollment = $date_enrollment;
     }
 
     public function setGroupIfNotEmpty(Group $group)
@@ -169,13 +178,24 @@ class Child extends Model
     {
         if ($institution->exists) $this->group = $institution->getId();
     }
+
+    public function createJournalOnMonth(Carbon $data)
+    {
+        for ($i = 1; $i <= $data->lastOfMonth()->day; $i++) {
+            $journalDateDay = $data->setDay($i);
+            if ($this->getJournal()->whereDate("create_date", "=", $journalDateDay)->count() == 0) {
+                JournalChild::make($this, Visit::getById(0), $journalDateDay)->save();
+            }
+        }
+    }
     //</editor-fold>
 
-     //<editor-fold desc="Search Branch">
+    //<editor-fold desc="Search Branch">
     public static function getById($id): Child
     {
         return Child::where("id", $id)->first() ?? new Child();
     }
+
     //</editor-fold>
 
     public static function make($name, $address, $fio_mother, $phone_mother, $fio_father,
@@ -183,20 +203,20 @@ class Child extends Model
                                 Group $group, Institution $institution)
     {
         return Group::factory([
-            "fio"=>$name,
-            "address"=>$address,
-            "fio_mother"=>$fio_mother,
-            "phone_mother"=>$phone_mother,
-            "fio_father"=>$fio_father,
-            "phone_father"=>$phone_father,
-            "comment"=>$comment,
-            "rate"=>$rate,
-            "date_exclusion"=>$date_exclusion,
-            "reason_exclusion"=>$reason_exclusion,
-            "date_birth"=>$date_birth,
-            "date_enrollment"=>$date_enrollment,
-            "group_id"=>$group->getId(),
-            "institution_id"=>$institution->getId(),
-        ] )->make();
+            "fio" => $name,
+            "address" => $address,
+            "fio_mother" => $fio_mother,
+            "phone_mother" => $phone_mother,
+            "fio_father" => $fio_father,
+            "phone_father" => $phone_father,
+            "comment" => $comment,
+            "rate" => $rate,
+            "date_exclusion" => $date_exclusion,
+            "reason_exclusion" => $reason_exclusion,
+            "date_birth" => $date_birth,
+            "date_enrollment" => $date_enrollment,
+            "group_id" => $group->getId(),
+            "institution_id" => $institution->getId(),
+        ])->make();
     }
 }

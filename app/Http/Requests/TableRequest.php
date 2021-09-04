@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TableRequest extends FormRequest
@@ -24,18 +25,26 @@ class TableRequest extends FormRequest
     public function rules()
     {
         return [
-            "page"=>"integer|min:1",
-            "limit"=>"integer|min:0"
+            "page" => "integer|min:1",
+            "limit" => "integer|min:0",
+            "date" => "date"
         ];
     }
 
     public function getPage(): int
     {
-        return (int) $this->input("page");
+        return (int)$this->input("page");
     }
 
     public function getLimit(): int
     {
-        return (int) $this->input("limit");
+        return (int)$this->input("limit");
+    }
+
+    public function getDate(): Carbon
+    {
+        if ($this->input("date") != null)
+            return Carbon::make($this->input("date"));
+        return Carbon::now();
     }
 }

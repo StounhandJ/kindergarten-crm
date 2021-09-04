@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Child;
 use App\Models\Visit;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -20,5 +21,10 @@ class JournalChildrenRequest extends FormRequest
     public function getVisit(): Visit
     {
         return Visit::getById($this->input("visit_id"));
+    }
+
+    public function getChild(): Child
+    {
+        return Child::getById($this->input("child_id"));
     }
 }
