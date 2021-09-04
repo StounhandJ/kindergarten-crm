@@ -44,22 +44,22 @@ $(document).ready(function () {
             for (let month_day = 1; month_day <= month.days; month_day++) {
                 tr_month.append(`<th scope="col">${month_day}</th>`);
             }
-            $("thead").append(tr_month);
+            $("#j_children_table_head").append(tr_month);
 
             month.children.forEach((child) => {
                 tr = $(`<tr></tr>`);
                 tr.append($(`<th scope="row">${child.fio}</th>`));
                 child.days.forEach((day) => {
                     td = $(`<td>
-                <div class="input-group">        
-                <select class="custom-select_main">            
-                <option value="0">Не выбрано</option>            
-                <option value="1">Целый день</option>            
-                <option value="2">Пол дня</option>            
-                                    <option value="3">Больничный</option>            
-                                    <option value="4">Отпуск</option>            
-                                    <option value="5">Пропущено</option>        
-                                    </select>    
+                <div class="input-group">
+                <select class="custom-select_main">
+                <option value="0">Не выбрано</option>
+                <option value="1">Целый день</option>
+                <option value="2">Пол дня</option>
+                                    <option value="3">Больничный</option>
+                                    <option value="4">Отпуск</option>
+                                    <option value="5">Пропущено</option>
+                                    </select>
                                     </div>
                                     </td>`);
                     select = td.children().children();
@@ -69,28 +69,15 @@ $(document).ready(function () {
                     });
                     select.val(day.visit).change();
                     select.change(function () {
-                        if ($(this)[0].id == -1) {
-                            $.ajax({
-                                type: "POST",
-                                url:
-                                    "/action/journal-children/",
-                                data: {
-                                    visit_id: $(this)[0].value,
-                                    _method: "POST",
-                                    child_id: $(this)[0].attributes.getNamedItem("child").value,
-                                },
-                            });
-                        } else {
-                            $.ajax({
-                                type: "POST",
-                                url:
-                                    "/action/journal-children/" + $(this)[0].id,
-                                data: {
-                                    visit_id: $(this)[0].value,
-                                    _method: "PUT",
-                                },
-                            });
-                        };
+                        $.ajax({
+                            type: "POST",
+                            url:
+                                "/action/journal-children/" + $(this)[0].id,
+                            data: {
+                                visit_id: $(this)[0].value,
+                                _method: "PUT",
+                            },
+                        });
                         changeColor($(this), $(this)[0].value);
                     });
                     tr.append(td);
