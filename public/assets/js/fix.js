@@ -1,11 +1,8 @@
-mounth = {
-    name_mounth: "Сентябрь",
-    days: 20,
-    children: [
-        { fio: "Абрамов", days: [1, 2, 1, 4, 1, 2, 0] },
-        { fio: "Глак", days: [1, 5, 2, 1, 0, 0] },
-    ],
-};
+$.ajaxSetup({
+    headers: {
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    },
+});
 
 function changeColor(select, value) {
     select.parent().parent().removeClass();
@@ -38,37 +35,68 @@ $(document).ready(function () {
     $("select").change(function () {
         changeColor($(this), $(this)[0].value);
     });
-    // $.ajax({
-    //     type: "POST",
-    //     cache: false,
-    //     processData: false,
-    //     contentType: false,
-    //     url: "",
-    //     success: function (mounth) {
-    mounth.children.forEach((child) => {
-        tr = $(`<tr></tr>`);
-        tr.append($(`<th scope="row">${child.fio}</th>`));
-        child.days.forEach((day) => {
-            td = $(`<td>
-            <div class="input-group">        
-            <select class="custom-select">            
-            <option value="0">Не выбрано</option>            
-            <option value="1">Целый день</option>            
-            <option value="2">Пол дня</option>            
-                                <option value="3">Больничный</option>            
-                                <option value="4">Отпуск</option>            
-                                <option value="5">Пропущено</option>        
-                                </select>    
-                                </div>
-                                </td>`);
-            changeColor(
-                td.children().children().val(day).change(),
-                day.toString()
-            );
-            tr.append(td);
-        });
-        $("#j_children_table_body").append(tr);
+    $.ajax({
+        type: "GET",
+        url: "/action/journal-children",
+        success: function (month) {
+            tr_month = $(`<tr></tr>`);
+            tr_month.append(`<th scope="col">${month.name_month}</th>`);
+            for (let month_day = 1; month_day <= month.days; month_day++) {
+                tr_month.append(`<th scope="col">${month_day}</th>`);
+            }
+            $("thead").append(tr_month);
+
+            month.children.forEach((child) => {
+                tr = $(`<tr></tr>`);
+                tr.append($(`<th scope="row">${child.fio}</th>`));
+                child.days.forEach((day) => {
+                    td = $(`<td>
+                <div class="input-group">        
+                <select class="custom-select_main">            
+                <option value="0">Не выбрано</option>            
+                <option value="1">Целый день</option>            
+                <option value="2">Пол дня</option>            
+                                    <option value="3">Больничный</option>            
+                                    <option value="4">Отпуск</option>            
+                                    <option value="5">Пропущено</option>        
+                                    </select>    
+                                    </div>
+                                    </td>`);
+                    select = td.children().children();
+                    select.attr({"id": day.id, "child_id": child.id});
+                    select.change(function () {
+                        changeColor($(this), $(this)[0].value);
+                    });
+                    select.val(day.visit).change();
+                    select.change(function () {
+                        if ($(this)[0].id == -1) {
+                            $.ajax({
+                                type: "POST",
+                                url:
+                                    "/action/journal-children/",
+                                data: {
+                                    visit_id: $(this)[0].value,
+                                    _method: "POST",
+                                    child_id: $(this)[0].attributes.getNamedItem("child").value,
+                                },
+                            });
+                        } else {
+                            $.ajax({
+                                type: "POST",
+                                url:
+                                    "/action/journal-children/" + $(this)[0].id,
+                                data: {
+                                    visit_id: $(this)[0].value,
+                                    _method: "PUT",
+                                },
+                            });
+                        };
+                        changeColor($(this), $(this)[0].value);
+                    });
+                    tr.append(td);
+                });
+                $("#j_children_table_body").append(tr);
+            });
+        },
     });
-    //     },
-    // });
 });

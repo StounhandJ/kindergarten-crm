@@ -27,11 +27,11 @@ thead, th, td, td>div {
     text-align: right;
 }
 
-.j_children_table .table caption{
+.j_children_table .table caption {
     caption-side: top;
 }
 
-.j_children_table .table{
+.j_children_table .table {
     height: 100vh;
 }
 
@@ -42,72 +42,87 @@ thead, th, td, td>div {
     text-align: center;
 }
 
-.table td, .table th{
-    vertical-align: middle;   
+.table td, .table th {
+    vertical-align: middle;
 }
 
-.table-striped tbody tr:nth-of-type(odd){
-    background-color: rgba(0,0,0,0.1);
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-.input-group{
-    width: 135px;
+select {
+    border: 0;
+    font-weight: 600;
+    appearance: none;
+    outline: none;
+    padding: 5px 0;
 }
 
-select{
+select>option{
+    background: white;
+    color: black;
+    padding: 5px;
     border: 0;
 }
 
-.zero{
+th[scope="col"]::first-letter{
+    text-transform: uppercase;
+}
+
+.zero {
     background: white;
 }
 
-.zero select{
+.zero select {
     background: white;
     color: black;
 }
 
-.full-day{
-    background: lightgreen;
+.full-day {
+    background: #64B300;
 }
 
-.full-day select{
-    background: lightgreen;
+.full-day select {
+    background: #64B300;
     color: white;
 }
 
-.half-day{
-    background: yellow;
+.half-day {
+    background: #B38C00;
 }
 
-.half-day select{
-    background: yellow;
+.half-day select {
+    background: #B38C00;
     color: white;
 }
 
-.medic{
-    background: orange;
+.medic {
+    background: #4f2e23;
 }
 
-.medic select{
-    background: orange;
+.medic select {
+    background: #4f2e23;
     color: white;
 }
 
-.arroad{
-    background: lightblue;
+.arroad {
+    background: #0088B3;
 }
 
-.arroad select{
-    background: lightblue;
+.arroad select {
+    background: #0088B3;
     color: white;
 }
 
-.out{
-    background: red;
+.out {
+    background: #B30000;
 }
 
-.out select{
-    background: red;
+.out select {
+    background: #B30000;
     color: white;
+}
+
+.input-group{
+    text-align: center;
 }

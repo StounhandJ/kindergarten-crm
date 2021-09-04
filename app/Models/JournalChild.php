@@ -10,6 +10,10 @@ class JournalChild extends Model
 {
     use HasFactory;
 
+    //<editor-fold desc="Setting">
+    public $timestamps = false;
+    //</editor-fold>
+
     //<editor-fold desc="Get Attribute">
     public function getId()
     {
