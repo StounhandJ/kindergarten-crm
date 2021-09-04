@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Requests\TableRequest;
 use App\Models\Child;
-use App\Models\JournalChild;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
@@ -11,8 +11,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class JournalChildrenResource extends JsonResource
 {
-    public static $wrap = 'children';
-
     /**
      * Transform the resource collection into an array.
      *
@@ -21,29 +19,30 @@ class JournalChildrenResource extends JsonResource
      */
     public function toArray($request)
     {
+        $month = TableRequest::createFromBase($request)->getDate();
         $this->withoutWrapping();
         return [
-            "name_month"=> now()->monthName,
-            "days"=> now()->lastOfMonth()->day,
-            "children" => $this->resource->map(function ($item) {
+            "name_month" => $month->monthName,
+            "days" => $month->lastOfMonth()->day,
+            "children" => $this->resource->map(function ($item) use ($month) {
                 return [
                     "fio" => $item->getFio(),
-                    "days" => $this->days($item, now()->lastOfMonth()->day),
+                    "days" => $this->days($item, $month),
                 ];
             })
         ];
     }
 
-    public function days(Child $child, int $days): array
+    public function days(Child $child, Carbon $month): array
     {
-        $journals = $child->getJournal()->whereDate("create_date", ">=", now()->firstOfMonth())
-        ->whereDate("create_date", "<=", now()->lastOfMonth())->get()->sortBy("create_date");
+        $days = $month->lastOfMonth()->day;
+        $child->createJournalOnMonth($month);
+        $journals = $child->getJournalOnMonth($month);
         $daysArray = [];
-        for ($i=0;$i<$days;$i++)
-            $daysArray[] = ["id"=>-1, "visit"=>0];
-        foreach ($journals as $journal)
-        {
-            $daysArray[$journal->getCreateDate()->day] = ["id" => $journal->getId(), "visit" => $journal->getVisitId()];
+        for ($i = 0; $i < $days; $i++)
+            $daysArray[] = ["id" => -1, "visit" => 0];
+        foreach ($journals as $journal) {
+            $daysArray[$journal->getCreateDate()->day - 1] = ["id" => $journal->getId(), "visit" => $journal->getVisitId()];
         }
         return $daysArray;
     }
