@@ -24,6 +24,16 @@ class GroupActionController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return JsonResponse
+     */
+    public function indexArray()
+    {
+        return response()->json(Group::all(), 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param GroupCreateRequest $request

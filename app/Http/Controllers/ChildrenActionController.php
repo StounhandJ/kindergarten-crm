@@ -46,37 +46,38 @@ class ChildrenActionController extends Controller
      * @param Child $children
      * @return JsonResponse
      */
-    public function show(Child $children)
+    public function show(Child $child)
     {
-        return response()->json(["message"=>"success", "records"=>$children], 200);
+        return response()->json(["message"=>"success", "records"=>$child], 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param ChildrenUpdateRequest $request
-     * @param Child $children
+     * @param Child $child
      * @return JsonResponse
      */
-    public function update(ChildrenUpdateRequest $request, Child $children)
+    public function update(ChildrenUpdateRequest $request, Child $child)
     {
-        $children->setFioIfNotEmpty($request->getFio());
-        $children->setAddressIfNotEmpty($request->getAddress());
-        $children->setFioMotherIfNotEmpty($request->getFioMother());
-        $children->setPhoneMotherIfNotEmpty($request->getPhoneMother());
-        $children->setFioFatherIfNotEmpty($request->getFioFather());
-        $children->setPhoneFatherIfNotEmpty($request->getPhoneFather());
-        $children->setCommentIfNotEmpty($request->getComment());
-        $children->setRateIfNotEmpty($request->getRate());
-        $children->setDateExclusionIfNotEmpty($request->getDateExclusion());
-        $children->setReasonExclusionIfNotEmpty($request->getReasonExclusion());
-        $children->setDateBirthIfNotEmpty($request->getDateBirth());
-        $children->setDateEnrollmentIfNotEmpty($request->getDateEnrollment());
-        $children->setGroupIfNotEmpty($request->getGroup());
-        $children->setInstitutionIfNotEmpty($request->getInstitution());
-        $children->save();
+        $child->setFioIfNotEmpty($request->getFio());
+        $child->setAddressIfNotEmpty($request->getAddress());
+        $child->setFioMotherIfNotEmpty($request->getFioMother());
+        $child->setPhoneMotherIfNotEmpty($request->getPhoneMother());
+        $child->setFioFatherIfNotEmpty($request->getFioFather());
+        $child->setPhoneFatherIfNotEmpty($request->getPhoneFather());
+        $child->setCommentIfNotEmpty($request->getComment());
+        $child->setRateIfNotEmpty($request->getRate());
+        $child->setDateExclusionIfNotEmpty($request->getDateExclusion());
+        $child->setReasonExclusionIfNotEmpty($request->getReasonExclusion());
+        $child->setDateBirthIfNotEmpty($request->getDateBirth());
+        $child->setDateEnrollmentIfNotEmpty($request->getDateEnrollment());
+        $child->setGroupIfNotEmpty($request->getGroup());
+        $child->setInstitutionIfNotEmpty($request->getInstitution());
 
-        return response()->json(["message"=>"success", "records"=>$children], 200);
+        $child->save();
+
+        return response()->json(["message"=>"success", "records"=>$child], 200);
 
     }
 
@@ -86,9 +87,9 @@ class ChildrenActionController extends Controller
      * @param Child $children
      * @return JsonResponse
      */
-    public function destroy(Child $children)
+    public function destroy(Child $child)
     {
-        $result = $children->delete();
+        $result = $child->delete();
         return response()->json(["message"=>$result?"success":"error"], $result?200:500);
 
     }

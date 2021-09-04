@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
+
+    protected $hidden = ['delete_at'];
 
     protected $appends = ['branch_name'];
 

@@ -7,12 +7,37 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Child extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     //<editor-fold desc="Setting">
+    protected $hidden = ['delete_at'];
+
+    protected $appends = ['branch_id', "branch_name", "institution_name", "group_name"];
+
+    public function getBranchIdAttribute()
+    {
+        return $this->getGroup()->getBranch()->getId();
+    }
+
+    public function getBranchNameAttribute(): string
+    {
+        return $this->getGroup()->getBranch()->getName();
+    }
+
+    public function getInstitutionNameAttribute(): string
+    {
+        return $this->getInstitution()->getName();
+    }
+
+    public function getGroupNameAttribute(): string
+    {
+        return $this->getGroup()->getName();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
@@ -171,12 +196,12 @@ class Child extends Model
 
     public function setGroupIfNotEmpty(Group $group)
     {
-        if ($group->exists) $this->group = $group->getId();
+        if ($group->exists) $this->group_id = $group->getId();
     }
 
     public function setInstitutionIfNotEmpty(Institution $institution)
     {
-        if ($institution->exists) $this->group = $institution->getId();
+        if ($institution->exists) $this->institution_id = $institution->getId();
     }
 
     public function createJournalOnMonth(Carbon $data)

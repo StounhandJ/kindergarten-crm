@@ -4,19 +4,27 @@ $.ajaxSetup({
     }
 });
 
+function* entries(obj) {
+  for (let key of Object.keys(obj)) {
+    yield [key, obj[key]];
+  }
+}
+
 function closeForm(clear = false) {
     $(".form-create").css('display', 'none');
     $(".form-create").css('padding-right', '');
     $(".form-create").removeClass("show");
     $(".form-create-dark").remove();
-    if (clear) $(".form-create").find("input").each(function (i,item) { item.value = ""});
-};
+    if (clear) $(".form-create").find("input").each(function (i, item) {
+        item.value = ""
+    });
+}
 
 $(document).ready(function () {
     var grid, countries;
     var tapath = $('#grid')[0].attributes.getNamedItem("tapath").value;
     var column = {
-        dataSource: '/action/'+tapath,
+        dataSource: '/action/' + tapath,
         uiLibrary: 'bootstrap4',
         primaryKey: 'id',
         inlineEditing: {mode: 'command'},
@@ -61,11 +69,23 @@ $(document).ready(function () {
         case "children":
             column["columns"] = [
                 {field: 'id', hidden: true},
-                {field: 'fio', title: 'ФИО', width: 200, editor: true},
-                {field: '-', title: 'Филиал', width: 200, editor: false},
-                {field: 'date_birth', title: 'Дата рождения', editor: true},
-                {field: '-', title: 'Учреждение', editor: true},
-                {field: 'date_enrollment', title: 'Дата зачисления', editor: true},
+                {field: 'fio', title: 'ФИО', editor: true},
+                {
+                    field: 'branch_name',
+                    title: 'Филиал',
+                    type: "dropdown",
+                    editField: "branch_id",
+                    editor: {dataSource: '/action/branch', valueField: 'id', textField: "name"}
+                },
+                {field: 'date_birth', title: 'Дата рождения', type: "date", editor: true, format: 'yyyy-mm-dd'},
+                {
+                    field: 'institution_name',
+                    title: 'Учреждение',
+                    type: "dropdown",
+                    editField: "institution_id",
+                    editor: {dataSource: '/action/institution', valueField: 'id', textField: "name"}
+                },
+                {field: 'date_enrollment', title: 'Дата зачисления', type: "date", editor: true, format: 'yyyy-mm-dd'},
                 {field: 'address', title: 'Адрес проживания', width: 200, editor: true},
                 {field: 'fio_mother', title: 'ФИО матери', editor: true},
                 {field: 'phone_mother', title: 'Телефон матери', editor: true},
@@ -73,16 +93,62 @@ $(document).ready(function () {
                 {field: 'phone_father', title: 'Телефон отца', editor: true},
                 {field: 'comment', title: 'Комментарий', editor: true},
                 {field: 'rate', title: 'Тариф', editor: true},
-                {field: '-', title: 'Группа', editor: true},
-                {field: 'date_exclusion', title: 'Дата ухода', editor: true},
+                {
+                    field: 'group_name',
+                    title: 'Группа',
+                    type: "dropdown",
+                    editField: "group_id",
+                    editor: {dataSource: '/action/group-array', valueField: 'id', textField: "name"}
+                },
+                {field: 'date_exclusion', title: 'Дата ухода', type: "date", editor: true, format: 'yyyy-mm-dd'},
                 {field: 'reason_exclusion', title: 'Причина ухода', editor: true},
             ]
             break;
+        case "staff":
+            column["columns"] = [
+                {field: 'id', hidden: true},
+                {field: 'fio', title: 'ФИО', editor: true},
+                {
+                    field: 'branch_name',
+                    title: 'Филиал',
+                    type: "dropdown",
+                    editField: "branch_id",
+                    editor: {dataSource: '/action/branch', valueField: 'id', textField: "name"}
+                },
+                {field: 'phone', title: 'Телефон', editor: true},
+                {
+                    field: 'position_name',
+                    title: 'Должность',
+                    type: "dropdown",
+                    editField: "position_id",
+                    editor: {dataSource: '/action/position', valueField: 'id', textField: "name"}
+                },
+                {field: 'date_birth', title: 'Дата рождения', editor: true},
+                {field: 'address', title: 'Адрес проживания', editor: true},
+                {field: 'date_enrollment', title: 'Дата зачисления', editor: true},
+                {
+                    field: 'group_name',
+                    title: 'Группа',
+                    type: "dropdown",
+                    editField: "group_id",
+                    editor: {dataSource: '/action/group-array', valueField: 'id', textField: "name"}
+                },
+                {field: '-', title: 'Отпуск всего', editor: true},
+                {field: '-', title: 'Отгулено', editor: true},
+                {field: '-', title: 'Остаток на сегодня', editor: true},
+                {field: 'date_dismissal', title: 'Дата увольнения', editor: true},
+                {field: 'reason_dismissal', title: 'Причина увольнения', editor: true},
+            ]
+            break;
     }
-    console.log(column);
     grid = $('#grid').grid(column);
     grid.on('rowDataChanged', function (e, id, record) {
-        var data = $.extend(true, {"_method": "PUT"}, record);
+        var new_record = []
+        for (let [key, value] of entries(record)) {
+            if (value!="")
+                new_record[key] = value;
+        }
+        var data = $.extend(true, {"_method": "PUT"}, new_record);
         $.ajax({url: '/action/' + tapath + "/" + id, data: data, method: 'POST'})
             .fail(function () {
                 alert('Failed to save.');

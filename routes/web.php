@@ -4,7 +4,10 @@ use App\Http\Controllers\BranchActionController;
 use App\Http\Controllers\ChildrenActionController;
 use App\Http\Controllers\CostActionController;
 use App\Http\Controllers\GroupActionController;
+use App\Http\Controllers\InstitutionActionController;
 use App\Http\Controllers\JournalChildrenActionController;
+use App\Http\Controllers\PositionActionController;
+use App\Http\Controllers\StaffActionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,9 +25,17 @@ Route::prefix("action")->name("action.")->group(function () {
 
     Route::apiResource("branch", BranchActionController::class)->only("index");
 
+    Route::apiResource("position", PositionActionController::class)->only("index");
+
+    Route::apiResource("institution", InstitutionActionController::class)->only("index");
+
     Route::apiResource("group", GroupActionController::class);
 
+    Route::get("group-array", [GroupActionController::class, "indexArray"]);
+
     Route::apiResource("children", ChildrenActionController::class);
+
+    Route::apiResource("staff", StaffActionController::class);
 
     Route::apiResource("cost", CostActionController::class)
         ->only("index", "show", "store");
@@ -46,7 +57,7 @@ Route::get('/children', function () {
 })->name("children");
 
 Route::get('/staffs', function () {
-    return view("pages-blank");
+    return view("staffs");
 })->name("staffs");
 
 Route::get('/card/children', function () {

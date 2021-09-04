@@ -4,12 +4,36 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Staff extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     //<editor-fold desc="Setting">
+    protected $hidden = ['delete_at'];
+
+    protected $appends = ['branch_id', "branch_name", "group_name", "position_name"];
+
+    public function getBranchIdAttribute()
+    {
+        return $this->getGroup()->getBranch()->getId();
+    }
+
+    public function getBranchNameAttribute(): string
+    {
+        return $this->getGroup()->getBranch()->getName();
+    }
+
+    public function getGroupNameAttribute(): string
+    {
+        return $this->getGroup()->getName();
+    }
+
+    public function getPositionNameAttribute(): string
+    {
+        return $this->getPosition()->getName();
+    }
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
