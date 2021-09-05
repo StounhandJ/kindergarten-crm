@@ -14,7 +14,7 @@ class GeneralJournalChild extends Model
 
     protected $hidden = ['child_id'];
 
-    protected $appends = ['child', 'days', 'paid', 'need_paid', 'attendance', 'sick_days', 'vacation_days', 'truancy_days'];
+    protected $appends = ['child', 'days', 'paid', 'need_paid', 'debt', 'attendance', 'sick_days', 'vacation_days', 'truancy_days'];
 
     public function getChildAttribute()
     {
@@ -34,6 +34,11 @@ class GeneralJournalChild extends Model
     public function getNeedPaidAttribute()
     {
         return 0;
+    }
+
+    public function getdebtAttribute()
+    {
+        return $this->getNeedPaidAttribute()-$this->getPaidAttribute();
     }
 
     public function getAttendanceAttribute()
@@ -138,6 +143,12 @@ class GeneralJournalChild extends Model
     public static function getById($id) : GeneralJournalChild
     {
         return GeneralJournalChild::where("id", $id)->first() ?? new GeneralJournalChild();
+    }
+
+    public static function getByChildAndMonth(Child $child, Carbon $month) : GeneralJournalChild
+    {
+        return GeneralJournalChild::whereDate("month", ">=", $month->firstOfMonth())
+            ->whereDate("month", "<=", $month->lastOfMonth())->first() ?? new GeneralJournalChild();
     }
     //</editor-fold>
 
