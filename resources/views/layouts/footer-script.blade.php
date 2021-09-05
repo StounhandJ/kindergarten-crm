@@ -4,7 +4,6 @@
 <script src="{{ URL::asset('/assets/libs/simplebar/simplebar.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/libs/node-waves/node-waves.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/libs/node-waves/node-waves.min.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/fix.js') }}"></script>
 
 @yield('script')
 

@@ -37,28 +37,56 @@
                                 <div class="modal-body">
                                     <form class="custom-validation" tapath="group" novalidate>
                                         <div class="form-group">
-                                            <label>Наименование группы</label>
+                                            <label>ФИО</label>
                                             <div>
-                                                <input name="name" type="text" class="form-control" required="">
+                                                <input name="fio" type="text" class="form-control" required="">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Филиал</label>
+                                            <label>Адрес</label>
                                             <div>
-                                                <select name="branch_id" class="form-control">
+                                                <input name="address" data-parsley-type="number" type="text"
+                                                    class="form-control" required="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Дата рождения</label>
+                                            <div>
+                                                <input id="input-date1" class="form-control input-mask" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
+{{--                                                <input name="date_birth" type="text" class="form-control" placeholder="mm/dd/yyyy"--}}
+{{--                                                       id="datepicker-autoclose" data-inputmask-inputformat="mm/dd/yyyy">--}}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Позиция</label>
+                                            <div>
+                                                <select name="position_id" class="form-control">
 
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Возраст детей</label>
+                                            <label>Группа</label>
                                             <div>
-                                                <input name="children_age" data-parsley-type="number" type="text"
-                                                    class="form-control" required="">
+                                                <select name="group_id" class="form-control">
+
+                                                </select>
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>Дата найма</label>
+                                            <div>
+                                                <input name="date_employment" type="text" class="form-control" placeholder="mm/dd/yyyy"
+                                                       id="datepicker-autoclose">
+                                            </div>
+                                        </div>
+
+
 
                                         <div class="form-group mb-0">
                                             <div>
@@ -91,4 +119,13 @@
     <script src="{{ URL::asset('/js/form-validation.init.js') }}"></script>
 
     <script src="{{ URL::asset('/js/table.js') }}" type="text/javascript"></script>
+
+    <script src="/assets/libs/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+
+    <script src="/js/form-mask.init.js"></script>
+{{--    <script src="/assets/libs/select2/js/select2.min.js"></script>--}}
+{{--    <script src="/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>--}}
+{{--    <script src="/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>--}}
+
+{{--    <script src="/js//form-advanced.init.js"></script>--}}
 @endsection

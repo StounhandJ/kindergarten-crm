@@ -20,8 +20,8 @@ class StaffCreateRequest extends StaffRequest
             "phone"=> "required|string",
             "date_birth"=> "required|date",
             "date_employment"=> "required|date",
-            "date_dismissal"=> "required|date",
-            "reason_dismissal"=> "required|date",
+            "date_dismissal"=> "date",
+            "reason_dismissal"=> "string",
             "group_id"=> "bail|required|string|exists:".Group::class.",id",
             "position_id"=> "bail|required|string|exists:".Position::class.",id"
         ];

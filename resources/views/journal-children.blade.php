@@ -20,4 +20,6 @@
     <script src="{{ URL::asset('/assets/libs/parsleyjs/parsleyjs.min.js') }}"></script>
 
     <script src="{{ URL::asset('/js/form-validation.init.js') }}"></script>
+
+    <script src="{{ URL::asset('/assets/js/fix.js') }}"></script>
 @endsection

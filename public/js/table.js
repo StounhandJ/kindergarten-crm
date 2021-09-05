@@ -196,6 +196,36 @@ $(document).ready(function () {
         }
     })
 
+    $.ajax({
+        url: '/action/group-array',
+        method: 'GET',
+        success: function (data) {
+            data.forEach(item => {
+                $('select[name="group_id"]').append(new Option(item.name, item.id));
+            })
+        }
+    })
+
+    $.ajax({
+        url: '/action/institution',
+        method: 'GET',
+        success: function (data) {
+            data.forEach(item => {
+                $('select[name="institution_id"]').append(new Option(item.name, item.id));
+            })
+        }
+    })
+
+    $.ajax({
+        url: '/action/position',
+        method: 'GET',
+        success: function (data) {
+            data.forEach(item => {
+                $('select[name="position_id"]').append(new Option(item.name, item.id));
+            })
+        }
+    })
+
     $('.custom-validation').submit(function (d) {
         var data = {}
         $(this).serializeArray().forEach(item => {
