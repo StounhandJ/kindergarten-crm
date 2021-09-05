@@ -47,7 +47,11 @@ class Child extends Model
         return $this->hasMany(JournalChild::class);
     }
 
-    public function getJournalOnMonth(Carbon $data): Collection
+    /**
+     * @param Carbon $data
+     * @return Collection|JournalChild[]
+     */
+    public function getJournalOnMonth(Carbon $data): Collection|array
     {
         return $this->getJournal()->whereDate("create_date", ">=", $data->firstOfMonth())
             ->whereDate("create_date", "<=", $data->lastOfMonth())->get()->sortBy("create_date");

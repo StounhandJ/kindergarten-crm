@@ -4,10 +4,10 @@ namespace App\Http\Resources;
 
 use App\Http\Requests\TableRequest;
 use App\Models\Child;
-use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class JournalChildrenResource extends JsonResource
 {
