@@ -6,6 +6,7 @@ use App\Http\Controllers\CostActionController;
 use App\Http\Controllers\GroupActionController;
 use App\Http\Controllers\InstitutionActionController;
 use App\Http\Controllers\JournalChildrenActionController;
+use App\Http\Controllers\JournalStaffActionController;
 use App\Http\Controllers\PositionActionController;
 use App\Http\Controllers\StaffActionController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,9 @@ Route::prefix("action")->name("action.")->group(function () {
         ->only("index", "show", "store");
 
     Route::apiResource("journal-children", JournalChildrenActionController::class)
+        ->only("index", "update");
+
+    Route::apiResource("journal-staff", JournalStaffActionController::class)
         ->only("index", "update");
 });
 

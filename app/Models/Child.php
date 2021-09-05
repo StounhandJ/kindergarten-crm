@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 class Child extends Model
 {
@@ -49,7 +50,7 @@ class Child extends Model
     public function getJournalOnMonth(Carbon $data): Collection
     {
         return $this->getJournal()->whereDate("create_date", ">=", $data->firstOfMonth())
-        ->whereDate("create_date", "<=", $data->lastOfMonth())->get()->sortBy("create_date");
+            ->whereDate("create_date", "<=", $data->lastOfMonth())->get()->sortBy("create_date");
     }
 
     public function getId()

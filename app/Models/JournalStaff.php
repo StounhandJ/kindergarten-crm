@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+
+class JournalStaff extends Model
+{
+    use HasFactory;
+
+    //<editor-fold desc="Setting">
+    public $timestamps = false;
+    //</editor-fold>
+
+    //<editor-fold desc="Get Attribute">
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getVisit(): Visit
+    {
+        return Visit::getById($this->visit_id);
+    }
+
+    public function getVisitId()
+    {
+        return $this->visit_id;
+    }
+
+    public function getStaff(): Staff
+    {
+        return Staff::getById($this->staff_id);
+    }
+
+    public function getCreateDate()
+    {
+        return Carbon::make($this->create_date);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
+    public function setVisitIfNotEmpty(Visit $visit)
+    {
+        if ($visit->exists) $this->visit_id = $visit->getId();
+    }
+    //</editor-fold>
+
+    public static function make(Staff $staff, Visit $visit, Carbon $date)
+    {
+        return JournalStaff::factory([
+            "staff_id"=>$staff->getId(),
+            "visit_id"=>$visit->getId(),
+            "create_date"=>$date
+        ] )->make();
+    }
+}
