@@ -23,17 +23,17 @@ class Staff extends Model
         return $this->getGroup()->getBranch()->getId();
     }
 
-    public function getBranchNameAttribute(): string
+    public function getBranchNameAttribute()
     {
         return $this->getGroup()->getBranch()->getName();
     }
 
-    public function getGroupNameAttribute(): string
+    public function getGroupNameAttribute()
     {
         return $this->getGroup()->getName();
     }
 
-    public function getPositionNameAttribute(): string
+    public function getPositionNameAttribute()
     {
         return $this->getPosition()->getName();
     }
@@ -93,7 +93,7 @@ class Staff extends Model
 
     public function getGroup()
     {
-        return $this->belongsTo(Group::class, "group_id")->getResults();
+        return $this->belongsTo(Group::class, "group_id")->getResults() ?? new Group();
     }
 
     public function getPosition()
@@ -138,9 +138,10 @@ class Staff extends Model
         if ($reason_dismissal != "") $this->reason_dismissal = $reason_dismissal;
     }
 
-    public function setGroupIfNotEmpty(Group $group)
+    public function setGroup(Group $group)
     {
         if ($group->exists) $this->group_id = $group->getId();
+        else $this->group_id = null;
     }
 
     public function setPositionIfNotEmpty(Position $position)

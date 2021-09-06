@@ -68,7 +68,7 @@ class StaffActionController extends Controller
         $staff->setDateEmploymentIfNotEmpty($request->getDateEmployment());
         $staff->setDateDismissalIfNotEmpty($request->getDateDismissal());
         $staff->setReasonDismissalIfNotEmpty($request->getReasonDismissal());
-        $staff->setGroupIfNotEmpty($request->getGroup());
+        $staff->setGroup($request->getGroup());
         $staff->setPositionIfNotEmpty($request->getPosition());
         $staff->save();
 

@@ -22,8 +22,8 @@ class StaffUpdateRequest extends StaffRequest
             "date_employment"=> "date",
             "date_dismissal"=> "date",
             "reason_dismissal"=> "date",
-            "group_id"=> "bail|string|exists:".Group::class.",id",
-            "position_id"=> "bail|string|exists:".Position::class.",id"
+            "group_id"=> "bail|nullable|integer|exists:".Group::class.",id",
+            "position_id"=> "bail|integer|exists:".Position::class.",id"
         ];
     }
 }

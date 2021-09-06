@@ -41,7 +41,7 @@ class Group extends Model
 
     public function getBranch(): Branch
     {
-        return $this->belongsTo(Branch::class, "branch_id")->getResults();
+        return $this->belongsTo(Branch::class, "branch_id")->getResults() ?? new Branch();
     }
     //</editor-fold>
 
