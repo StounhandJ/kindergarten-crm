@@ -126,3 +126,11 @@ th[scope="col"]::first-letter{
 .input-group{
     text-align: center;
 }
+
+.gj-icon{
+    display: none;
+}
+
+.modal{
+    overflow-y: scroll !important;
+}

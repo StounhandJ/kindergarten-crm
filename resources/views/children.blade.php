@@ -50,8 +50,10 @@
                                         <div class="form-group">
                                             <label>Дата рождения</label>
                                             <div>
-                                                <input name="date_birth" type="text" class="form-control" placeholder="mm/dd/yyyy"
+                                                <input name="date_birth" type="date" required class="form-control" placeholder="mm/dd/yyyy"
                                                        id="datepicker-autoclose">
+                                                       {{-- <input name="date_enrollment" type="date" class="form-control" required placeholder="mm/dd/yyyy"
+                                                       id="datepicker-autoclose"> --}}
                                             </div>
                                         </div>
 
@@ -126,7 +128,7 @@
                                         <div class="form-group">
                                             <label>Дата зачисление</label>
                                             <div>
-                                                <input name="date_enrollment" type="text" class="form-control" placeholder="mm/dd/yyyy"
+                                                <input name="date_enrollment" type="date" class="form-control" required placeholder="mm/dd/yyyy"
                                                        id="datepicker-autoclose">
                                             </div>
                                         </div>
