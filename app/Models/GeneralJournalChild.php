@@ -148,7 +148,7 @@ class GeneralJournalChild extends Model
     public static function getByChildAndMonth(Child $child, Carbon $month) : GeneralJournalChild
     {
         return GeneralJournalChild::whereDate("month", ">=", $month->firstOfMonth())
-            ->whereDate("month", "<=", $month->lastOfMonth())->first() ?? new GeneralJournalChild();
+            ->whereDate("month", "<=", $month->lastOfMonth())->where("child_id", $child->getId())->first() ?? new GeneralJournalChild();
     }
     //</editor-fold>
 
