@@ -190,6 +190,7 @@ $(document).ready(function () {
         url: '/action/branch',
         method: 'GET',
         success: function (data) {
+            $('select[name="branch_id"]').prepend(new Option("Не выбрано", 0, false, true));
             data.forEach(item => {
                 $('select[name="branch_id"]').append(new Option(item.name, item.id));
             })
@@ -200,6 +201,7 @@ $(document).ready(function () {
         url: '/action/group-array',
         method: 'GET',
         success: function (data) {
+            $('select[name="group_id"]').prepend(new Option("Не выбрано", 0, false, true));
             data.forEach(item => {
                 $('select[name="group_id"]').append(new Option(item.name, item.id));
             })
@@ -210,6 +212,7 @@ $(document).ready(function () {
         url: '/action/institution',
         method: 'GET',
         success: function (data) {
+            $('select[name="institution_id"]').prepend(new Option("Не выбрано", 0, false, true));
             data.forEach(item => {
                 $('select[name="institution_id"]').append(new Option(item.name, item.id));
             })
@@ -220,6 +223,7 @@ $(document).ready(function () {
         url: '/action/position',
         method: 'GET',
         success: function (data) {
+            $('select[name="position_id"]').prepend(new Option("Не выбрано", 0, false, true));
             data.forEach(item => {
                 $('select[name="position_id"]').append(new Option(item.name, item.id));
             })

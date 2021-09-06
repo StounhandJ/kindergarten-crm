@@ -27,15 +27,15 @@ thead, th, td, td>div {
     text-align: right;
 }
 
-.j_children_table .table caption {
+.j_children_table .table caption, .j_staff_table .table caption  {
     caption-side: top;
 }
 
-.j_children_table .table {
-    height: 100vh;
+.table {
+    min-height: 30vh;
 }
 
-.j_children_table .table .thead-dark th {
+.j_children_table .table .thead-dark th, .j_staff_table .table .thead-dark th {
     color: #fff;
     background-color: #333547;
     border-color: #333547;
@@ -53,9 +53,12 @@ thead, th, td, td>div {
 select {
     border: 0;
     font-weight: 600;
-    appearance: none;
     outline: none;
     padding: 5px 0;
+}
+
+.table select{
+    appearance: none;
 }
 
 select>option{
@@ -125,10 +128,6 @@ th[scope="col"]::first-letter{
 
 .input-group{
     text-align: center;
-}
-
-.gj-icon{
-    display: none;
 }
 
 .modal{

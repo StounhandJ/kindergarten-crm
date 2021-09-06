@@ -9,5 +9,7 @@
 
 <!-- App js -->
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/js/table-scroll.js') }}"></script>
+<script src="{{ URL::asset('/assets/js/masks.js') }}"></script>
 
 @yield('script-bottom')

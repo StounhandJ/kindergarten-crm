@@ -13,10 +13,10 @@
 
 @section('content')
     <div class="row">
-        <div class="card-body">
+        <div class="card-body" style="overflow:hidden;">
             <div class="container-fluid">
                 <div class="row">
-                    <div>
+                    <div style="overflow:hidden;">
                         <table id="grid" tapath="staff">
 
                         </table>
@@ -39,32 +39,28 @@
                                         <div class="form-group">
                                             <label>ФИО</label>
                                             <div>
-                                                <input name="fio" type="text" class="form-control" required="">
+                                                <input name="fio" type="text" class="form-control" required placeholder="Иванов Иван Иванович">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Адрес</label>
                                             <div>
-                                                <input name="address" type="text"
-                                                    class="form-control" required="">
+                                                <input name="address" type="text" class="form-control" required placeholder="г. Москва, ул. Лесная, д. 28к2, кв. 19">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Дата рождения</label>
                                             <div>
-                                                <input name="date_birth" id="input-date1" class="form-control input-mask" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
-{{--                                                <input name="date_birth" type="text" class="form-control" placeholder="mm/dd/yyyy"--}}
-{{--                                                       id="datepicker-autoclose" data-inputmask-inputformat="mm/dd/yyyy">--}}
+                                                <input name="date_birth" class="form-control input-mask" type="date">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Телефон</label>
                                             <div>
-                                                <input name="phone" type="text"
-                                                       class="form-control" required="">
+                                                <input name="phone" type="tel" class="form-control" required placeholder="+7 (999) 999-99-99">
                                             </div>
                                         </div>
 
@@ -89,8 +85,7 @@
                                         <div class="form-group">
                                             <label>Дата найма</label>
                                             <div>
-                                                <input name="date_employment" type="text" class="form-control" placeholder="mm/dd/yyyy"
-                                                       id="datepicker-autoclose">
+                                                <input name="date_employment" type="date" class="form-control">
                                             </div>
                                         </div>
 
@@ -98,7 +93,7 @@
 
                                         <div class="form-group mb-0">
                                             <div>
-                                                <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                <button type="submit" class="btn mr-1 btn-success waves-effect waves-light btn-create-row">
                                                     Создать
                                                 </button>
                                             </div>
