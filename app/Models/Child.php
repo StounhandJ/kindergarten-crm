@@ -232,7 +232,7 @@ class Child extends Model
         $phone_father, $comment, $rate, $date_exclusion, $reason_exclusion, $date_birth, $date_enrollment,
                                 Group $group, Institution $institution)
     {
-        return Group::factory([
+        return Child::factory([
             "fio" => $name,
             "address" => $address,
             "fio_mother" => $fio_mother,

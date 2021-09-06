@@ -77,5 +77,5 @@ Route::get('/journal/children', function () {
 })->name("journal.children");
 
 Route::get('/journal/staffs', function () {
-    return view("pages-blank");
+    return view("journal-staff");
 })->name("journal.staffs");

@@ -169,7 +169,7 @@ class Staff extends Model
 
     public static function make($fio, $phone, $address, $date_birth, $date_employment, $date_dismissal, $reason_dismissal, Group $group, Position $position)
     {
-        return Branch::factory([
+        return Staff::factory([
             "fio" => $fio,
             "phone" => $phone,
             "address" => $address,

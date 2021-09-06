@@ -36,7 +36,7 @@ class StaffActionController extends Controller
     {
         $group = Staff::make($request->getFio(), $request->getPhone(), $request->getAddress(),
             $request->getDateBirth(), $request->getDateEmployment(), $request->getDateDismissal(),
-            $request->getReasondDsmissal(), $request->getGroup(), $request->getPosition());
+            $request->getReasonDismissal(), $request->getGroup(), $request->getPosition());
         $group->save();
         return response()->json(["message"=>"success", "records"=>$group], 200);
     }

@@ -35,7 +35,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form class="custom-validation" tapath="group" novalidate>
+                                    <form class="custom-validation" tapath="staff" novalidate>
                                         <div class="form-group">
                                             <label>ФИО</label>
                                             <div>
@@ -46,7 +46,7 @@
                                         <div class="form-group">
                                             <label>Адрес</label>
                                             <div>
-                                                <input name="address" data-parsley-type="number" type="text"
+                                                <input name="address" type="text"
                                                     class="form-control" required="">
                                             </div>
                                         </div>
@@ -54,9 +54,17 @@
                                         <div class="form-group">
                                             <label>Дата рождения</label>
                                             <div>
-                                                <input id="input-date1" class="form-control input-mask" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
+                                                <input name="date_birth" id="input-date1" class="form-control input-mask" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
 {{--                                                <input name="date_birth" type="text" class="form-control" placeholder="mm/dd/yyyy"--}}
 {{--                                                       id="datepicker-autoclose" data-inputmask-inputformat="mm/dd/yyyy">--}}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Телефон</label>
+                                            <div>
+                                                <input name="phone" type="text"
+                                                       class="form-control" required="">
                                             </div>
                                         </div>
 
