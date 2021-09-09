@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Action;
 
-use App\Http\Requests\GroupCreateRequest;
-use App\Http\Requests\GroupUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Action\GroupCreateRequest;
+use App\Http\Requests\Action\GroupUpdateRequest;
 use App\Http\Requests\TableRequest;
 use App\Models\Group;
 use Illuminate\Http\JsonResponse;
+use function response;
 
 class GroupActionController extends Controller
 {

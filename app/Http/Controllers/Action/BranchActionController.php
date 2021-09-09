@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Action;
 
+use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use Illuminate\Http\JsonResponse;
+use function response;
 
 class BranchActionController extends Controller
 {

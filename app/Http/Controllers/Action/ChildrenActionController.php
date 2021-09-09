@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Action;
 
-use App\Http\Requests\ChildrenCreateRequest;
-use App\Http\Requests\ChildrenUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Action\ChildrenCreateRequest;
+use App\Http\Requests\Action\ChildrenUpdateRequest;
 use App\Http\Requests\TableRequest;
 use App\Models\Child;
 use Illuminate\Http\JsonResponse;
+use function response;
 
 class ChildrenActionController extends Controller
 {

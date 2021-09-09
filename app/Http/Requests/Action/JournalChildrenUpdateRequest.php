@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Action;
 
-use App\Models\Visit;
+use App\Http\Requests\RequestAttribute\JournalChildrenRequest;
+use App\Models\Types\Visit;
 
 class JournalChildrenUpdateRequest extends JournalChildrenRequest
 {

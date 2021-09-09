@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Types\Visit;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

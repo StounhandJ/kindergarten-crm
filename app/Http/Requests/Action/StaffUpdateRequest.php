@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Action;
 
+use App\Http\Requests\RequestAttribute\StaffRequest;
 use App\Models\Group;
-use App\Models\Position;
+use App\Models\Types\Position;
 
 class StaffUpdateRequest extends StaffRequest
 {

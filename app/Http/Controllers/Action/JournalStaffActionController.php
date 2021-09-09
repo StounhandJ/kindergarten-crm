@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Action;
 
-use App\Http\Requests\JournalChildrenUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Action\JournalChildrenUpdateRequest;
 use App\Http\Resources\JournalStaffResource;
 use App\Models\JournalStaff;
 use App\Models\Staff;
 use Illuminate\Http\JsonResponse;
+use function response;
 
 class JournalStaffActionController extends Controller
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\RequestAttribute;
 
 use App\Models\Child;
-use App\Models\Visit;
+use App\Models\Types\Visit;
 use Illuminate\Foundation\Http\FormRequest;
 
 class JournalChildrenRequest extends FormRequest

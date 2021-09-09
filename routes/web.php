@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\BranchActionController;
-use App\Http\Controllers\ChildrenActionController;
-use App\Http\Controllers\CostActionController;
-use App\Http\Controllers\GroupActionController;
-use App\Http\Controllers\InstitutionActionController;
-use App\Http\Controllers\JournalChildrenActionController;
-use App\Http\Controllers\JournalStaffActionController;
-use App\Http\Controllers\PositionActionController;
-use App\Http\Controllers\StaffActionController;
+use App\Http\Controllers\Action\BranchActionController;
+use App\Http\Controllers\Action\ChildrenActionController;
+use App\Http\Controllers\Action\CostActionController;
+use App\Http\Controllers\Action\GroupActionController;
+use App\Http\Controllers\Action\InstitutionActionController;
+use App\Http\Controllers\Action\JournalChildrenActionController;
+use App\Http\Controllers\Action\JournalStaffActionController;
+use App\Http\Controllers\Action\PositionActionController;
+use App\Http\Controllers\Action\StaffActionController;
 use Illuminate\Support\Facades\Route;
 
 /*

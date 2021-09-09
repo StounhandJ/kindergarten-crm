@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Action;
 
-use App\Http\Requests\StaffCreateRequest;
-use App\Http\Requests\StaffUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Action\StaffCreateRequest;
+use App\Http\Requests\Action\StaffUpdateRequest;
 use App\Http\Requests\TableRequest;
-use App\Models\Group;
 use App\Models\Staff;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use function response;
 
 class StaffActionController extends Controller
 {

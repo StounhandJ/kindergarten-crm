@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Visit;
+use App\Models\Types\Visit;
 use Illuminate\Database\Seeder;
 
 class VisitSeeder extends Seeder

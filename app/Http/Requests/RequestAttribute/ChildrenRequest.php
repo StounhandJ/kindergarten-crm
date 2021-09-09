@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\RequestAttribute;
 
 use App\Models\Group;
-use App\Models\Institution;
+use App\Models\Types\Institution;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChildrenRequest extends FormRequest

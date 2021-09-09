@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Action;
 
+use App\Http\Requests\RequestAttribute\ChildrenRequest;
 use App\Models\Group;
-use App\Models\Institution;
+use App\Models\Types\Institution;
 
 class ChildrenUpdateRequest extends ChildrenRequest
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Types;
 
+use App\Models\Branch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Position extends Model
+class Institution extends Model
 {
     use HasFactory;
-
     //<editor-fold desc="Setting">
     public $timestamps = false;
     //</editor-fold>
@@ -33,14 +33,14 @@ class Position extends Model
     //</editor-fold>
 
     //<editor-fold desc="Search Branch">
-    public static function getById($id) : Position
+    public static function getById($id) : Institution
     {
-        return Position::where("id", $id)->first() ?? new Position();
+        return Institution::where("id", $id)->first() ?? new Institution();
     }
     //</editor-fold>
 
     public static function make($name)
     {
-        return Position::factory(["name"=>$name] )->make();
+        return Branch::factory(["name"=>$name] )->make();
     }
 }

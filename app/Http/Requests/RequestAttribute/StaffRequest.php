@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\RequestAttribute;
 
 use App\Models\Group;
-use App\Models\Position;
+use App\Models\Types\Position;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StaffRequest extends FormRequest

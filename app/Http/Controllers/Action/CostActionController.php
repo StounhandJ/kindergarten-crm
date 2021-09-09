@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Action;
 
-use App\Http\Requests\CostCreateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Action\CostCreateRequest;
 use App\Http\Requests\TableRequest;
 use App\Models\Cost;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use function response;
 
 class CostActionController extends Controller
 {
