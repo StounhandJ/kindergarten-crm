@@ -6,24 +6,22 @@ use App\Models\Child;
 use App\Models\GeneralJournalChild;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
 
-class JournalGenerateCommand extends Command
+class JournalChildrenGenerateCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'journal';
+    protected $signature = 'journal:child';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Генерация ежемесячных журналов для детей и сотрудников';
+    protected $description = 'Генерация ежемесячных журналов для детей';
 
     /**
      * Create a new command instance.
@@ -42,8 +40,16 @@ class JournalGenerateCommand extends Command
      */
     public function handle()
     {
-        Artisan::call('journal:child');
-        Artisan::call('journal:staff');
+        $children = Child::query()->lazy(100);
+        $month = Carbon::now();
+        foreach ($children as $child)
+        {
+            if (!GeneralJournalChild::getByChildAndMonth($child, $month)->exists)
+            {
+                $generalJournalChild = GeneralJournalChild::make($child, $month);
+                $generalJournalChild->save();
+            }
+        }
         return 0;
     }
 }

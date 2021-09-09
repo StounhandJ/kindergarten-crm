@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('journal:generate')->everyMinute()->sendOutputTo("/var/www/cron.log", true);
+         $schedule->command('journal')->everyMinute()->sendOutputTo("/var/www/cron.log", true);
     }
 
     /**

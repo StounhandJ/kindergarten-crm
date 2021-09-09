@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
-class GeneralJournalChild extends Model
+class GeneralJournalStaff extends Model
 {
     use HasFactory;
+
     //<editor-fold desc="Setting">
     public $timestamps = false;
 
@@ -75,24 +76,24 @@ class GeneralJournalChild extends Model
         return $this->id;
     }
 
-    public function getChild()
+    public function getStaff()
     {
-        return Child::getById($this->child_id);
+        return Staff::getById($this->staff_id);
     }
 
-    public function getIsPaid()
+    public function getMonth()
     {
-        return $this->is_paid;
+        return Carbon::make($this->month);
     }
 
-    public function getReductionFees()
+    public function getReductionSalary()
     {
-        return $this->reduction_fees;
+        return $this->reduction_salary;
     }
 
-    public function getIncreaseFees()
+    public function getIncreaseSalary()
     {
-        return $this->increase_fees;
+        return $this->increase_salary;
     }
 
     public function getComment()
@@ -100,31 +101,27 @@ class GeneralJournalChild extends Model
         return $this->comment;
     }
 
-    public function getNotification()
+    public function getAdvancePayment()
     {
-        return $this->notification;
+        return $this->advance_payment;
     }
 
-    public function getMonth()
-    {
-        return Carbon::make($this->month);
-    }
     //</editor-fold>
 
     //<editor-fold desc="Set Attribute">
-    public function setIsPaidIfNotEmpty($is_paid)
+    public function setAdvancePayment($advance_payment)
     {
-        if ($is_paid!="") $this->is_paid = $is_paid;
+        if ($advance_payment!="") $this->advance_payment = $advance_payment;
     }
 
-    public function setReductionFeesIfNotEmpty($reduction_fees)
+    public function setReductionSalaryIfNotEmpty($reduction_salary)
     {
-        if ($reduction_fees!="") $this->reduction_fees = $reduction_fees;
+        if ($reduction_salary!="") $this->reduction_salary = $reduction_salary;
     }
 
-    public function setIncreaseFeesIfNotEmpty($increase_fees)
+    public function setIncreaseSalaryIfNotEmpty($increase_salary)
     {
-        if ($increase_fees!="") $this->increase_fees = $increase_fees;
+        if ($increase_salary!="") $this->increase_salary = $increase_salary;
     }
 
     public function setCommentIfNotEmpty($comment)
@@ -132,30 +129,25 @@ class GeneralJournalChild extends Model
         if ($comment!="") $this->comment = $comment;
     }
 
-    public function setNotificationIfNotEmpty($notification)
-    {
-        if ($notification!="") $this->notification = $notification;
-    }
-
     //</editor-fold>
 
     //<editor-fold desc="Search GeneralJournalChild">
-    public static function getById($id) : GeneralJournalChild
+    public static function getById($id) : GeneralJournalStaff
     {
-        return GeneralJournalChild::where("id", $id)->first() ?? new GeneralJournalChild();
+        return GeneralJournalStaff::where("id", $id)->first() ?? new GeneralJournalStaff();
     }
 
-    public static function getByChildAndMonth(Child $child, Carbon $month) : GeneralJournalChild
+    public static function getByChildAndMonth(Staff $staff, Carbon $month) : GeneralJournalStaff
     {
-        return GeneralJournalChild::whereDate("month", ">=", $month->firstOfMonth())
-            ->whereDate("month", "<=", $month->lastOfMonth())->where("child_id", $child->getId())->first() ?? new GeneralJournalChild();
+        return GeneralJournalStaff::whereDate("month", ">=", $month->firstOfMonth())
+                ->whereDate("month", "<=", $month->lastOfMonth())->where("staff_id", $staff->getId())->first() ?? new GeneralJournalStaff();
     }
     //</editor-fold>
 
-    public static function make(Child $child, Carbon $month)
+    public static function make(Staff $staff, Carbon $month)
     {
-        return GeneralJournalChild::factory([
-            "child_id"=>$child->getId(),
+        return GeneralJournalStaff::factory([
+            "staff_id"=>$staff->getId(),
             "month"=>$month
         ] )->make();
     }
