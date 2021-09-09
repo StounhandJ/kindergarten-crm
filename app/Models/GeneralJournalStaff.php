@@ -13,13 +13,13 @@ class GeneralJournalStaff extends Model
     //<editor-fold desc="Setting">
     public $timestamps = false;
 
-    protected $hidden = ['child_id'];
+    protected $hidden = ['staff_id'];
 
-    protected $appends = ['child', 'days', 'paid', 'need_paid', 'debt', 'attendance', 'sick_days', 'vacation_days', 'truancy_days'];
+    protected $appends = ['staff', 'days', 'attendance', 'sick_days', 'vacation_days', 'truancy_days', 'salary'];
 
-    public function getChildAttribute()
+    public function getStaffAttribute()
     {
-        return $this->getChild();
+        return $this->getStaff();
     }
 
     public function getDaysAttribute()
@@ -27,24 +27,9 @@ class GeneralJournalStaff extends Model
         return $this->getMonth()->lastOfMonth()->day;
     }
 
-    public function getPaidAttribute()
-    {
-        return 0;
-    }
-
-    public function getNeedPaidAttribute()
-    {
-        return 0;
-    }
-
-    public function getdebtAttribute()
-    {
-        return $this->getNeedPaidAttribute()-$this->getPaidAttribute();
-    }
-
     public function getAttendanceAttribute()
     {
-        $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
+        $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
         $whole_days = count(array_filter($journals, fn($journal) => $journal->getVisit()->IsWholeDat()));
         $half_days = count(array_filter($journals, fn($journal) => $journal->getVisit()->IsHalfDat()))/2;
         return $whole_days+$half_days;
@@ -52,20 +37,25 @@ class GeneralJournalStaff extends Model
 
     public function getSickDaysAttribute()
     {
-        $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
+        $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
         return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsSick()));
     }
 
     public function getVacationDaysAttribute()
     {
-        $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
+        $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
         return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsVacation()));
     }
 
     public function getTruancyDaysAttribute()
     {
-        $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
+        $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
         return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsTruancy()));
+    }
+
+    public function getSalaryAttribute()
+    {
+        return 0;
     }
 
     //</editor-fold>

@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class JournalGenerateCommand extends Command
 {
@@ -42,8 +43,8 @@ class JournalGenerateCommand extends Command
      */
     public function handle()
     {
-        Artisan::call('journal:child');
-        Artisan::call('journal:staff');
+        $this->call('journal:child');
+        $this->call('journal:staff');
         return 0;
     }
 }

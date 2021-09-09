@@ -40,16 +40,28 @@ class JournalStaffGenerateCommand extends Command
      */
     public function handle()
     {
+        $this->info("Start create staff journal");
+
         $staffs = Staff::query()->lazy(100);
+        $staff_count = Staff::query()->count();
         $month = Carbon::now();
-        foreach ($staffs as $staff)
+        $count = 0;
+        $progressBar = $this->output->createProgressBar();
+        $progressBar->setFormat('verbose');
+        $progressBar->start();
+        foreach ($progressBar->iterate($staffs, $staff_count) as $staff)
         {
             if (!GeneralJournalStaff::getByChildAndMonth($staff, $month)->exists)
             {
                 $generalJournalStaff = GeneralJournalStaff::make($staff, $month);
                 $generalJournalStaff->save();
+                $count+=1;
             }
         }
+        $progressBar->finish();
+        $this->newLine();
+
+        $this->table(["Сотрудников всего", "Создано журналов на данный месяц"], [[$staff_count, $count]]);
         return 0;
     }
 }

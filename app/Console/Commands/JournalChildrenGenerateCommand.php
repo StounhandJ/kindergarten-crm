@@ -40,16 +40,29 @@ class JournalChildrenGenerateCommand extends Command
      */
     public function handle()
     {
+        $this->info("Start create children journal");
+
         $children = Child::query()->lazy(100);
+        $children_count = Child::query()->count();
         $month = Carbon::now();
-        foreach ($children as $child)
+        $count = 0;
+        $progressBar = $this->output->createProgressBar();
+        $progressBar->setFormat('verbose');
+        $progressBar->start();
+
+        foreach ($progressBar->iterate($children, $children_count) as $child)
         {
             if (!GeneralJournalChild::getByChildAndMonth($child, $month)->exists)
             {
                 $generalJournalChild = GeneralJournalChild::make($child, $month);
                 $generalJournalChild->save();
+                $count+=1;
             }
         }
+        $progressBar->finish();
+        $this->newLine();
+
+        $this->table(["Детей всего", "Создано журналов на данный месяц"], [[$children_count, $count]]);
         return 0;
     }
 }
