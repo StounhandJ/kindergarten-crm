@@ -26,17 +26,17 @@ class Child extends Model
         return $this->getGroup()->getBranch()->getId();
     }
 
-    public function getBranchNameAttribute(): string
+    public function getBranchNameAttribute()
     {
         return $this->getGroup()->getBranch()->getName();
     }
 
-    public function getInstitutionNameAttribute(): string
+    public function getInstitutionNameAttribute()
     {
         return $this->getInstitution()->getName();
     }
 
-    public function getGroupNameAttribute(): string
+    public function getGroupNameAttribute()
     {
         return $this->getGroup()->getName();
     }

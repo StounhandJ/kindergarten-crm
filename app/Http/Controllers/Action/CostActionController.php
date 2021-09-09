@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Action\CostCreateRequest;
 use App\Http\Requests\TableRequest;
-use App\Models\Cost;
+use App\Models\Cost\Cost;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use function response;
@@ -35,11 +35,11 @@ class CostActionController extends Controller
     {
         if ($request->getAmount() > 0)
         {
-            $cost = Cost::profit($request->getAmount());
+            $cost = Cost::profit($request->getAmount(), $request->getChild(), $request->getStaff());
         }
         else
         {
-            $cost = Cost::losses($request->getAmount());
+            $cost = Cost::losses($request->getAmount(), $request->getChild(), $request->getStaff());
         }
 
         return response()->json(["message"=>"success", "records"=>$cost], 200);

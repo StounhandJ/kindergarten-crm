@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Cost;
 
-use App\Models\Cost;
+use App\Models\Cost\Cost;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CostFactory extends Factory
