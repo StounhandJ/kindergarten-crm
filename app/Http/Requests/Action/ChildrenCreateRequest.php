@@ -23,8 +23,8 @@ class ChildrenCreateRequest extends ChildrenRequest
             "reason_exclusion"=> "string",
             "date_birth"=> "required|date",
             "date_enrollment"=> "required|date",
-            "group_id"=> "bail|required|string|exists:".Group::class.",id",
-            "institution_id"=> "bail|required|string|exists:".Institution::class.",id",
+            "group_id"=> "bail|required|integer|exists:".Group::class.",id",
+            "institution_id"=> "bail|required|integer|exists:".Institution::class.",id",
         ];
     }
 }

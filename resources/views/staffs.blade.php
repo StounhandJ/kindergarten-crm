@@ -44,6 +44,20 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label>Логин</label>
+                                            <div>
+                                                <input name="login" type="text" class="form-control" required placeholder="ivanov_i">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Пароль</label>
+                                            <div>
+                                                <input name="password" type="text" class="form-control" required placeholder="ivanov1234">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label>Адрес</label>
                                             <div>
                                                 <input name="address" type="text" class="form-control" required placeholder="г. Москва, ул. Лесная, д. 28к2, кв. 19">

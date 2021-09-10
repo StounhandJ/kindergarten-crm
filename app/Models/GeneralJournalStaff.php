@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -30,27 +31,27 @@ class GeneralJournalStaff extends Model
     public function getAttendanceAttribute()
     {
         $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
-        $whole_days = count(array_filter($journals, fn($journal) => $journal->getVisit()->IsWholeDat()));
-        $half_days = count(array_filter($journals, fn($journal) => $journal->getVisit()->IsHalfDat()))/2;
+        $whole_days = $journals->filter(fn($journal)=>$journal->getVisit()->IsWholeDat())->count();
+        $half_days = $journals->filter(fn($journal)=>$journal->getVisit()->IsHalfDat())->count()/2;
         return $whole_days+$half_days;
     }
 
     public function getSickDaysAttribute()
     {
         $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
-        return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsSick()));
+        return $journals->filter(fn($journal)=>$journal->getVisit()->IsSick())->count();
     }
 
     public function getVacationDaysAttribute()
     {
         $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
-        return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsVacation()));
+        return $journals->filter(fn($journal)=>$journal->getVisit()->IsVacation())->count();
     }
 
     public function getTruancyDaysAttribute()
     {
         $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
-        return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsTruancy()));
+        return $journals->filter(fn($journal)=>$journal->getVisit()->IsTruancy())->count();
     }
 
     public function getSalaryAttribute()
@@ -114,9 +115,9 @@ class GeneralJournalStaff extends Model
         if ($increase_salary!="") $this->increase_salary = $increase_salary;
     }
 
-    public function setCommentIfNotEmpty($comment)
+    public function setComment($comment)
     {
-        if ($comment!="") $this->comment = $comment;
+        $this->comment = $comment;
     }
 
     //</editor-fold>
@@ -131,6 +132,12 @@ class GeneralJournalStaff extends Model
     {
         return GeneralJournalStaff::whereDate("month", ">=", $month->firstOfMonth())
                 ->whereDate("month", "<=", $month->lastOfMonth())->where("staff_id", $staff->getId())->first() ?? new GeneralJournalStaff();
+    }
+
+    public static function getBuilderByMonth(Carbon $month): Builder
+    {
+        return GeneralJournalChild::query()->whereDate("month", ">=", $month->firstOfMonth())
+            ->whereDate("month", "<=", $month->lastOfMonth());
     }
     //</editor-fold>
 

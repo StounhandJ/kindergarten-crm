@@ -1,14 +1,18 @@
 <?php
 
+use App\Http\Controllers\Action\AuthActionController;
 use App\Http\Controllers\Action\BranchActionController;
 use App\Http\Controllers\Action\ChildrenActionController;
 use App\Http\Controllers\Action\CostActionController;
+use App\Http\Controllers\Action\GeneralChildActionController;
+use App\Http\Controllers\Action\GeneralStaffActionController;
 use App\Http\Controllers\Action\GroupActionController;
 use App\Http\Controllers\Action\InstitutionActionController;
 use App\Http\Controllers\Action\JournalChildrenActionController;
 use App\Http\Controllers\Action\JournalStaffActionController;
 use App\Http\Controllers\Action\PositionActionController;
 use App\Http\Controllers\Action\StaffActionController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +50,12 @@ Route::prefix("action")->name("action.")->group(function () {
 
     Route::apiResource("journal-staffs", JournalStaffActionController::class)
         ->only("index", "update");
+
+    Route::apiResource("general-journal-child", GeneralChildActionController::class)
+        ->only("index", "update");
+
+    Route::apiResource("general-journal-staff", GeneralStaffActionController::class)
+        ->only("index", "update");
 });
 
 Route::get('/', function () {
@@ -79,3 +89,7 @@ Route::get('/journal/children', function () {
 Route::get('/journal/staffs', function () {
     return view("journal-staffs");
 })->name("journal.staffs");
+
+Route::get('/login', [AuthController::class, "login"])->name("login.page")->middleware("guest");
+Route::post('/login', [AuthActionController::class, "login"])->name("login")->middleware("guest");
+Route::get('/logout', [AuthActionController::class, "logout"])->name("logout");

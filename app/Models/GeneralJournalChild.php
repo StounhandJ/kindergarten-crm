@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -9,6 +10,7 @@ use Illuminate\Support\Carbon;
 class GeneralJournalChild extends Model
 {
     use HasFactory;
+
     //<editor-fold desc="Setting">
     public $timestamps = false;
 
@@ -38,33 +40,33 @@ class GeneralJournalChild extends Model
 
     public function getdebtAttribute()
     {
-        return $this->getNeedPaidAttribute()-$this->getPaidAttribute();
+        return $this->getNeedPaidAttribute() - $this->getPaidAttribute();
     }
 
     public function getAttendanceAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        $whole_days = count(array_filter($journals, fn($journal) => $journal->getVisit()->IsWholeDat()));
-        $half_days = count(array_filter($journals, fn($journal) => $journal->getVisit()->IsHalfDat()))/2;
+        $whole_days = $journals->filter(fn($journal)=>$journal->getVisit()->IsWholeDat())->count();
+        $half_days = $journals->filter(fn($journal)=>$journal->getVisit()->IsHalfDat())->count()/2;
         return $whole_days+$half_days;
     }
 
     public function getSickDaysAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsSick()));
+        return $journals->filter(fn($journal)=>$journal->getVisit()->IsSick())->count();
     }
 
     public function getVacationDaysAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsVacation()));
+        return $journals->filter(fn($journal)=>$journal->getVisit()->IsVacation())->count();
     }
 
     public function getTruancyDaysAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        return count(array_filter($journals, fn($journal) => $journal->getVisit()->IsTruancy()));
+        return $journals->filter(fn($journal)=>$journal->getVisit()->IsTruancy())->count();
     }
 
     //</editor-fold>
@@ -127,9 +129,9 @@ class GeneralJournalChild extends Model
         if ($increase_fees!="") $this->increase_fees = $increase_fees;
     }
 
-    public function setCommentIfNotEmpty($comment)
+    public function setComment($comment)
     {
-        if ($comment!="") $this->comment = $comment;
+        $this->comment = $comment;
     }
 
     public function setNotificationIfNotEmpty($notification)
@@ -149,6 +151,12 @@ class GeneralJournalChild extends Model
     {
         return GeneralJournalChild::whereDate("month", ">=", $month->firstOfMonth())
             ->whereDate("month", "<=", $month->lastOfMonth())->where("child_id", $child->getId())->first() ?? new GeneralJournalChild();
+    }
+
+    public static function getBuilderByMonth(Carbon $month): Builder
+    {
+        return GeneralJournalChild::query()->whereDate("month", ">=", $month->firstOfMonth())
+            ->whereDate("month", "<=", $month->lastOfMonth());
     }
     //</editor-fold>
 

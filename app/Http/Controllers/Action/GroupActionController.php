@@ -19,7 +19,7 @@ class GroupActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Group::paginate($request->getLimit());
+        $paginate = Group::query()->paginate($request->getLimit());
         return response()->json(["message" => "success",
             "records" => $paginate->items(),
             "total" => $paginate->total()], 200);

@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Types;
 
-use App\Models\Types\Institution;
+use App\Models\Types\Visit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class InstitutionFactory extends Factory
+class VisitFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Institution::class;
+    protected $model = Visit::class;
 
     /**
      * Define the model's default state.
