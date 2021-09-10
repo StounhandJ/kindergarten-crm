@@ -89,17 +89,17 @@ $(document).ready(function () {
         });
     }
 
-    if($(".j_staff_table").length!=0) {
+    if($(".j_staffs_table").length!=0) {
         $.ajax({
             type: "GET",
-            url: "/action/journal-staff",
+            url: "/action/journal-staffs",
             success: function (month) {
                 tr_month = $(`<tr></tr>`);
                 tr_month.append(`<th scope="col">${month.name_month}</th>`);
                 for (let month_day = 1; month_day <= month.days; month_day++) {
                     tr_month.append(`<th scope="col">${month_day}</th>`);
                 }
-                $("#j_staff_table_head").append(tr_month);
+                $("#j_staffs_table_head").append(tr_month);
 
                 month.staff.forEach((child) => {
                     tr = $(`<tr></tr>`);
@@ -127,7 +127,7 @@ $(document).ready(function () {
                             $.ajax({
                                 type: "POST",
                                 url:
-                                    "/action/journal-staff/" + $(this)[0].id,
+                                    "/action/journal-staffs/" + $(this)[0].id,
                                 data: {
                                     visit_id: $(this)[0].value,
                                     _method: "PUT",
@@ -137,8 +137,9 @@ $(document).ready(function () {
                         });
                         tr.append(td);
                     });
-                    $("#j_staff_table_body").append(tr);
+                    $("#j_staffs_table_body").append(tr);
                 });
+                // $("#loading").hide();
             },
         });
     }

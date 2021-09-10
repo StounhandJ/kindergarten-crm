@@ -44,7 +44,7 @@ Route::prefix("action")->name("action.")->group(function () {
     Route::apiResource("journal-children", JournalChildrenActionController::class)
         ->only("index", "update");
 
-    Route::apiResource("journal-staff", JournalStaffActionController::class)
+    Route::apiResource("journal-staffs", JournalStaffActionController::class)
         ->only("index", "update");
 });
 
@@ -65,11 +65,11 @@ Route::get('/staffs', function () {
 })->name("staffs");
 
 Route::get('/card/children', function () {
-    return view("pages-blank");
+    return view("card-children");
 })->name("card.children");
 
 Route::get('/card/staffs', function () {
-    return view("pages-blank");
+    return view("card-staffs");
 })->name("card.staffs");
 
 Route::get('/journal/children', function () {
@@ -77,5 +77,5 @@ Route::get('/journal/children', function () {
 })->name("journal.children");
 
 Route::get('/journal/staffs', function () {
-    return view("journal-staff");
+    return view("journal-staffs");
 })->name("journal.staffs");

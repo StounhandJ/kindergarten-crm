@@ -27,7 +27,7 @@ thead, th, td, td>div {
     text-align: right;
 }
 
-.j_children_table .table caption, .j_staff_table .table caption  {
+.j_children_table .table caption, .j_staffs_table .table caption  {
     caption-side: top;
 }
 
@@ -35,7 +35,7 @@ thead, th, td, td>div {
     min-height: 30vh;
 }
 
-.j_children_table .table .thead-dark th, .j_staff_table .table .thead-dark th {
+.j_children_table .table .thead-dark th, .j_staffs_table .table .thead-dark th {
     color: #fff;
     background-color: #333547;
     border-color: #333547;
@@ -132,4 +132,8 @@ th[scope="col"]::first-letter{
 
 .modal{
     overflow-y: scroll !important;
+}
+
+.min-width200{
+    min-width: 200px;
 }

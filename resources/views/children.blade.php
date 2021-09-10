@@ -99,7 +99,7 @@
                                         <div class="form-group">
                                             <label>Ставка</label>
                                             <div>
-                                                <input name="rate" data-parsley-type="number" type="number"
+                                                <input name="rate" data-parsley-type="number" min = "0" type="number"
                                                     class="form-control" required placeholder="25000">
                                             </div>
                                         </div>
