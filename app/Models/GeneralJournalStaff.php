@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -131,6 +132,12 @@ class GeneralJournalStaff extends Model
     {
         return GeneralJournalStaff::whereDate("month", ">=", $month->firstOfMonth())
                 ->whereDate("month", "<=", $month->lastOfMonth())->where("staff_id", $staff->getId())->first() ?? new GeneralJournalStaff();
+    }
+
+    public static function getBuilderByMonth(Carbon $month): Builder
+    {
+        return GeneralJournalChild::query()->whereDate("month", ">=", $month->firstOfMonth())
+            ->whereDate("month", "<=", $month->lastOfMonth());
     }
     //</editor-fold>
 

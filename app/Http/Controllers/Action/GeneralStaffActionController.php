@@ -19,7 +19,7 @@ class GeneralStaffActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = GeneralJournalStaff::query()->paginate($request->getLimit());
+        $paginate = GeneralJournalStaff::getBuilderByMonth($request->getDate())->paginate($request->getLimit());
         return response()->json(["message" => "success",
             "records" => $paginate->items(),
             "total" => $paginate->total()], 200);
