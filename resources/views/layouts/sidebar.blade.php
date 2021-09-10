@@ -46,6 +46,13 @@
                     </a>
                 </li>
 
+                <li class="mm-active">
+                    <a href="{{ route('income') }}" class="waves-effect {{ Request::url() == route('income') ? "active": "" }}">
+
+                        <span><i class="mdi mdi-cash-multiple"> Доходы и расходы</i></span>
+                    </a>
+                </li>
+
             </ul>
 
             <ul class="metismenu list-unstyled" id="side-menu">

@@ -20,6 +20,10 @@ class StaffAuth extends Migration
         Schema::table('positions', function (Blueprint $table) {
             $table->string("e_name");
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->string("login");
+        });
     }
 
     /**
@@ -35,6 +39,10 @@ class StaffAuth extends Migration
 
         Schema::table('positions', function (Blueprint $table) {
             $table->dropColumn("e_name");
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn("login");
         });
     }
 }

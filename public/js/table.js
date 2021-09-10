@@ -23,9 +23,8 @@ function closeForm(clear = false) {
             });
 }
 
-$(document).ready(function () {
-    var grid, countries;
-    var tapath = $("#grid")[0].attributes.getNamedItem("tapath").value;
+function current_table(table) {
+    var tapath = table[0].attributes.getNamedItem("tapath").value;
     var column = {
         dataSource: "/action/" + tapath,
         uiLibrary: "bootstrap4",
@@ -70,11 +69,15 @@ $(document).ready(function () {
         },
     };
 
-    switch (tapath) {
+    switch (tapath.split("?")[0]) {
         case "group":
             column["columns"] = [
                 { field: "id", hidden: true },
-                { field: "name", title: "Наименование группы", editor: true },
+                {
+                    field: "name",
+                    title: "Наименование группы",
+                    editor: true,
+                },
                 {
                     field: "branch_name",
                     title: "Филиал",
@@ -86,7 +89,11 @@ $(document).ready(function () {
                         textField: "name",
                     },
                 },
-                { field: "children_age", title: "Возраст детей", editor: true },
+                {
+                    field: "children_age",
+                    title: "Возраст детей",
+                    editor: true,
+                },
             ];
             break;
         case "children":
@@ -142,7 +149,11 @@ $(document).ready(function () {
                     editor: true,
                 },
                 { field: "fio_father", title: "ФИО отца", editor: true },
-                { field: "phone_father", title: "Телефон отца", editor: true },
+                {
+                    field: "phone_father",
+                    title: "Телефон отца",
+                    editor: true,
+                },
                 { field: "comment", title: "Комментарий", editor: true },
                 { field: "rate", title: "Тариф", editor: true },
                 {
@@ -197,8 +208,16 @@ $(document).ready(function () {
                         textField: "name",
                     },
                 },
-                { field: "date_birth", title: "Дата рождения", editor: true },
-                { field: "address", title: "Адрес проживания", editor: true },
+                {
+                    field: "date_birth",
+                    title: "Дата рождения",
+                    editor: true,
+                },
+                {
+                    field: "address",
+                    title: "Адрес проживания",
+                    editor: true,
+                },
                 {
                     field: "date_enrollment",
                     title: "Дата зачисления",
@@ -209,7 +228,7 @@ $(document).ready(function () {
                     title: "Группа",
                     type: "dropdown",
                     editField: "group_id",
-                    headerCssClass: "min-width200",
+                    headerCssClass: "min-width170",
                     editor: {
                         dataSource: "/action/group-array",
                         valueField: "id",
@@ -231,95 +250,76 @@ $(document).ready(function () {
                 },
             ];
             break;
-        case "card-staffs":
+        case "general-journal-staff":
             column["columns"] = [
                 { field: "id", hidden: true },
-                { field: "fio", title: "ФИО", editor: true },
                 {
-                    field: "-",
+                    renderer: (value, record) => { return record.staff.fio },
+                    title: "ФИО",
+                },
+                {
+                    renderer: (value, record) => { return record.staff.branch_name },
                     title: "Филиал",
-                    type: "dropdown",
-                    editField: "branch_id",
-                    editor: {
-                        dataSource: "/action/branch",
-                        valueField: "id",
-                        textField: "name",
-                    },
                 },
-                {
-                    field: "-",
-                    title: "Учреждение",
-                    type: "dropdown",
-                    editField: "institution_id",
-                    editor: {
-                        dataSource: "/action/institution",
-                        valueField: "id",
-                        textField: "name",
-                    },
-                },
-                { field: "-", title: "Кол-во дней" },
-                { field: "-", title: "Посещаемость" },
-                { field: "-", title: "Больничных" },
-                { field: "-", title: "Отпуск" },
-                { field: "-", title: "Пропущено" },
-                { field: "-", title: "Трафик" },
+                { field: "days", title: "Кол-во дней" },
+                { field: "attendance", title: "Посещаемость" },
+                { field: "sick_days", title: "Больничных" },
+                { field: "vacation_days", title: "Отпуск" },
+                { field: "truancy_days", title: "Пропущено" },
+                { field: "trafic", title: "Трафик" },
                 { field: "-", title: "Стоимость дня" },
-                { field: "-", title: "З/П" },
-                { field: "-", title: "Уменьшить З/П" },
-                { field: "-", title: "Увеличить З/П" },
-                { field: "-", title: "Комментарий" },
-                { field: "-", title: "Аванс" },
+                { field: "salary", title: "З/П" },
+                { field: "reduction_salary", title: "Уменьшить З/П", editor: true },
+                { field: "increase_salary", title: "Увеличить З/П", editor: true },
+                { field: "comment", title: "Комментарий", editor: true },
+                { field: "advance_payment", title: "Аванс", editor: true },
                 { field: "-", title: "К выплате" },
                 { field: "-", title: "З/П выплачена" },
                 { field: "-", title: "Расчётный лист" },
             ];
             break;
-        case "card-children":
+        case "general-journal-child":
             column["columns"] = [
                 { field: "id", hidden: true },
-                { field: "fio", title: "ФИО", editor: true },
                 {
-                    field: "-",
+                    renderer: (value, record) => { return record.child.fio },
+                    title: "ФИО",
+                    editor: false,
+                },
+                {
+                    renderer: (value, record) => { return record.child.branch_name },
                     title: "Филиал",
-                    type: "dropdown",
-                    editField: "branch_id",
-                    editor: {
-                        dataSource: "/action/branch",
-                        valueField: "id",
-                        textField: "name",
-                    },
+                    editor: false,
                 },
-                {
-                    field: "-",
-                    title: "Учреждение",
-                    type: "dropdown",
-                    editField: "institution_id",
-                    editor: {
-                        dataSource: "/action/institution",
-                        valueField: "id",
-                        textField: "name",
-                    },
-                },
-                { field: "-", title: "Кол-во дней" },
-                { field: "-", title: "Оплачено за текущий месяц" },
-                { field: "-", title: "Необходимо оплатить" },
-                { field: "-", title: "Долг" },
-                { field: "-", title: "Посещаемость" },
-                { field: "-", title: "Больничный" },
-                { field: "-", title: "Отпуск" },
-                { field: "-", title: "Пропущено" },
-                { field: "-", title: "Тариф" },
+                { field: "days", title: "Кол-во дней" },
+                { field: "paid", title: "Оплачено за текущий месяц" },
+                { field: "need_paid", title: "Необходимо оплатить" },
+                { field: "debt", title: "Долг" },
+                { field: "attendance", title: "Посещаемость" },
+                { field: "sick_days", title: "Больничных" },
+                { field: "vacation_days", title: "Отпуск" },
+                { field: "truancy_days", title: "Пропущено" },
+                { renderer: (value, record) => { return record.child.rate }, title: "Тариф" },
                 { field: "-", title: "Стоимость дня" },
                 { field: "-", title: "Переносится на сл. месяц" },
-                { field: "-", title: "Уменьшить плату" },
-                { field: "-", title: "Увеличить плату" },
-                { field: "-", title: "Комментарий" },
+                { field: "reduction_fees", title: "Уменьшить плату", editor: true },
+                { field: "increase_fees", title: "Увеличить плату", editor: true },
+                { field: "comment", title: "Комментарий", editor: true },
                 { field: "-", title: "Оплата за след. месяц" },
-                { field: "-", title: "Уведомление отправлено" },
+                { field: "notification", type: "checkbox" ,title: "Уведомление отправлено" },
+            ];
+            break;
+        case "cost":
+            column["columns"] = [
+                { field: "id", hidden: true },
+                { field: "amount", title: "Сумма" },
+                { field: "date", title: "Дата" },
+                { field: "-", title: "Ребёнок" },
+                { field: "-", title: "Сотрудник" },
             ];
             break;
     }
-    grid = $("#grid").grid(column);
+    grid = table.grid(column);
     grid.on("rowDataChanged", function (e, id, record) {
         var new_record = [];
         for (let [key, value] of entries(record)) {
@@ -368,7 +368,17 @@ $(document).ready(function () {
             closeForm();
         });
     });
+}
 
+$(document).ready(function () {
+    table1 = $("#grid");
+    table2 = $("#grid2");
+    if (table1.length == 1) {
+        current_table(table1);
+    }
+    if (table2.length == 1) {
+        current_table(table2);
+    }
     // Формы //
     $.ajax({
         url: "/action/branch",
@@ -395,6 +405,36 @@ $(document).ready(function () {
             data.forEach((item) => {
                 $('select[name="group_id"]').append(
                     new Option(item.name, item.id)
+                );
+            });
+        },
+    });
+
+    $.ajax({
+        url: "/action/children",
+        method: "GET",
+        success: function (data) {
+            $('select[name="child_id"]').prepend(
+                new Option("Не выбрано", "", false, true)
+            );
+            data.records.forEach((item) => {
+                $('select[name="child_id"]').append(
+                    new Option(item.fio, item.id)
+                );
+            });
+        },
+    });
+
+    $.ajax({
+        url: "/action/staff",
+        method: "GET",
+        success: function (data) {
+            $('select[name="staff_id"]').prepend(
+                new Option("Не выбрано", "", false, true)
+            );
+            data.records.forEach((item) => {
+                $('select[name="staff_id"]').append(
+                    new Option(item.fio, item.id)
                 );
             });
         },

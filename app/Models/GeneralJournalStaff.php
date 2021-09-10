@@ -136,7 +136,7 @@ class GeneralJournalStaff extends Model
 
     public static function getBuilderByMonth(Carbon $month): Builder
     {
-        return GeneralJournalChild::query()->whereDate("month", ">=", $month->firstOfMonth())
+        return GeneralJournalStaff::query()->whereDate("month", ">=", $month->firstOfMonth())
             ->whereDate("month", "<=", $month->lastOfMonth());
     }
     //</editor-fold>

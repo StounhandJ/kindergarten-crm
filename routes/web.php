@@ -90,6 +90,10 @@ Route::get('/journal/staffs', function () {
     return view("journal-staffs");
 })->name("journal.staffs");
 
+Route::get('/income', function () {
+    return view("income");
+})->name("income");
+
 Route::get('/login', [AuthController::class, "login"])->name("login.page")->middleware("guest");
 Route::post('/login', [AuthActionController::class, "login"])->name("login")->middleware("guest");
 Route::get('/logout', [AuthActionController::class, "logout"])->name("logout");

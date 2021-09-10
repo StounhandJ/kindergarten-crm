@@ -27,7 +27,7 @@ thead, th, td, td>div {
     text-align: right;
 }
 
-.j_children_table .table caption, .j_staffs_table .table caption  {
+caption  {
     caption-side: top;
 }
 
@@ -134,6 +134,6 @@ th[scope="col"]::first-letter{
     overflow-y: scroll !important;
 }
 
-.min-width200{
-    min-width: 200px;
+.min-width170{
+    min-width: 170px;
 }
