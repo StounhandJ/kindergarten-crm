@@ -63,4 +63,14 @@ class StaffRequest extends FormRequest
         return Position::getById($this->input("position_id"));
     }
 
+    public function getLogin()
+    {
+        return $this->input("login");
+    }
+
+    public function getPassword()
+    {
+        return $this->input("password");
+    }
+
 }

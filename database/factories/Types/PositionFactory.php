@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Types;
 
 use App\Models\Types\Position;
 use Illuminate\Database\Eloquent\Factories\Factory;

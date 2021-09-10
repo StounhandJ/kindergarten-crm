@@ -17,6 +17,8 @@ class StaffCreateRequest extends StaffRequest
     {
         return [
             "fio"=> "required|string|max:200",
+            "login" => "required|string|unique:users,login",
+            "password" => "required|string",
             "address"=> "required|string",
             "phone"=> "required|string",
             "date_birth"=> "required|date",

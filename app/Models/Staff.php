@@ -102,6 +102,11 @@ class Staff extends Model
     {
         return $this->belongsTo(Position::class, "position_id")->getResults();
     }
+
+    public function getUser(): User
+    {
+        return User::getById($this->userId);
+    }
     //</editor-fold>
 
     //<editor-fold desc="Set Attribute">
@@ -151,6 +156,22 @@ class Staff extends Model
         if ($position->exists) $this->position_id = $position->getId();
     }
 
+    public function setLoginIfNotEmpty($login)
+    {
+        if ($login != "")
+            $this->getUser()
+                ->setLogin($login)
+                ->save();
+    }
+
+    public function setPasswordIfNotEmpty($password)
+    {
+        if ($password != "")
+            $this->getUser()
+                ->setPassword($password)
+                ->save();
+    }
+
     public function createJournalOnMonth(Carbon $data)
     {
         for ($i = 1; $i <= $data->lastOfMonth()->day; $i++) {
@@ -168,10 +189,17 @@ class Staff extends Model
         return Staff::where("id", $id)->first() ?? new Staff();
     }
 
+    public static function getByUserId($id): Staff
+    {
+        return Staff::where("user_id", $id)->first() ?? new Staff();
+    }
+
     //</editor-fold>
 
-    public static function make($fio, $phone, $address, $date_birth, $date_employment, $date_dismissal, $reason_dismissal, Group $group, Position $position)
+    public static function make($fio, $phone, $address, $date_birth, $date_employment, $date_dismissal, $reason_dismissal, Group $group, Position $position, $login, $password)
     {
+        $user = User::make($login, $password);
+        $user->save();
         return Staff::factory([
             "fio" => $fio,
             "phone" => $phone,
@@ -182,6 +210,7 @@ class Staff extends Model
             "reason_dismissal" => $reason_dismissal,
             "group_id" => $group->getId(),
             "position_id" => $position->getId(),
+            "user_id" => $user->getId()
         ])->make();
     }
 }

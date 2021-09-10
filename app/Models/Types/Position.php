@@ -23,6 +23,11 @@ class Position extends Model
     {
         return $this->name;
     }
+
+    public function getEName()
+    {
+        return $this->e_name;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Set Attribute">

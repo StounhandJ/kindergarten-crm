@@ -17,6 +17,8 @@ class StaffUpdateRequest extends StaffRequest
     {
         return [
             "fio"=> "string|max:200",
+            "login"=> "string|unique:users,login",
+            "password" => "string",
             "address"=> "string",
             "phone"=> "string",
             "date_birth"=> "date",

@@ -14,8 +14,29 @@ class PositionSeeder extends Seeder
      */
     public function run()
     {
-        $positions = ["Директор", "Старший воспитатель", "Воспитатель", "Повар"];
-        foreach ($positions as $position_name)
-            if (Position::where("name", $position_name)->count()==0) Position::factory(["name"=>$position_name])->create();
+        $positions = [
+            [
+                "name"=>"Директор",
+                "e_name"=>"director"
+            ],
+            [
+                "name"=>"Старший воспитатель",
+                "e_name"=>"senior_tutor"
+            ],
+            [
+                "name"=>"Воспитатель",
+                "e_name"=>"tutor"
+            ],
+            [
+                "name"=>"Повар",
+                "e_name"=>"cook"
+            ]
+        ];
+        foreach ($positions as $position)
+            if (Position::query()->where("name", $position["name"])->where("e_name", $position["e_name"])->count()==0)
+                Position::factory([
+                    "name"=>$position["name"],
+                    "e_name"=>$position["e_name"]
+                ])->create();
     }
 }
