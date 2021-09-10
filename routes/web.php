@@ -3,6 +3,8 @@
 use App\Http\Controllers\Action\BranchActionController;
 use App\Http\Controllers\Action\ChildrenActionController;
 use App\Http\Controllers\Action\CostActionController;
+use App\Http\Controllers\Action\GeneralChildActionController;
+use App\Http\Controllers\Action\GeneralStaffActionController;
 use App\Http\Controllers\Action\GroupActionController;
 use App\Http\Controllers\Action\InstitutionActionController;
 use App\Http\Controllers\Action\JournalChildrenActionController;
@@ -45,6 +47,12 @@ Route::prefix("action")->name("action.")->group(function () {
         ->only("index", "update");
 
     Route::apiResource("journal-staff", JournalStaffActionController::class)
+        ->only("index", "update");
+
+    Route::apiResource("general-journal-child", GeneralChildActionController::class)
+        ->only("index", "update");
+
+    Route::apiResource("general-journal-staff", GeneralStaffActionController::class)
         ->only("index", "update");
 });
 
