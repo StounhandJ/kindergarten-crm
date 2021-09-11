@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Cost\ChildCost;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,10 @@ class GeneralJournalChild extends Model
 
     protected $hidden = ['child_id'];
 
-    protected $appends = ['child', 'days', 'paid', 'need_paid', 'debt', 'attendance', 'sick_days', 'vacation_days', 'truancy_days'];
+    protected $appends = [
+        'child', 'days', 'paid', 'need_paid', 'debt',
+        'attendance', 'sick_days', 'vacation_days',
+        'truancy_days', 'cost_day', 'transferred'];
 
     public function getChildAttribute()
     {
@@ -30,15 +34,15 @@ class GeneralJournalChild extends Model
 
     public function getPaidAttribute()
     {
-        return 0;
+        return ChildCost::getByChildAndMonth($this->getChild(), $this->getMonth())->getAmount();
     }
 
     public function getNeedPaidAttribute()
     {
-        return 0;
+        return $this->getChild()->getRate() - $this->getTransferredAttribute() - $this->getReductionFees() + $this->getIncreaseFees();
     }
 
-    public function getdebtAttribute()
+    public function getDebtAttribute()
     {
         return $this->getNeedPaidAttribute() - $this->getPaidAttribute();
     }
@@ -67,6 +71,16 @@ class GeneralJournalChild extends Model
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
         return $journals->filter(fn($journal)=>$journal->getVisit()->IsTruancy())->count();
+    }
+
+    public function getCostDayAttribute()
+    {
+        return $this->getChild()->getRate() / $this->getDaysAttribute();
+    }
+
+    public function getTransferredAttribute()
+    {
+        return $this->getCostDayAttribute() * ($this->getDaysAttribute()-$this->getAttendanceAttribute()) * 0.3;
     }
 
     //</editor-fold>
