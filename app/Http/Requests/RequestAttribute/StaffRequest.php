@@ -53,6 +53,11 @@ class StaffRequest extends FormRequest
         return $this->input("reason_dismissal");
     }
 
+    public function getSalary()
+    {
+        return $this->input("salary");
+    }
+
     public function getGroup(): Group
     {
         return Group::getById($this->input("group_id"));

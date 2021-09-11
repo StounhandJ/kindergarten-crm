@@ -19,7 +19,7 @@ class StaffActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Staff::paginate($request->getLimit());
+        $paginate = Staff::query()->paginate($request->getLimit());
         return response()->json(["message" => "success",
             "records" => $paginate->items(),
             "total" => $paginate->total()], 200);
@@ -35,7 +35,7 @@ class StaffActionController extends Controller
     {
         $group = Staff::make($request->getFio(), $request->getPhone(), $request->getAddress(),
             $request->getDateBirth(), $request->getDateEmployment(), $request->getDateDismissal(),
-            $request->getReasonDismissal(), $request->getGroup(), $request->getPosition(),
+            $request->getReasonDismissal(), $request->getSalary(), $request->getGroup(), $request->getPosition(),
             $request->getLogin(), $request->getPassword());
         $group->save();
         return response()->json(["message"=>"success", "records"=>$group], 200);
@@ -68,6 +68,7 @@ class StaffActionController extends Controller
         $staff->setDateEmploymentIfNotEmpty($request->getDateEmployment());
         $staff->setDateDismissalIfNotEmpty($request->getDateDismissal());
         $staff->setReasonDismissalIfNotEmpty($request->getReasonDismissal());
+        $staff->setSalaryIfNotEmpty($request->getSalary());
         $staff->setGroup($request->getGroup());
         $staff->setPositionIfNotEmpty($request->getPosition());
         $staff->setLoginIfNotEmpty($request->getLogin());

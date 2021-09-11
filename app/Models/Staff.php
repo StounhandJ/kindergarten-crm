@@ -93,6 +93,11 @@ class Staff extends Model
         return $this->reason_dismissal;
     }
 
+    public function getSalary()
+    {
+        return $this->salary;
+    }
+
     public function getGroup()
     {
         return $this->belongsTo(Group::class, "group_id")->getResults() ?? new Group();
@@ -143,6 +148,11 @@ class Staff extends Model
     public function setReasonDismissalIfNotEmpty($reason_dismissal)
     {
         if ($reason_dismissal != "") $this->reason_dismissal = $reason_dismissal;
+    }
+
+    public function setSalaryIfNotEmpty($salary)
+    {
+        if ($salary != "") $this->salary = $salary;
     }
 
     public function setGroup(Group $group)
@@ -196,7 +206,7 @@ class Staff extends Model
 
     //</editor-fold>
 
-    public static function make($fio, $phone, $address, $date_birth, $date_employment, $date_dismissal, $reason_dismissal, Group $group, Position $position, $login, $password)
+    public static function make($fio, $phone, $address, $date_birth, $date_employment, $date_dismissal, $reason_dismissal, $salary ,Group $group, Position $position, $login, $password)
     {
         $user = User::make($login, $password);
         $user->save();
@@ -208,6 +218,7 @@ class Staff extends Model
             "date_employment" => $date_employment,
             "date_dismissal" => $date_dismissal,
             "reason_dismissal" => $reason_dismissal,
+            "salary" => $salary,
             "group_id" => $group->getId(),
             "position_id" => $position->getId(),
             "user_id" => $user->getId()

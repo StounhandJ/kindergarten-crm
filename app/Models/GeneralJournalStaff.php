@@ -16,7 +16,10 @@ class GeneralJournalStaff extends Model
 
     protected $hidden = ['staff_id'];
 
-    protected $appends = ['staff', 'days', 'attendance', 'sick_days', 'vacation_days', 'truancy_days', 'salary'];
+    protected $appends = [
+        'staff', 'days', 'attendance', 'sick_days', 'vacation_days',
+        'truancy_days', 'salary', 'cost_day', "payment_list"
+        ];
 
     public function getStaffAttribute()
     {
@@ -56,7 +59,17 @@ class GeneralJournalStaff extends Model
 
     public function getSalaryAttribute()
     {
-        return 0;
+        return $this->getCostDayAttribute() * ($this->getDaysAttribute()-$this->getAttendanceAttribute()) - $this->getReductionSalary() + $this->getIncreaseSalary();
+    }
+
+    public function getCostDayAttribute()
+    {
+        return $this->getStaff()->getSalary() / $this->getDaysAttribute();
+    }
+
+    public function getPaymentListAttribute()
+    {
+        return "#";
     }
 
     //</editor-fold>

@@ -25,6 +25,7 @@ class StaffUpdateRequest extends StaffRequest
             "date_employment"=> "date",
             "date_dismissal"=> "date",
             "reason_dismissal"=> "date",
+            "salary" => "integer|min:0",
             "group_id"=> "bail|nullable|integer|exists:".Group::class.",id",
             "position_id"=> "bail|integer|exists:".Position::class.",id"
         ];
