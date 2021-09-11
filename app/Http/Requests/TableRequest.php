@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class TableRequest extends FormRequest
 {
@@ -46,5 +47,10 @@ class TableRequest extends FormRequest
         if ($this->input("date") != null)
             return Carbon::make($this->input("date"));
         return Carbon::now();
+    }
+
+    public function getIncome(): bool
+    {
+        return !($this->query("income") == "0");
     }
 }

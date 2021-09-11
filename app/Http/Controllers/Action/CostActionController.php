@@ -19,7 +19,7 @@ class CostActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Cost::paginate($request->getLimit());
+        $paginate = Cost::getBuilderByIncome($request->getIncome())->paginate($request->getLimit());
         return response()->json(["message" => "success",
             "records" => $paginate->items(),
             "total" => $paginate->total()], 200);
@@ -35,11 +35,11 @@ class CostActionController extends Controller
     {
         if ($request->getAmount() > 0)
         {
-            $cost = Cost::profit($request->getAmount(), $request->getChild(), $request->getStaff());
+            $cost = Cost::profit($request->getAmount(), $request->getComment(), $request->getChild(), $request->getStaff());
         }
         else
         {
-            $cost = Cost::losses($request->getAmount(), $request->getChild(), $request->getStaff());
+            $cost = Cost::losses($request->getAmount(), $request->getComment(), $request->getChild(), $request->getStaff());
         }
 
         return response()->json(["message"=>"success", "records"=>$cost], 200);

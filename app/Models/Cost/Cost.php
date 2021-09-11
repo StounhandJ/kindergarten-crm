@@ -4,6 +4,8 @@ namespace App\Models\Cost;
 
 use App\Models\Child;
 use App\Models\Staff;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +14,26 @@ class Cost extends Model
     use HasFactory;
 
     //<editor-fold desc="Setting">
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+    protected $appends = ['date', 'staff', 'child'];
+
+    public function getDateAttribute()
+    {
+        return $this->getDate()->format("Y-m-d");
+    }
+
+    public function getStaffAttribute()
+    {
+        return $this->staff();
+    }
+
+    public function getChildAttribute()
+    {
+        return $this->children();
+    }
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
@@ -30,19 +52,24 @@ class Cost extends Model
         return $this->is_profit;
     }
 
-    public function getDate()
+    public function getDate(): Carbon
     {
-        return $this->created_at;
+        return Carbon::make($this->created_at);
     }
 
-    public function children(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function getComment()
     {
-        return $this->belongsToMany(Child::class)->using(ChildCost::class);
+        return $this->comment;
     }
 
-    public function staff(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function children()
     {
-        return $this->belongsToMany(Staff::class)->using(CostStaff::class);
+        return $this->belongsToMany(Child::class)->using(ChildCost::class)->getResults()->first();
+    }
+
+    public function staff()
+    {
+        return $this->belongsToMany(Staff::class)->using(CostStaff::class)->getResults()->first();
     }
     //</editor-fold>
 
@@ -65,21 +92,28 @@ class Cost extends Model
         return Cost::where("id", $id)->first() ?? new Cost();
     }
 
+    public static function getBuilderByIncome(bool $income): Builder
+    {
+        return Cost::query()->where("is_profit", "=", $income);
+    }
+
     //</editor-fold>
 
-    public static function profit($amount, Child $child, Staff $staff): Cost
+    public static function profit($amount, $comment, Child $child, Staff $staff): Cost
     {
         return Cost::factory([
-            "amount"=>$amount
+            "amount"=>$amount,
+            "comment"=>$comment,
         ])->profit()
             ->create()
             ->attachChildOrStaff($child, $staff);
     }
 
-    public static function losses($amount, Child $child, Staff $staff): Cost
+    public static function losses($amount, $comment, Child $child, Staff $staff): Cost
     {
         return Cost::factory([
-            "amount"=>$amount
+            "amount"=>$amount,
+            "comment"=>$comment,
         ])->losses()
             ->create()
             ->attachChildOrStaff($child, $staff);
