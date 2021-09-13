@@ -1,25 +1,22 @@
 version: "3.7"
 
+volumes:
+    db_pg:
+        name: db_pg
 
 services:
   site:
     build: .
     restart: always
     environment:
-      - APP_URL=localhost
-      - APP_DEBUG=True
+      - APP_URL=https://${DOMAIN}
+      - APP_DEBUG=False
       - DB_HOST=pg_db
       - DB_USERNAME=root
-      - DB_PASSWORD=root
-      - DB_DATABASE=veltrix
+      - DB_PASSWORD=kindegraten_root_pg
+      - DB_DATABASE=kindegraten
     volumes:
-      - ./public:/var/www/public
-      - ./app:/var/www/app
-      - ./config:/var/www/config
-      - ./routes:/var/www/routes
-      - ./database:/var/www/database
       - ./storage:/var/www/storage
-      - ./resources:/var/www/resources
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     depends_on:
       - pg_db
@@ -30,28 +27,36 @@ services:
     restart: always
     environment:
       - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=veltrix
+      - POSTGRES_PASSWORD=kindegraten_root_pg
+      - POSTGRES_DB=kindegraten
     volumes:
-      - ./db_pg:/var/lib/postgresql/data/
+      - db_pg:/var/lib/postgresql/data/
     container_name: pg_db_kindergarten
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - "8001:8080"
-    container_name: adminer_kindergarten
 
   nginx:
     image: nginx:alpine
     container_name: nginx_kindergarten
+    command: ["/bin/sh", "-c", "set -eu && envsubst '$$DOMAIN, $$BACK_END' < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/app.conf && nginx -g 'daemon off;' && while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"]
     restart: unless-stopped
+    environment:
+        DOMAIN: ${DOMAIN}
+        BACK_END: site
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
     volumes:
       - ./public:/var/www/public
       - ./storage:/var/www/storage
-      - ./nginx.conf:/etc/nginx/conf.d/app.conf
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/nginx/nginx.conf.template:/etc/nginx/conf.d/nginx.conf.template
     depends_on:
       - site
+
+  certbot:
+      image: certbot/dns-cloudflare
+      restart: unless-stopped
+      entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --dns-cloudflare-credentials /cloudflare.ini; sleep 3d & wait $${!}; done;'"
+      volumes:
+          - ./data/certbot/cloudflare.ini:/opt/cerbot/cloudflare.ini
+          - ./data/certbot/conf:/etc/letsencrypt
+          - ./data/certbot/www:/var/www/certbot
