@@ -48,7 +48,7 @@ services:
       - ./public:/var/www/public
       - ./storage:/var/www/storage
       - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/nginx/nginx.conf.template:/etc/nginx/conf.d/nginx.conf.template
+      - ./data/nginx:/etc/nginx/conf.d
     depends_on:
       - site
 
