@@ -16,7 +16,7 @@ services:
       - DB_PASSWORD=kindegraten_root_pg
       - DB_DATABASE=kindegraten
     volumes:
-      - ./storage:/var/www/storage
+      - ./storage/app:/var/www/storage/app
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     depends_on:
       - pg_db
@@ -46,7 +46,7 @@ services:
       - "443:443"
     volumes:
       - ./public:/var/www/public
-      - ./storage:/var/www/storage
+      - ./storage/app:/var/www/storage/app
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/nginx:/etc/nginx/conf.d
     depends_on:

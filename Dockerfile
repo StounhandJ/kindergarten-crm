@@ -22,13 +22,10 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 
 COPY --chown=www-data:www-data . /var/www
 RUN touch /var/www/storage/logs/laravel.log
-RUN chown www-data:www-data /var/www/storage/logs/laravel.log
 COPY --from=composer /app/vendor /var/www/vendor
 COPY scripts/init.sh ./init.sh
 RUN sed -i -e 's/\r$//' init.sh
 RUN chmod +x ./init.sh
-RUN chmod 777 -R storage/
-RUN chmod 777 -R bootstrap/cache/
 RUN php artisan key:generate
 
 EXPOSE 9000
