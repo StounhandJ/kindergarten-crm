@@ -299,27 +299,22 @@ function current_table(table) {
                     title: "Филиал",
                     editor: false,
                 },
-                {field: "days", title: "Кол-во дней"},
-                {field: "paid", title: "Оплачено за текущий месяц"},
-                {field: "need_paid", title: "Необходимо оплатить"},
-                {field: "debt", title: "Долг"},
-                {field: "attendance", title: "Посещаемость"},
-                {field: "sick_days", title: "Больничных"},
-                {field: "vacation_days", title: "Отпуск"},
-                {field: "truancy_days", title: "Пропущено"},
-                {
-                    renderer: (value, record) => {
-                        return record.child.rate
-                    }, title: "Тариф"
-                },
-                {field: "-", title: "Стоимость дня"},
-                {field: "-", title: "Переносится на сл. месяц"},
+                {field: "cost_day", title: "Стоимость дня"},
+                {renderer: (value, record) => {return record.child.rate}, title: "Тариф"},
                 {field: "reduction_fees", title: "Уменьшить плату", editor: true},
                 {field: "increase_fees", title: "Увеличить плату", editor: true},
+                {field: "need_paid", title: "Необходимо оплатить"},
+                {field: "paid", title: "Оплачено за текущий месяц"},
+                {field: "debt", title: "Долг"},
+                {field: "transferred", title: "Переносится на сл. месяц"},
                 {field: "comment", title: "Комментарий", editor: true},
-                {field: "-", title: "Оплата за след. месяц"},
                 {field: "notification", type: "checkbox", title: "Уведомление отправлено"},
             ];
+            column["detailTemplate"] = '<div><b>Кол-во дней:</b> {days}' +
+                '<br><b>Посещаемость:</b> {attendance}' +
+                '<br><b>Больничных:</b> {sick_days}' +
+                '<br><b>Отпуск:</b> {vacation_days}' +
+                '<br><b>Пропущено:</b> {truancy_days}</div>';
             break;
         case "cost":
             column["columns"] = [

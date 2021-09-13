@@ -92,7 +92,7 @@
                                         <div class="form-group">
                                             <label>Комментарий</label>
                                             <div>
-                                                <input name="comment" type="text" class="form-control" required placeholder="Введите комментарий">
+                                                <input name="comment" type="text" class="form-control" placeholder="Введите комментарий">
                                             </div>
                                         </div>
 

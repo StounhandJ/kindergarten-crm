@@ -34,12 +34,17 @@ class GeneralJournalChild extends Model
 
     public function getPaidAttribute()
     {
-        return ChildCost::getByChildAndMonth($this->getChild(), $this->getMonth())->getAmount();
+        $paid = 0;
+        $costs = ChildCost::getByChildAndMonthProfit($this->getChild(), $this->getMonth());
+        foreach ($costs as $cost)
+            $paid += $cost->getAmount();
+        return $paid;
     }
 
     public function getNeedPaidAttribute()
     {
-        return $this->getChild()->getRate() - $this->getTransferredAttribute() - $this->getReductionFees() + $this->getIncreaseFees();
+        return ($this->getChild()->getRate() - $this->getTransferredAttribute()
+                - $this->getReductionFees() + $this->getIncreaseFees()) - $this->getPaidAttribute();
     }
 
     public function getDebtAttribute()
@@ -50,27 +55,27 @@ class GeneralJournalChild extends Model
     public function getAttendanceAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        $whole_days = $journals->filter(fn($journal)=>$journal->getVisit()->IsWholeDat())->count();
-        $half_days = $journals->filter(fn($journal)=>$journal->getVisit()->IsHalfDat())->count()/2;
-        return $whole_days+$half_days;
+        $whole_days = $journals->filter(fn($journal) => $journal->getVisit()->IsWholeDat())->count();
+        $half_days = $journals->filter(fn($journal) => $journal->getVisit()->IsHalfDat())->count() / 2;
+        return $whole_days + $half_days;
     }
 
     public function getSickDaysAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        return $journals->filter(fn($journal)=>$journal->getVisit()->IsSick())->count();
+        return $journals->filter(fn($journal) => $journal->getVisit()->IsSick())->count();
     }
 
     public function getVacationDaysAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        return $journals->filter(fn($journal)=>$journal->getVisit()->IsVacation())->count();
+        return $journals->filter(fn($journal) => $journal->getVisit()->IsVacation())->count();
     }
 
     public function getTruancyDaysAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        return $journals->filter(fn($journal)=>$journal->getVisit()->IsTruancy())->count();
+        return $journals->filter(fn($journal) => $journal->getVisit()->IsTruancy())->count();
     }
 
     public function getCostDayAttribute()
@@ -80,7 +85,7 @@ class GeneralJournalChild extends Model
 
     public function getTransferredAttribute()
     {
-        return $this->getCostDayAttribute() * ($this->getDaysAttribute()-$this->getAttendanceAttribute()) * 0.3;
+        return $this->getCostDayAttribute() * ($this->getDaysAttribute() - $this->getAttendanceAttribute()) * 0.3;
     }
 
     //</editor-fold>
@@ -130,17 +135,17 @@ class GeneralJournalChild extends Model
     //<editor-fold desc="Set Attribute">
     public function setIsPaidIfNotEmpty($is_paid)
     {
-        if ($is_paid!="") $this->is_paid = $is_paid;
+        if ($is_paid != "") $this->is_paid = $is_paid;
     }
 
     public function setReductionFeesIfNotEmpty($reduction_fees)
     {
-        if ($reduction_fees!="") $this->reduction_fees = $reduction_fees;
+        if ($reduction_fees != "") $this->reduction_fees = $reduction_fees;
     }
 
     public function setIncreaseFeesIfNotEmpty($increase_fees)
     {
-        if ($increase_fees!="") $this->increase_fees = $increase_fees;
+        if ($increase_fees != "") $this->increase_fees = $increase_fees;
     }
 
     public function setComment($comment)
@@ -150,21 +155,21 @@ class GeneralJournalChild extends Model
 
     public function setNotificationIfNotEmpty($notification)
     {
-        if ($notification!="") $this->notification = $notification;
+        if ($notification != "") $this->notification = $notification;
     }
 
     //</editor-fold>
 
     //<editor-fold desc="Search GeneralJournalChild">
-    public static function getById($id) : GeneralJournalChild
+    public static function getById($id): GeneralJournalChild
     {
         return GeneralJournalChild::where("id", $id)->first() ?? new GeneralJournalChild();
     }
 
-    public static function getByChildAndMonth(Child $child, Carbon $month) : GeneralJournalChild
+    public static function getByChildAndMonth(Child $child, Carbon $month): GeneralJournalChild
     {
         return GeneralJournalChild::whereDate("month", ">=", $month->firstOfMonth())
-            ->whereDate("month", "<=", $month->lastOfMonth())->where("child_id", $child->getId())->first() ?? new GeneralJournalChild();
+                ->whereDate("month", "<=", $month->lastOfMonth())->where("child_id", $child->getId())->first() ?? new GeneralJournalChild();
     }
 
     public static function getBuilderByMonth(Carbon $month): Builder
@@ -172,13 +177,14 @@ class GeneralJournalChild extends Model
         return GeneralJournalChild::query()->whereDate("month", ">=", $month->firstOfMonth())
             ->whereDate("month", "<=", $month->lastOfMonth());
     }
+
     //</editor-fold>
 
     public static function make(Child $child, Carbon $month)
     {
         return GeneralJournalChild::factory([
-            "child_id"=>$child->getId(),
-            "month"=>$month
-        ] )->make();
+            "child_id" => $child->getId(),
+            "month" => $month
+        ])->make();
     }
 }
