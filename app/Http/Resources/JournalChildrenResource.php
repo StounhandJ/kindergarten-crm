@@ -23,7 +23,7 @@ class JournalChildrenResource extends JsonResource
         $this->withoutWrapping();
         return [
             "name_month" => $month->monthName,
-            "days" => $month->lastOfMonth()->day,
+            "days" => $month->weekDays(),
             "children" => $this->resource->map(function ($item) use ($month) {
                 return [
                     "fio" => $item->getFio(),
@@ -35,14 +35,11 @@ class JournalChildrenResource extends JsonResource
 
     public function days(Child $child, Carbon $month): array
     {
-        $days = $month->lastOfMonth()->day;
         $child->createJournalOnMonth($month);
         $journals = $child->getJournalOnMonth($month);
         $daysArray = [];
-        for ($i = 0; $i < $days; $i++)
-            $daysArray[] = ["id" => -1, "visit" => 0];
         foreach ($journals as $journal) {
-            $daysArray[$journal->getCreateDate()->day - 1] = ["id" => $journal->getId(), "visit" => $journal->getVisitId()];
+            $daysArray[] = ["id" => $journal->getId(), "visit" => $journal->getVisitId()];
         }
         return $daysArray;
     }

@@ -25,5 +25,26 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setLocale("ru");
+        Carbon::macro('weekDays', function () {
+            $month = $this->month;
+            $days = [];
+            $this->firstOfMonth();
+            while ($month==$this->month)
+            {
+                if ($this->isWeekday())
+                    $days[] = $this->day;
+                $this->addDay();
+            }
+            $this->setMonth($month);
+            return $days;
+        });
+
+        Carbon::macro('countWeekDays', function () {
+            return count($this->weekDays());
+        });
+
+        Carbon::macro('isWeek', function () {
+            return $this->isWeekday();
+        });
     }
 }

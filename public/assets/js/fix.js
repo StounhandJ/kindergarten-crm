@@ -42,9 +42,7 @@ $(document).ready(function () {
             success: function (month) {
                 tr_month = $(`<tr></tr>`);
                 tr_month.append(`<th scope="col">${month.name_month}</th>`);
-                for (let month_day = 1; month_day <= month.days; month_day++) {
-                    tr_month.append(`<th scope="col">${month_day}</th>`);
-                }
+                month.days.forEach((month_day)=>tr_month.append(`<th scope="col">${month_day}</th>`))
                 $("#j_children_table_head").append(tr_month);
 
                 month.children.forEach((child) => {
@@ -96,9 +94,7 @@ $(document).ready(function () {
             success: function (month) {
                 tr_month = $(`<tr></tr>`);
                 tr_month.append(`<th scope="col">${month.name_month}</th>`);
-                for (let month_day = 1; month_day <= month.days; month_day++) {
-                    tr_month.append(`<th scope="col">${month_day}</th>`);
-                }
+                month.days.forEach((month_day)=>tr_month.append(`<th scope="col">${month_day}</th>`))
                 $("#j_staffs_table_head").append(tr_month);
 
                 month.staff.forEach((child) => {

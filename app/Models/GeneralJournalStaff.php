@@ -29,7 +29,7 @@ class GeneralJournalStaff extends Model
 
     public function getDaysAttribute()
     {
-        return $this->getMonth()->lastOfMonth()->day;
+        return $this->getMonth()->countWeekDays();
     }
 
     public function getAttendanceAttribute()

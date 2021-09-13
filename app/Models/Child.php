@@ -215,7 +215,7 @@ class Child extends Model
     {
         for ($i = 1; $i <= $data->lastOfMonth()->day; $i++) {
             $journalDateDay = $data->setDay($i);
-            if ($this->getJournal()->whereDate("create_date", "=", $journalDateDay)->count() == 0) {
+            if ($data->isWeek() and $this->getJournal()->whereDate("create_date", "=", $journalDateDay)->count() == 0) {
                 JournalChild::make($this, Visit::getById(0), $journalDateDay)->save();
             }
         }
