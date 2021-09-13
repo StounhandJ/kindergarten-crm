@@ -29,7 +29,7 @@ function current_table(table) {
         dataSource: "/action/" + tapath,
         uiLibrary: "bootstrap4",
         primaryKey: "id",
-        inlineEditing: { mode: "command" },
+        inlineEditing: {mode: "command"},
         pager: {
             limit: 5,
             leftControls: [
@@ -72,7 +72,7 @@ function current_table(table) {
     switch (tapath.split("?")[0]) {
         case "group":
             column["columns"] = [
-                { field: "id", hidden: true },
+                {field: "id", hidden: true},
                 {
                     field: "name",
                     title: "Наименование группы",
@@ -98,8 +98,8 @@ function current_table(table) {
             break;
         case "children":
             column["columns"] = [
-                { field: "id", hidden: true },
-                { field: "fio", title: "ФИО", editor: true },
+                {field: "id", hidden: true},
+                {field: "fio", title: "ФИО", editor: true},
                 {
                     field: "branch_name",
                     title: "Филиал",
@@ -142,20 +142,20 @@ function current_table(table) {
                     width: 200,
                     editor: true,
                 },
-                { field: "fio_mother", title: "ФИО матери", editor: true },
+                {field: "fio_mother", title: "ФИО матери", editor: true},
                 {
                     field: "phone_mother",
                     title: "Телефон матери",
                     editor: true,
                 },
-                { field: "fio_father", title: "ФИО отца", editor: true },
+                {field: "fio_father", title: "ФИО отца", editor: true},
                 {
                     field: "phone_father",
                     title: "Телефон отца",
                     editor: true,
                 },
-                { field: "comment", title: "Комментарий", editor: true },
-                { field: "rate", title: "Тариф", editor: true },
+                {field: "comment", title: "Комментарий", editor: true},
+                {field: "rate", title: "Тариф", editor: true},
                 {
                     field: "group_name",
                     title: "Группа",
@@ -183,8 +183,8 @@ function current_table(table) {
             break;
         case "staff":
             column["columns"] = [
-                { field: "id", hidden: true },
-                { field: "fio", title: "ФИО", editor: true },
+                {field: "id", hidden: true},
+                {field: "fio", title: "ФИО", editor: true},
                 {
                     field: "branch_name",
                     title: "Филиал",
@@ -196,7 +196,8 @@ function current_table(table) {
                         textField: "name",
                     },
                 },
-                { field: "phone", title: "Телефон", editor: true },
+                {field: "salary", title: "Зарплата", editor: true},
+                {field: "phone", title: "Телефон", editor: true},
                 {
                     field: "position_name",
                     title: "Должность",
@@ -235,9 +236,9 @@ function current_table(table) {
                         textField: "name",
                     },
                 },
-                { field: "-", title: "Отпуск всего", editor: true },
-                { field: "-", title: "Отгулено", editor: true },
-                { field: "-", title: "Остаток на сегодня", editor: true },
+                {field: "-", title: "Отпуск всего", editor: true},
+                {field: "-", title: "Отгулено", editor: true},
+                {field: "-", title: "Остаток на сегодня", editor: true},
                 {
                     field: "date_dismissal",
                     title: "Дата увольнения",
@@ -252,70 +253,90 @@ function current_table(table) {
             break;
         case "general-journal-staff":
             column["columns"] = [
-                { field: "id", hidden: true },
+                {field: "id", hidden: true},
                 {
-                    renderer: (value, record) => { return record.staff.fio },
+                    renderer: (value, record) => {
+                        return record.staff.fio
+                    },
                     title: "ФИО",
                 },
                 {
-                    renderer: (value, record) => { return record.staff.branch_name },
+                    renderer: (value, record) => {
+                        return record.staff.branch_name
+                    },
                     title: "Филиал",
                 },
-                { field: "days", title: "Кол-во дней" },
-                { field: "attendance", title: "Посещаемость" },
-                { field: "sick_days", title: "Больничных" },
-                { field: "vacation_days", title: "Отпуск" },
-                { field: "truancy_days", title: "Пропущено" },
-                { field: "trafic", title: "Трафик" },
-                { field: "-", title: "Стоимость дня" },
-                { field: "salary", title: "З/П" },
-                { field: "reduction_salary", title: "Уменьшить З/П", editor: true },
-                { field: "increase_salary", title: "Увеличить З/П", editor: true },
-                { field: "comment", title: "Комментарий", editor: true },
-                { field: "advance_payment", title: "Аванс", editor: true },
-                { field: "-", title: "К выплате" },
-                { field: "-", title: "З/П выплачена" },
-                { field: "-", title: "Расчётный лист" },
+                {field: "cost_day", title: "Стоимость дня"},
+                {renderer: (value, record) => {return record.staff.salary}, title: "З/П"},
+                {field: "reduction_salary", title: "Уменьшить З/П", editor: true},
+                {field: "increase_salary", title: "Увеличить З/П", editor: true},
+                {field: "salary", title: "З/П К выплате"},
+                {field: "paid", title: "З/П выплачена"},
+                {field: "advance_payment", title: "Аванс", editor: true},
+                {field: "comment", title: "Комментарий", editor: true},
+                {field: "payment_list", renderer: (value) => {return `<a href="${value}">Скачать</a>`}, title: "Расчётный лист"},
             ];
+            column["detailTemplate"] = '<div><b>Кол-во дней:</b> {days}' +
+                '<br><b>Посещаемость:</b> {attendance}' +
+                '<br><b>Больничных:</b> {sick_days}' +
+                '<br><b>Отпуск:</b> {vacation_days}' +
+                '<br><b>Пропущено:</b> {truancy_days}</div>';
             break;
         case "general-journal-child":
             column["columns"] = [
-                { field: "id", hidden: true },
+                {field: "id", hidden: true},
                 {
-                    renderer: (value, record) => { return record.child.fio },
+                    renderer: (value, record) => {
+                        return record.child.fio
+                    },
                     title: "ФИО",
                     editor: false,
                 },
                 {
-                    renderer: (value, record) => { return record.child.branch_name },
+                    renderer: (value, record) => {
+                        return record.child.branch_name
+                    },
                     title: "Филиал",
                     editor: false,
                 },
-                { field: "days", title: "Кол-во дней" },
-                { field: "paid", title: "Оплачено за текущий месяц" },
-                { field: "need_paid", title: "Необходимо оплатить" },
-                { field: "debt", title: "Долг" },
-                { field: "attendance", title: "Посещаемость" },
-                { field: "sick_days", title: "Больничных" },
-                { field: "vacation_days", title: "Отпуск" },
-                { field: "truancy_days", title: "Пропущено" },
-                { renderer: (value, record) => { return record.child.rate }, title: "Тариф" },
-                { field: "-", title: "Стоимость дня" },
-                { field: "-", title: "Переносится на сл. месяц" },
-                { field: "reduction_fees", title: "Уменьшить плату", editor: true },
-                { field: "increase_fees", title: "Увеличить плату", editor: true },
-                { field: "comment", title: "Комментарий", editor: true },
-                { field: "-", title: "Оплата за след. месяц" },
-                { field: "notification", type: "checkbox" ,title: "Уведомление отправлено" },
+                {field: "days", title: "Кол-во дней"},
+                {field: "paid", title: "Оплачено за текущий месяц"},
+                {field: "need_paid", title: "Необходимо оплатить"},
+                {field: "debt", title: "Долг"},
+                {field: "attendance", title: "Посещаемость"},
+                {field: "sick_days", title: "Больничных"},
+                {field: "vacation_days", title: "Отпуск"},
+                {field: "truancy_days", title: "Пропущено"},
+                {
+                    renderer: (value, record) => {
+                        return record.child.rate
+                    }, title: "Тариф"
+                },
+                {field: "-", title: "Стоимость дня"},
+                {field: "-", title: "Переносится на сл. месяц"},
+                {field: "reduction_fees", title: "Уменьшить плату", editor: true},
+                {field: "increase_fees", title: "Увеличить плату", editor: true},
+                {field: "comment", title: "Комментарий", editor: true},
+                {field: "-", title: "Оплата за след. месяц"},
+                {field: "notification", type: "checkbox", title: "Уведомление отправлено"},
             ];
             break;
         case "cost":
             column["columns"] = [
-                { field: "id", hidden: true },
-                { field: "amount", title: "Сумма" },
-                { field: "date", title: "Дата" },
-                { field: "-", title: "Ребёнок" },
-                { field: "-", title: "Сотрудник" },
+                {field: "id", hidden: true},
+                {field: "amount", title: "Сумма"},
+                {field: "date", title: "Дата"},
+                {
+                    renderer: (value, record) => {
+                        return record.child != null ? record.child.fio : "Не указан";
+                    }, title: "Ребёнок"
+                },
+                {
+                    renderer: (value, record) => {
+                        return record.staff != null ? record.staff.fio : "Не указан";
+                    }, title: "Сотрудник"
+                },
+                {field: "comment", title: "Комментарий"},
             ];
             break;
     }
@@ -325,7 +346,7 @@ function current_table(table) {
         for (let [key, value] of entries(record)) {
             if (value != "") new_record[key] = value;
         }
-        var data = $.extend(true, { _method: "PUT" }, new_record);
+        var data = $.extend(true, {_method: "PUT"}, new_record);
         $.ajax({
             url: "/action/" + tapath + "/" + id,
             data: data,
@@ -338,7 +359,7 @@ function current_table(table) {
         if (confirm("Are you sure?")) {
             $.ajax({
                 url: "/action/" + tapath + "/" + id,
-                data: { _method: "DELETE" },
+                data: {_method: "DELETE"},
                 method: "POST",
             })
                 .done(function () {
@@ -475,7 +496,7 @@ $(document).ready(function () {
                 data[item.name] = item.value;
             });
         var tapath = $(this)[0].attributes.getNamedItem("tapath").value;
-        $.ajax({ url: "/action/" + tapath, data: data, method: "POST" })
+        $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
             .done(function () {
                 closeForm(true);
                 grid.reload();

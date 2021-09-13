@@ -12,9 +12,9 @@ class CostCreateRequest extends CostRequest
     {
         return [
             "amount" => "required|integer",
-            "comment" => "required|string",
-            "child_id" => "bail|integer|exists:".Child::class.",id",
-            "staff_id" => "bail|integer|exists:".Staff::class.",id",
+            "comment" => "nullable|string",
+            "child_id" => "bail|nullable|integer|exists:".Child::class.",id",
+            "staff_id" => "bail|nullable|integer|exists:".Staff::class.",id",
         ];
     }
 }

@@ -58,6 +58,13 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label>Зарплата</label>
+                                            <div>
+                                                <input name="salary" type="number" min="0" class="form-control" required placeholder="Введите сумму...">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label>Адрес</label>
                                             <div>
                                                 <input name="address" type="text" class="form-control" required placeholder="г. Москва, ул. Лесная, д. 28к2, кв. 19">

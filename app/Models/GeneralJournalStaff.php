@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Cost\CostStaff;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ class GeneralJournalStaff extends Model
 
     protected $appends = [
         'staff', 'days', 'attendance', 'sick_days', 'vacation_days',
-        'truancy_days', 'salary', 'cost_day', "payment_list"
+        'truancy_days', 'salary', 'cost_day', 'payment_list', 'paid'
         ];
 
     public function getStaffAttribute()
@@ -59,7 +60,8 @@ class GeneralJournalStaff extends Model
 
     public function getSalaryAttribute()
     {
-        return $this->getCostDayAttribute() * ($this->getDaysAttribute()-$this->getAttendanceAttribute()) - $this->getReductionSalary() + $this->getIncreaseSalary();
+        return ($this->getCostDayAttribute() * ($this->getDaysAttribute()-$this->getAttendanceAttribute())
+            - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute();
     }
 
     public function getCostDayAttribute()
@@ -70,6 +72,15 @@ class GeneralJournalStaff extends Model
     public function getPaymentListAttribute()
     {
         return "#";
+    }
+
+    public function getPaidAttribute()
+    {
+        $paid = 0;
+        $costs = CostStaff::getByStaffAndMonthLosses($this->getStaff(), $this->getMonth());
+        foreach ($costs as $cost)
+            $paid+=$cost->getAmount();
+        return $paid;
     }
 
     //</editor-fold>

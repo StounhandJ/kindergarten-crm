@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Cost extends Model
 {
@@ -27,12 +28,12 @@ class Cost extends Model
 
     public function getStaffAttribute()
     {
-        return $this->staff();
+        return $this->getStaff();
     }
 
     public function getChildAttribute()
     {
-        return $this->children();
+        return $this->getChildren();
     }
     //</editor-fold>
 
@@ -62,14 +63,24 @@ class Cost extends Model
         return $this->comment;
     }
 
-    public function children()
+    public function getChildren()
     {
-        return $this->belongsToMany(Child::class)->using(ChildCost::class)->getResults()->first();
+        return $this->children()->first();
     }
 
-    public function staff()
+    public function getStaff()
     {
-        return $this->belongsToMany(Staff::class)->using(CostStaff::class)->getResults()->first();
+        return $this->staff()->first();
+    }
+
+    public function children(): BelongsToMany
+    {
+        return $this->belongsToMany(Child::class)->using(ChildCost::class);
+    }
+
+    public function staff(): BelongsToMany
+    {
+        return $this->belongsToMany(Staff::class)->using(CostStaff::class);
     }
     //</editor-fold>
 
@@ -112,7 +123,7 @@ class Cost extends Model
     public static function losses($amount, $comment, Child $child, Staff $staff): Cost
     {
         return Cost::factory([
-            "amount"=>$amount,
+            "amount"=>abs($amount),
             "comment"=>$comment,
         ])->losses()
             ->create()
