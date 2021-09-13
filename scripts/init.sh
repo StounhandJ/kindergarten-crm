@@ -5,3 +5,8 @@ php artisan migrate
 php artisan db:seed
 php artisan storage:link
 chown www-data:www-data -R /var/www/storage/app
+if (($PRODUCT == True)); then
+    php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
+fi
