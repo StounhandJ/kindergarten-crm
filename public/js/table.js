@@ -405,9 +405,6 @@ $(document).ready(function () {
         url: "/action/branch",
         method: "GET",
         success: function (data) {
-            $('select[name="branch_id"]').prepend(
-                new Option("Не выбрано", 0, false, true)
-            );
             data.forEach((item) => {
                 $('select[name="branch_id"]').append(
                     new Option(item.name, item.id)
@@ -465,9 +462,6 @@ $(document).ready(function () {
         url: "/action/institution",
         method: "GET",
         success: function (data) {
-            $('select[name="institution_id"]').prepend(
-                new Option("Не выбрано", 0, false, true)
-            );
             data.forEach((item) => {
                 $('select[name="institution_id"]').append(
                     new Option(item.name, item.id)
@@ -506,4 +500,31 @@ $(document).ready(function () {
             });
         return false;
     });
+
+    function allHideIncome()
+    {
+        $("#income_child").hide();
+        $("#income_staff").hide();
+    }
+
+    $("#type_income").change(function ()
+    {
+        allHideIncome();
+        switch ($(this)[0].value)
+        {
+            case "0":
+                $("#income_bool").val(0);
+                $("#income_staff").show();
+                break;
+            case "1":
+                $("#income_bool").val(1);
+                $("#income_child").show();
+                break;
+        }
+    })
+
+    if ($("#type_income").length==1)
+    {
+        $("#type_income").val(0).change();
+    }
 });

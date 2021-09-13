@@ -11,7 +11,8 @@ class CostCreateRequest extends CostRequest
     public function rules()
     {
         return [
-            "amount" => "required|integer",
+            "amount" => "required|integer|min:0",
+            "income" => "required|boolean",
             "comment" => "nullable|string",
             "child_id" => "bail|nullable|integer|exists:".Child::class.",id",
             "staff_id" => "bail|nullable|integer|exists:".Staff::class.",id",

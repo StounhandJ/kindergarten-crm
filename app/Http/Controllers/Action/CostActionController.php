@@ -33,7 +33,7 @@ class CostActionController extends Controller
      */
     public function store(CostCreateRequest $request)
     {
-        if ($request->getAmount() > 0)
+        if ($request->getIncome())
         {
             $cost = Cost::profit($request->getAmount(), $request->getComment(), $request->getChild(), $request->getStaff());
         }

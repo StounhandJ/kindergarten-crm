@@ -51,14 +51,26 @@
                         </div>
                         <div class="modal-body">
                             <form class="custom-validation" tapath="cost" novalidate>
+                                <input name="income" id="income_bool" type="text" hidden>
+
                                 <div class="form-group">
                                     <label>Сумма</label>
                                     <div>
-                                        <input name="amount" type="number" class="form-control" required placeholder="Введите сумму...">
+                                        <input name="amount" type="number" min="0" class="form-control" required placeholder="Введите сумму...">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
+                                    <label>Тип</label>
+                                    <div>
+                                        <select id="type_income" class="form-control">
+                                            <option value="0">ЗП</option>
+                                            <option value="1">Оплата за детей</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="income_child" style="display: none;">
                                     <label>Ребёнок</label>
                                     <div>
                                         <select name="child_id" class="form-control">
@@ -67,7 +79,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" id="income_staff" style="display: none;">
                                     <label>Сотрудник</label>
                                     <div>
                                         <select name="staff_id" class="form-control">

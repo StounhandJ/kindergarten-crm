@@ -23,6 +23,11 @@ class CostRequest extends FormRequest
         return $this->input("comment");
     }
 
+    public function getIncome()
+    {
+        return !($this->query("income") == "0");
+    }
+
     public function getChild(): Child
     {
         return Child::getById($this->input("child_id"));

@@ -123,7 +123,7 @@ class Cost extends Model
     public static function losses($amount, $comment, Child $child, Staff $staff): Cost
     {
         return Cost::factory([
-            "amount"=>abs($amount),
+            "amount"=>$amount,
             "comment"=>$comment,
         ])->losses()
             ->create()
