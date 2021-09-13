@@ -49,7 +49,8 @@ class GeneralJournalChild extends Model
 
     public function getDebtAttribute()
     {
-        return $this->getNeedPaidAttribute() - $this->getPaidAttribute();
+        return "Неизвестно";
+//        return $this->getNeedPaidAttribute() - $this->getPaidAttribute();
     }
 
     public function getAttendanceAttribute()
@@ -80,12 +81,12 @@ class GeneralJournalChild extends Model
 
     public function getCostDayAttribute()
     {
-        return $this->getChild()->getRate() / $this->getDaysAttribute();
+        return ceil($this->getChild()->getRate() / $this->getDaysAttribute());
     }
 
     public function getTransferredAttribute()
     {
-        return $this->getCostDayAttribute() * ($this->getDaysAttribute() - $this->getAttendanceAttribute()) * 0.3;
+        return ceil($this->getCostDayAttribute() * ($this->getDaysAttribute() - $this->getAttendanceAttribute()) * 0.3);
     }
 
     //</editor-fold>

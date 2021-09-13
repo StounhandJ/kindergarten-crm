@@ -220,8 +220,8 @@ function current_table(table) {
                     editor: true,
                 },
                 {
-                    field: "date_enrollment",
-                    title: "Дата зачисления",
+                    field: "date_employment",
+                    title: "Дата принятия",
                     editor: true,
                 },
                 {
