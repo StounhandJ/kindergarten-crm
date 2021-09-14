@@ -18,6 +18,6 @@ jobs:
           script_stop: true
           script: |
             cd ~/kindergarten-crm
-            ./restart.sh
+            ./restart.sh &
       - name: Final
         run: echo "Succesfully deployed"
