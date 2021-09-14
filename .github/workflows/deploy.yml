@@ -1,0 +1,23 @@
+name: Deploy to server
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieving modified files
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_SERVER_HOST }}
+          port: ${{ secrets.DEPLOY_SERVER_PORT }}
+          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+          key: ${{ secrets.DEPLOY_SERVER_KEY }}
+          script_stop: true
+          script: |
+            cd ~/kindergarten-crm
+            ./restart.sh
+      - name: Final
+        run: echo "Succesfully deployed"
