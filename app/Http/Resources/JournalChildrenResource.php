@@ -23,6 +23,7 @@ class JournalChildrenResource extends JsonResource
         $this->withoutWrapping();
         return [
             "name_month" => $month->monthName,
+            "month" => $month->format("Y-m"),
             "days" => $month->weekDays(),
             "children" => $this->resource->map(function ($item) use ($month) {
                 return [
