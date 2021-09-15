@@ -384,6 +384,11 @@ function current_table(table) {
             closeForm();
         });
     });
+
+    $("#journal-date").change(function ()
+    {
+        grid.reload({date: $(this)[0].value});
+    })
 }
 
 $(document).ready(function () {
@@ -522,4 +527,8 @@ $(document).ready(function () {
     {
         $("#type_income").val(0).change();
     }
+
+    // $("#grid")[0].attributes.getNamedItem("tapath").value += "?date=08.08.2021";
+    // console.log("set");
+    // current_table($("#grid"));
 });

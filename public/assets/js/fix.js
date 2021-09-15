@@ -28,6 +28,66 @@ function changeColor(select, value) {
     }
 }
 
+function createJournal(table_head, table_body, uri, array_name) {
+    table_head.children().detach()
+    table_body.children().detach()
+    $.ajax({
+        type: "GET",
+        url: "/action/" + uri,
+        success: function (month) {
+            tr_month = $(`<tr></tr>`);
+            journal_date = $(`<input id="journal-date" class="form-control input-mask" type="month" value="${month.month}">`)
+            journal_date.change(function ()
+            {
+                createJournal(table_head, table_body, uri.split("?")[0]+"?date="+$(this)[0].value, array_name);
+            })
+
+            tr_month.append($(`<th scope="col"></th>`).append(journal_date));
+            month.days.forEach((month_day) => tr_month.append(`<th scope="col">${month_day["name"]} ${month_day["num"]} </th>`))
+            table_head.append(tr_month);
+
+            month[array_name].forEach((child) => {
+                tr = $(`<tr></tr>`);
+                tr.append($(`<th scope="row">${child.fio}</th>`));
+                child.days.forEach((day) => {
+                    td = $(`<td>
+                                <div class="input-group">
+                                  <select class="custom-select_main">
+                                     <option value="0">Не выбрано</option>
+                                     <option value="1">Целый день</option>
+                                     <option value="2">Пол дня</option>
+                                     <option value="3">Больничный</option>
+                                     <option value="4">Отпуск</option>
+                                     <option value="5">Пропущено</option>
+                                  </select>
+                                </div>
+                             </td>`);
+                    select = td.children().children();
+                    select.attr({"id": day.id});
+                    select.change(function () {
+                        changeColor($(this), $(this)[0].value);
+                    });
+                    select.val(day.visit).change();
+                    select.change(function () {
+                        $.ajax({
+                            type: "POST",
+                            url:
+                                "/action/" + uri + "/" + $(this)[0].id,
+                            data: {
+                                visit_id: $(this)[0].value,
+                                _method: "PUT",
+                            },
+                        });
+                        changeColor($(this), $(this)[0].value);
+                    });
+                    tr.append(td);
+                });
+                table_body.append(tr);
+            });
+        },
+    });
+}
+
 $(document).ready(function () {
     $("select").each(function () {
         changeColor($(this), $(this)[0].value);
@@ -35,108 +95,11 @@ $(document).ready(function () {
     $("select").change(function () {
         changeColor($(this), $(this)[0].value);
     });
-    if($(".j_children_table").length!=0) {
-        $.ajax({
-            type: "GET",
-            url: "/action/journal-children",
-            success: function (month) {
-                tr_month = $(`<tr></tr>`);
-                tr_month.append(`<th scope="col">${month.name_month}</th>`);
-                month.days.forEach((month_day)=>tr_month.append(`<th scope="col">${month_day}</th>`))
-                $("#j_children_table_head").append(tr_month);
-
-                month.children.forEach((child) => {
-                    tr = $(`<tr></tr>`);
-                    tr.append($(`<th scope="row">${child.fio}</th>`));
-                    child.days.forEach((day) => {
-                        td = $(`<td>
-                <div class="input-group">
-                <select class="custom-select_main">
-                <option value="0">Не выбрано</option>
-                <option value="1">Целый день</option>
-                <option value="2">Пол дня</option>
-                                    <option value="3">Больничный</option>
-                                    <option value="4">Отпуск</option>
-                                    <option value="5">Пропущено</option>
-                                    </select>
-                                    </div>
-                                    </td>`);
-                        select = td.children().children();
-                        select.attr({"id": day.id, "child_id": child.id});
-                        select.change(function () {
-                            changeColor($(this), $(this)[0].value);
-                        });
-                        select.val(day.visit).change();
-                        select.change(function () {
-                            $.ajax({
-                                type: "POST",
-                                url:
-                                    "/action/journal-children/" + $(this)[0].id,
-                                data: {
-                                    visit_id: $(this)[0].value,
-                                    _method: "PUT",
-                                },
-                            });
-                            changeColor($(this), $(this)[0].value);
-                        });
-                        tr.append(td);
-                    });
-                    $("#j_children_table_body").append(tr);
-                });
-            },
-        });
+    if ($(".j_children_table").length != 0) {
+        createJournal($("#j_children_table_head"), $("#j_children_table_body"),"journal-children", "children");
     }
 
-    if($(".j_staffs_table").length!=0) {
-        $.ajax({
-            type: "GET",
-            url: "/action/journal-staffs",
-            success: function (month) {
-                tr_month = $(`<tr></tr>`);
-                tr_month.append(`<th scope="col">${month.name_month}</th>`);
-                month.days.forEach((month_day)=>tr_month.append(`<th scope="col">${month_day}</th>`))
-                $("#j_staffs_table_head").append(tr_month);
-
-                month.staff.forEach((child) => {
-                    tr = $(`<tr></tr>`);
-                    tr.append($(`<th scope="row">${child.fio}</th>`));
-                    child.days.forEach((day) => {
-                        td = $(`<td>
-                <div class="input-group">
-                <select class="custom-select_main">
-                <option value="0">Не выбрано</option>
-                <option value="1">Целый день</option>
-                <option value="2">Пол дня</option>
-                                    <option value="3">Больничный</option>
-                                    <option value="4">Отпуск</option>
-                                    <option value="5">Пропущено</option>
-                                    </select>
-                                    </div>
-                                    </td>`);
-                        select = td.children().children();
-                        select.attr({"id": day.id, "child_id": child.id});
-                        select.change(function () {
-                            changeColor($(this), $(this)[0].value);
-                        });
-                        select.val(day.visit).change();
-                        select.change(function () {
-                            $.ajax({
-                                type: "POST",
-                                url:
-                                    "/action/journal-staffs/" + $(this)[0].id,
-                                data: {
-                                    visit_id: $(this)[0].value,
-                                    _method: "PUT",
-                                },
-                            });
-                            changeColor($(this), $(this)[0].value);
-                        });
-                        tr.append(td);
-                    });
-                    $("#j_staffs_table_body").append(tr);
-                });
-                // $("#loading").hide();
-            },
-        });
+    if ($(".j_staffs_table").length != 0) {
+        createJournal($("#j_staffs_table_head"), $("#j_staffs_table_body"), "journal-staffs", "staff");
     }
 });

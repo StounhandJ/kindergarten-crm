@@ -21,19 +21,27 @@ class JournalChildrenResource extends JsonResource
     {
         $month = TableRequest::createFromBase($request)->getDate();
         $this->withoutWrapping();
-        return [
-            "name_month" => $month->monthName,
-            "days" => $month->weekDays(),
-            "children" => $this->resource->map(function ($item) use ($month) {
-                return [
-                    "fio" => $item->getFio(),
-                    "days" => $this->days($item, $month),
-                ];
-            })
-        ];
+
+        $data = JournalResource::make($month)->toArray($request);
+        $data["children"] = $this->resource->map(function ($item) use ($month) {
+            return [
+                "fio" => $item->getFio(),
+                "days" => $this->days($item, $month),
+            ];
+        });
+
+        return $data;
     }
 
-    public function days(Child $child, Carbon $month): array
+    /**
+     * @param Carbon[] $days
+     */
+    private function daysToDayAndName(array $days): array
+    {
+        return array_map(fn($day) => ["name" => $day->dayName, "num" => $day->day], $days);
+    }
+
+    private function days(Child $child, Carbon $month): array
     {
         $child->createJournalOnMonth($month);
         $journals = $child->getJournalOnMonth($month);
