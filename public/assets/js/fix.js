@@ -43,7 +43,7 @@ function createJournal(table_head, table_body, uri, array_name) {
             })
 
             tr_month.append($(`<th scope="col"></th>`).append(journal_date));
-            month.days.forEach((month_day) => tr_month.append(`<th scope="col">${month_day}</th>`))
+            month.days.forEach((month_day) => tr_month.append(`<th scope="col">${month_day["name"]} ${month_day["num"]} </th>`))
             table_head.append(tr_month);
 
             month[array_name].forEach((child) => {
