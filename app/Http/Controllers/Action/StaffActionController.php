@@ -21,7 +21,7 @@ class StaffActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Staff::query()->paginate($request->getLimit());
+        $paginate = Staff::withTrashed()->paginate($request->getLimit());
         return response()->json(["message" => "success",
             "records" => $paginate->items(),
             "total" => $paginate->total()], 200);
@@ -72,7 +72,7 @@ class StaffActionController extends Controller
         $staff->setAddressIfNotEmpty($request->getAddress());
         $staff->setDateBirthIfNotEmpty($request->getDateBirth());
         $staff->setDateEmploymentIfNotEmpty($request->getDateEmployment());
-        $staff->setDateDismissalIfNotEmpty($request->getDateDismissal());
+        $staff->setDateDismissal($request->getDateDismissal());
         $staff->setReasonDismissalIfNotEmpty($request->getReasonDismissal());
         $staff->setSalaryIfNotEmpty($request->getSalary());
         $staff->setGroup($request->getGroup());

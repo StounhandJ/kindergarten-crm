@@ -21,7 +21,7 @@ class ChildrenActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Child::paginate($request->getLimit());
+        $paginate = Child::withTrashed()->paginate($request->getLimit());
         return response()->json(["message" => "success",
             "records" => $paginate->items(),
             "total" => $paginate->total()], 200);
@@ -73,7 +73,7 @@ class ChildrenActionController extends Controller
         $child->setPhoneFatherIfNotEmpty($request->getPhoneFather());
         $child->setCommentIfNotEmpty($request->getComment());
         $child->setRateIfNotEmpty($request->getRate());
-        $child->setDateExclusionIfNotEmpty($request->getDateExclusion());
+        $child->setDateExclusion($request->getDateExclusion());
         $child->setReasonExclusionIfNotEmpty($request->getReasonExclusion());
         $child->setDateBirthIfNotEmpty($request->getDateBirth());
         $child->setDateEnrollmentIfNotEmpty($request->getDateEnrollment());

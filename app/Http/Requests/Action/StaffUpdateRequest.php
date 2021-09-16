@@ -23,7 +23,7 @@ class StaffUpdateRequest extends StaffRequest
             "phone"=> "string",
             "date_birth"=> "date",
             "date_employment"=> "date",
-            "date_dismissal"=> "date",
+            "date_dismissal"=> "nullable|date",
             "reason_dismissal"=> "date",
             "salary" => "integer|min:0",
             "group_id"=> "bail|nullable|integer|exists:".Group::class.",id",

@@ -19,7 +19,7 @@ class ChildrenUpdateRequest extends ChildrenRequest
             "phone_father"=> "string",
             "comment"=> "string",
             "rate"=> "string",
-            "date_exclusion"=> "date",
+            "date_exclusion"=> "nullable|date",
             "reason_exclusion"=> "string",
             "date_birth"=> "date",
             "date_enrollment"=> "date",

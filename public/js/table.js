@@ -212,7 +212,9 @@ function current_table(table) {
                 {
                     field: "date_birth",
                     title: "Дата рождения",
+                    type: "date",
                     editor: true,
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "address",
@@ -222,7 +224,9 @@ function current_table(table) {
                 {
                     field: "date_employment",
                     title: "Дата принятия",
+                    type: "date",
                     editor: true,
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "group_name",
@@ -242,7 +246,9 @@ function current_table(table) {
                 {
                     field: "date_dismissal",
                     title: "Дата увольнения",
+                    type: "date",
                     editor: true,
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "reason_dismissal",
@@ -339,7 +345,7 @@ function current_table(table) {
     grid.on("rowDataChanged", function (e, id, record) {
         var new_record = [];
         for (let [key, value] of entries(record)) {
-            if (value != "") new_record[key] = value;
+            if (value != "" || key=="date_exclusion" || key=="date_dismissal") new_record[key] = value;
         }
         var data = $.extend(true, {_method: "PUT"}, new_record);
         $.ajax({

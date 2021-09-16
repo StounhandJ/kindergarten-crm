@@ -17,9 +17,9 @@ class Child extends Model
     use HasFactory, SoftDeletes;
 
     //<editor-fold desc="Setting">
-    protected $hidden = ['delete_at'];
+    protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
-    protected $appends = ['branch_id', "branch_name", "institution_name", "group_name"];
+    protected $appends = ['branch_id', "branch_name", "institution_name", "group_name", "date_exclusion"];
 
     public function getBranchIdAttribute()
     {
@@ -39,6 +39,11 @@ class Child extends Model
     public function getGroupNameAttribute()
     {
         return $this->getGroup()->getName();
+    }
+
+    public function getDateExclusionAttribute()
+    {
+        return $this->getDateExclusion();
     }
 
     //</editor-fold>
@@ -111,7 +116,7 @@ class Child extends Model
 
     public function getDateExclusion()
     {
-        return $this->date_exclusion;
+        return $this->deleted_at;
     }
 
     public function getReasonExclusion()
@@ -181,9 +186,9 @@ class Child extends Model
         if ($rate != "") $this->rate = $rate;
     }
 
-    public function setDateExclusionIfNotEmpty($date_exclusion)
+    public function setDateExclusion($deleted_at)
     {
-        if ($date_exclusion != "") $this->date_exclusion = $date_exclusion;
+        $this->deleted_at = $deleted_at;
     }
 
     public function setReasonExclusionIfNotEmpty($reason_exclusion)
@@ -233,7 +238,7 @@ class Child extends Model
             "phone_father" => $phone_father,
             "comment" => $comment,
             "rate" => $rate,
-            "date_exclusion" => $date_exclusion,
+            "deleted_at" => $date_exclusion,
             "reason_exclusion" => $reason_exclusion,
             "date_birth" => $date_birth,
             "date_enrollment" => $date_enrollment,

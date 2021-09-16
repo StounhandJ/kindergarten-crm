@@ -16,9 +16,9 @@ class Staff extends Model
     use HasFactory, SoftDeletes;
 
     //<editor-fold desc="Setting">
-    protected $hidden = ['delete_at'];
+    protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
-    protected $appends = ['branch_id', "branch_name", "group_name", "position_name"];
+    protected $appends = ['branch_id', "branch_name", "group_name", "position_name", "date_dismissal"];
 
     public function getBranchIdAttribute()
     {
@@ -38,6 +38,11 @@ class Staff extends Model
     public function getPositionNameAttribute()
     {
         return $this->getPosition()->getName();
+    }
+
+    public function getDateDismissalAttribute()
+    {
+        return $this->getDateDismissal();
     }
     //</editor-fold>
 
@@ -85,7 +90,7 @@ class Staff extends Model
 
     public function getDateDismissal()
     {
-        return $this->date_dismissal;
+        return $this->deleted_at;
     }
 
     public function getReasonDismissal()
@@ -140,9 +145,9 @@ class Staff extends Model
         if ($date_employment != "") $this->date_employment = $date_employment;
     }
 
-    public function setDateDismissalIfNotEmpty($date_dismissal)
+    public function setDateDismissal($deleted_at)
     {
-        if ($date_dismissal != "") $this->date_dismissal = $date_dismissal;
+        $this->deleted_at = $deleted_at;
     }
 
     public function setReasonDismissalIfNotEmpty($reason_dismissal)
@@ -206,7 +211,7 @@ class Staff extends Model
             "address" => $address,
             "date_birth" => $date_birth,
             "date_employment" => $date_employment,
-            "date_dismissal" => $date_dismissal,
+            "deleted_at" => $date_dismissal,
             "reason_dismissal" => $reason_dismissal,
             "salary" => $salary,
             "group_id" => $group->getId(),

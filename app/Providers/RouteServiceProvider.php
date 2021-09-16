@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Child;
+use App\Models\Staff;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -47,17 +49,22 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
-    }
 
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
-    protected function configureRateLimiting()
-    {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        });
-    }
+        $this->bind('child', fn($post) => Child::withTrashed()->where('id', $post)->firstOrFail());
+
+        $this->bind('staff', fn($post) => Staff::withTrashed()->where('id', $post)->firstOrFail());
+}
+
+/**
+ * Configure the rate limiters for the application.
+ *
+ * @return void
+ */
+protected
+function configureRateLimiting()
+{
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+    });
+}
 }
