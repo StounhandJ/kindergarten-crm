@@ -85,14 +85,19 @@ class User extends Authenticatable
         return User::where("login", $login)->first() ?? new User();
     }
 
+    public static function getByLoginAndPassword($login, $password): User
+    {
+        return User::where("login", $login)->first() ?? new User();
+    }
+
     public static function getById($id): User
     {
         return User::where("id", $id)->first() ?? new User();
     }
 
-    public function getStaff(): Staff
+    public function getStaff(): ?Staff
     {
-        return Staff::getByUserId($this->getId());
+        return $this->hasOne(Staff::class, "user_id", "id")->getResults();
     }
 
     public static function make($login, $password)

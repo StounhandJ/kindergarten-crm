@@ -33,7 +33,9 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    logout
+                    @auth()
+                        <a href="{{ route("logout") }}">logout</a>
+                    @endauth
                 </button>
             </div>
 
