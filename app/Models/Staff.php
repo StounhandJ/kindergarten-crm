@@ -181,16 +181,6 @@ class Staff extends Model
                 ->setPassword($password)
                 ->save();
     }
-
-    public function createJournalOnMonth(Carbon $data)
-    {
-        for ($i = 1; $i <= $data->lastOfMonth()->day; $i++) {
-            $journalDateDay = $data->setDay($i);
-            if ($data->isWeek() and $this->getJournal()->whereDate("create_date", "=", $journalDateDay)->count() == 0) {
-                JournalStaff::make($this, Visit::getById(0), $journalDateDay)->save();
-            }
-        }
-    }
     //</editor-fold>
 
     //<editor-fold desc="Search Branch">

@@ -8,7 +8,6 @@ use App\Http\Resources\JournalChildrenResource;
 use App\Models\Child;
 use App\Models\JournalChild;
 use Illuminate\Http\JsonResponse;
-use function response;
 
 class JournalChildrenActionController extends Controller
 {

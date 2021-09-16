@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Action\StaffCreateRequest;
 use App\Http\Requests\Action\StaffUpdateRequest;
 use App\Http\Requests\TableRequest;
+use App\Models\GeneralJournalStaff;
 use App\Models\Staff;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 use function response;
 
 class StaffActionController extends Controller
@@ -33,12 +35,16 @@ class StaffActionController extends Controller
      */
     public function store(StaffCreateRequest $request)
     {
-        $group = Staff::make($request->getFio(), $request->getPhone(), $request->getAddress(),
+        $staff = Staff::make($request->getFio(), $request->getPhone(), $request->getAddress(),
             $request->getDateBirth(), $request->getDateEmployment(), $request->getDateDismissal(),
             $request->getReasonDismissal(), $request->getSalary(), $request->getGroup(), $request->getPosition(),
             $request->getLogin(), $request->getPassword());
-        $group->save();
-        return response()->json(["message"=>"success", "records"=>$group], 200);
+        $staff->save();
+
+        $generalJournalStaff = GeneralJournalStaff::make($staff, Carbon::now());
+        $generalJournalStaff->save();
+
+        return response()->json(["message"=>"success", "records"=>$staff], 200);
     }
 
     /**

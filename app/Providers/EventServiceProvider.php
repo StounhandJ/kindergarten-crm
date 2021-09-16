@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\GeneralJournalChild;
+use App\Models\GeneralJournalStaff;
+use App\Observers\GeneralJournalChildObserver;
+use App\Observers\GeneralJournalStaffObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +31,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        GeneralJournalChild::observe(GeneralJournalChildObserver::class);
+        GeneralJournalStaff::observe(GeneralJournalStaffObserver::class);
     }
 }

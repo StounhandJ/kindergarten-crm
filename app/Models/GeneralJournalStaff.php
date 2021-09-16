@@ -165,7 +165,7 @@ class GeneralJournalStaff extends Model
     }
     //</editor-fold>
 
-    public static function make(Staff $staff, Carbon $month)
+    public static function make(Staff $staff, Carbon $month, bool $notification = false)
     {
         return GeneralJournalStaff::factory([
             "staff_id"=>$staff->getId(),

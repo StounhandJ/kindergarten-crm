@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Listeners\GeneralJournalChildEvent;
 use App\Models\Cost\ChildCost;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -181,7 +182,7 @@ class GeneralJournalChild extends Model
 
     //</editor-fold>
 
-    public static function make(Child $child, Carbon $month)
+    public static function make(Child $child, Carbon $month, bool $notification = false)
     {
         return GeneralJournalChild::factory([
             "child_id" => $child->getId(),

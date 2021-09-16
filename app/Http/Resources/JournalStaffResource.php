@@ -42,7 +42,6 @@ class JournalStaffResource extends JsonResource
 
     private function days(Staff $child, Carbon $month): array
     {
-        $child->createJournalOnMonth($month);
         $journals = $child->getJournalOnMonth($month);
         $daysArray = [];
         foreach ($journals as $journal) {

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Http\Requests\TableRequest;
 use App\Models\Child;
+use App\Models\JournalChild;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -43,7 +44,6 @@ class JournalChildrenResource extends JsonResource
 
     private function days(Child $child, Carbon $month): array
     {
-        $child->createJournalOnMonth($month);
         $journals = $child->getJournalOnMonth($month);
         $daysArray = [];
         foreach ($journals as $journal) {

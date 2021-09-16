@@ -7,7 +7,9 @@ use App\Http\Requests\Action\ChildrenCreateRequest;
 use App\Http\Requests\Action\ChildrenUpdateRequest;
 use App\Http\Requests\TableRequest;
 use App\Models\Child;
+use App\Models\GeneralJournalChild;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 use function response;
 
 class ChildrenActionController extends Controller
@@ -33,13 +35,15 @@ class ChildrenActionController extends Controller
      */
     public function store(ChildrenCreateRequest $request)
     {
-        $children = Child::make(
+        $child = Child::make(
             $request->getFio(), $request->getAddress(), $request->getFioMother(), $request->getPhoneMother(), $request->getFioFather(),
             $request->getPhoneFather(), $request->getComment(), $request->getRate(), $request->getDateExclusion(), $request->getReasonExclusion(), $request->getDateBirth(),
             $request->getDateEnrollment(), $request->getGroup(), $request->getInstitution()
         );
-        $children->save();
-        return response()->json(["message"=>"success", "records"=>$children], 200);
+        $child->save();
+        $generalJournalChild = GeneralJournalChild::make($child, Carbon::now());
+        $generalJournalChild->save();
+        return response()->json(["message"=>"success", "records"=>$child], 200);
     }
 
     /**
