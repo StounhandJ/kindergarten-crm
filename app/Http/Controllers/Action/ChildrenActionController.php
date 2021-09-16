@@ -41,9 +41,8 @@ class ChildrenActionController extends Controller
             $request->getDateEnrollment(), $request->getGroup(), $request->getInstitution()
         );
         $child->save();
-        $generalJournalChild = GeneralJournalChild::make($child, Carbon::now());
-        $generalJournalChild->save();
-        return response()->json(["message"=>"success", "records"=>$child], 200);
+
+        return response()->json(["message" => "success", "records" => $child], 200);
     }
 
     /**
@@ -54,7 +53,7 @@ class ChildrenActionController extends Controller
      */
     public function show(Child $child)
     {
-        return response()->json(["message"=>"success", "records"=>$child], 200);
+        return response()->json(["message" => "success", "records" => $child], 200);
     }
 
     /**
@@ -83,7 +82,7 @@ class ChildrenActionController extends Controller
 
         $child->save();
 
-        return response()->json(["message"=>"success", "records"=>$child], 200);
+        return response()->json(["message" => "success", "records" => $child], 200);
 
     }
 
@@ -96,7 +95,7 @@ class ChildrenActionController extends Controller
     public function destroy(Child $child)
     {
         $result = $child->delete();
-        return response()->json(["message"=>$result?"success":"error"], $result?200:500);
+        return response()->json(["message" => $result ? "success" : "error"], $result ? 200 : 500);
 
     }
 }
