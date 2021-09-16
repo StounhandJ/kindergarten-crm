@@ -17,9 +17,6 @@ RUN apt-get install -y libpq-dev \
 COPY scripts/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN touch /var/www/cron.log
 
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
-
 COPY --chown=www-data:www-data . /var/www
 RUN touch /var/www/storage/logs/laravel.log
 COPY --from=composer /app/vendor /var/www/vendor
