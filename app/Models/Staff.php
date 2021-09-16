@@ -18,7 +18,7 @@ class Staff extends Model
     //<editor-fold desc="Setting">
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
-    protected $appends = ['branch_id', "branch_name", "group_name", "position_name", "date_dismissal"];
+    protected $appends = ['branch_id', "branch_name", "group_name", "position_name", "date_dismissal", "login", "password"];
 
     public function getBranchIdAttribute()
     {
@@ -43,6 +43,16 @@ class Staff extends Model
     public function getDateDismissalAttribute()
     {
         return $this->getDateDismissal();
+    }
+
+    public function getLoginAttribute()
+    {
+        return $this->getUser()->getLogin();
+    }
+
+    public function getPasswordAttribute()
+    {
+        return "";
     }
     //</editor-fold>
 
@@ -115,7 +125,7 @@ class Staff extends Model
 
     public function getUser(): User
     {
-        return User::getById($this->userId);
+        return $this->hasOne(User::class, "id", "user_id")->getResults();
     }
     //</editor-fold>
 

@@ -185,6 +185,8 @@ function current_table(table) {
             column["columns"] = [
                 {field: "id", hidden: true},
                 {field: "fio", title: "ФИО", editor: true},
+                {field: "login", title: "Логин", editor: true},
+                {field: "password", title: "Пароль", renderer: ()=> "<b>Скрыт</b>", editor: true},
                 {
                     field: "branch_name",
                     title: "Филиал",

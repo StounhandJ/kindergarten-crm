@@ -103,7 +103,6 @@ class User extends Authenticatable
     public static function make($login, $password)
     {
         return User::factory(["login"=>$login, "password"=>$password])
-            ->noEmail()
             ->make();
     }
 }

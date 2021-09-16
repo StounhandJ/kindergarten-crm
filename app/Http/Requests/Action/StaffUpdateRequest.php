@@ -5,6 +5,7 @@ namespace App\Http\Requests\Action;
 use App\Http\Requests\RequestAttribute\StaffRequest;
 use App\Models\Group;
 use App\Models\Types\Position;
+use Illuminate\Validation\Rule;
 
 class StaffUpdateRequest extends StaffRequest
 {
@@ -17,7 +18,7 @@ class StaffUpdateRequest extends StaffRequest
     {
         return [
             "fio"=> "string|max:200",
-            "login"=> "string|unique:users,login",
+            "login"=> "string",
             "password" => "string",
             "address"=> "string",
             "phone"=> "string",

@@ -14,16 +14,16 @@ class AuthActionController extends Controller
     public function login(Request $request)
     {
         if (!auth()->attemptWhen($request->only(["login", "password"]), fn (User $user)=>!is_null($user->getStaff())))
-            return redirect(route("admin.login"))->withErrors([
+            return redirect(route("login.page"))->withErrors([
                 "login"=> "Неправильные данные"
             ]);
-        return redirect(route("login.page"));
+        return redirect(route("index"));
     }
 
     public function logout()
     {
         Auth::logout();
 
-        return redirect(route("index"));
+        return redirect(route("login.page"));
     }
 }

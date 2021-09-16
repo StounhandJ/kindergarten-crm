@@ -60,6 +60,10 @@ Route::prefix("action")->name("action.")->group(function () {
 
 Route::get('/', function () {
     return view("pages-blank");
+})->name("index");
+
+Route::get('/home', function () {
+    return redirect(route("index"));
 });
 
 Route::get('/groups', function () {
