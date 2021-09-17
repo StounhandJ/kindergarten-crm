@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use App\Listeners\GeneralJournalChildEvent;
 use App\Models\Cost\ChildCost;
+use App\Notifications\SmsNotification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Notifications\Notifiable;
 
 class GeneralJournalChild extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
@@ -182,11 +183,24 @@ class GeneralJournalChild extends Model
 
     //</editor-fold>
 
-    public static function make(Child $child, Carbon $month, bool $notification = false)
+    public static function create(Child $child, Carbon $month, bool $notification = false)
     {
-        return GeneralJournalChild::factory([
+        $generalJournalChild = GeneralJournalChild::factory([
             "child_id" => $child->getId(),
             "month" => $month
-        ])->make();
+        ])->create();
+//        $generalJournalChild->notify(new SmsNotification());
+        return $generalJournalChild;
+    }
+
+    /**
+     * Маршрутизация уведомлений для канала Nexmo.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return string
+     */
+    public function routeNotificationForNexmo($notification)
+    {
+        return "79096979578";
     }
 }

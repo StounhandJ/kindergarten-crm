@@ -54,8 +54,7 @@ class JournalChildrenGenerateCommand extends Command
         {
             if (!GeneralJournalChild::getByChildAndMonth($child, $month)->exists)
             {
-                $generalJournalChild = GeneralJournalChild::make($child, $month);
-                $generalJournalChild->save();
+                GeneralJournalChild::create($child, $month);
                 $count+=1;
             }
         }

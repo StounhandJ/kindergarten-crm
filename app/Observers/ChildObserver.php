@@ -16,7 +16,6 @@ class ChildObserver
      */
     public function created(Child $child)
     {
-        $generalJournalChild = GeneralJournalChild::make($child, Carbon::now());
-        $generalJournalChild->save();
+        GeneralJournalChild::create($child, Carbon::now());
     }
 }
