@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Notification;
 
 class GeneralJournalChild extends Model
 {
@@ -156,9 +157,10 @@ class GeneralJournalChild extends Model
         $this->comment = $comment;
     }
 
-    public function setNotificationIfNotEmpty($notification)
+    public function setNotification(bool $notification): static
     {
-        if ($notification != "") $this->notification = $notification;
+        $this->notification = $notification;
+        return $this;
     }
 
     //</editor-fold>
@@ -185,22 +187,37 @@ class GeneralJournalChild extends Model
 
     public static function create(Child $child, Carbon $month, bool $notification = false)
     {
+        /** @var GeneralJournalChild $generalJournalChild */
         $generalJournalChild = GeneralJournalChild::factory([
             "child_id" => $child->getId(),
             "month" => $month
         ])->create();
-//        $generalJournalChild->notify(new SmsNotification());
+
+        if ($notification)
+        {
+            try {
+                $generalJournalChild->notify(new SmsNotification("0"));
+                $generalJournalChild->setNotification(true)->save();
+            }
+            catch (\Exception $exception)
+            {
+                // ignore
+            }
+        }
+
+
         return $generalJournalChild;
     }
 
     /**
      * Маршрутизация уведомлений для канала Nexmo.
      *
-     * @param  \Illuminate\Notifications\Notification  $notification
+     * @param  Notification  $notification
      * @return string
      */
     public function routeNotificationForNexmo($notification)
     {
-        return "79096979578";
+        return "235";
+//        return $this->getChild()->getPhoneMother();
     }
 }

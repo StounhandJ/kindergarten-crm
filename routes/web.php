@@ -59,7 +59,6 @@ Route::prefix("action")->name("action.")->group(function () {
 });
 
 Route::get('/', function () {
-    \App\Models\GeneralJournalChild::create(\App\Models\Child::getById(1), now());
     return view("pages-blank");
 })->name("index");
 

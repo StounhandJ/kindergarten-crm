@@ -37,7 +37,6 @@ class GeneralChildActionController extends Controller
     {
         $generalJournalChild->setReductionFeesIfNotEmpty($request->getReductionFees());
         $generalJournalChild->setIncreaseFeesIfNotEmpty($request->getIncreaseFees());
-        $generalJournalChild->setNotificationIfNotEmpty($request->getNotification());
         $generalJournalChild->setComment($request->getComment());
 
         $generalJournalChild->save();

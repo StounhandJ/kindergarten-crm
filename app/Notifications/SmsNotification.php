@@ -7,18 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
 
-class SmsNotification extends Notification
+class SmsNotification extends Notification// implements ShouldQueue
 {
     use Queueable;
+
+    private string $price;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($text)
+    public function __construct(string $price)
     {
-        $this->text = $text;
+        $this->price = $price;
     }
 
     /**
@@ -41,7 +43,7 @@ class SmsNotification extends Notification
     public function toNexmo($notifiable)
     {
         return (new NexmoMessage)
-            ->content('Your SMS message content')
+            ->content(`Необходимо оплатить {$this->price}`)
             ->unicode();
     }
 }
