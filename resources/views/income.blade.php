@@ -15,6 +15,7 @@
         <div class="card-body" style="overflow:hidden;">
             <div class="container-fluid">
                 <div class="row">
+                    <input id="income-date" class="form-control input-mask" type="month">
                     <div class="col-12">
                         <table id="grid" class="table" tapath="cost?income=1">
                             <caption>Доходы</caption>
@@ -64,8 +65,8 @@
                                     <label>Тип</label>
                                     <div>
                                         <select id="type_income" class="form-control">
-                                            <option value="0">ЗП</option>
-                                            <option value="1">Оплата за детей</option>
+                                            <option value="0">ЗП - Расход</option>
+                                            <option value="1">Оплата за детей - Доход</option>
                                         </select>
                                     </div>
                                 </div>

@@ -29,6 +29,8 @@ function current_table(table) {
         dataSource: "/action/" + tapath,
         uiLibrary: "bootstrap4",
         primaryKey: "id",
+        resizableColumns: true,
+        notFoundText: "Записей нет",
         inlineEditing: {mode: "command"},
         pager: {
             limit: 5,
@@ -103,13 +105,7 @@ function current_table(table) {
                 {
                     field: "branch_name",
                     title: "Филиал",
-                    type: "dropdown",
-                    editField: "branch_id",
-                    editor: {
-                        dataSource: "/action/branch",
-                        valueField: "id",
-                        textField: "name",
-                    },
+                    type: "dropdown"
                 },
                 {
                     field: "date_birth",
@@ -186,7 +182,7 @@ function current_table(table) {
                 {field: "id", hidden: true},
                 {field: "fio", title: "ФИО", editor: true},
                 {field: "login", title: "Логин", editor: true},
-                {field: "password", title: "Пароль", renderer: ()=> "<b>Скрыт</b>", editor: true},
+                {field: "password", title: "Пароль", renderer: () => "<b>Скрыт</b>", editor: true},
                 {
                     field: "branch_name",
                     title: "Филиал",
@@ -275,14 +271,22 @@ function current_table(table) {
                     title: "Филиал",
                 },
                 {field: "cost_day", title: "Стоимость дня"},
-                {renderer: (value, record) => {return record.staff.salary}, title: "З/П"},
+                {
+                    renderer: (value, record) => {
+                        return record.staff.salary
+                    }, title: "З/П"
+                },
                 {field: "reduction_salary", title: "Уменьшить З/П", editor: true},
                 {field: "increase_salary", title: "Увеличить З/П", editor: true},
                 {field: "salary", title: "З/П К выплате"},
                 {field: "paid", title: "З/П выплачена"},
                 {field: "advance_payment", title: "Аванс", editor: true},
                 {field: "comment", title: "Комментарий", editor: true},
-                {field: "payment_list", renderer: (value) => {return `<a href="${value}">Скачать</a>`}, title: "Расчётный лист"},
+                {
+                    field: "payment_list", renderer: (value) => {
+                        return `<a href="${value}">Скачать</a>`
+                    }, title: "Расчётный лист"
+                },
             ];
             column["detailTemplate"] = '<div><b>Кол-во дней:</b> {days}' +
                 '<br><b>Посещаемость:</b> {attendance}' +
@@ -308,7 +312,11 @@ function current_table(table) {
                     editor: false,
                 },
                 {field: "cost_day", title: "Стоимость дня"},
-                {renderer: (value, record) => {return record.child.rate}, title: "Тариф"},
+                {
+                    renderer: (value, record) => {
+                        return record.child.rate
+                    }, title: "Тариф"
+                },
                 {field: "reduction_fees", title: "Уменьшить плату", editor: true},
                 {field: "increase_fees", title: "Увеличить плату", editor: true},
                 {field: "need_paid", title: "Необходимо оплатить"},
@@ -339,15 +347,17 @@ function current_table(table) {
                         return record.staff != null ? record.staff.fio : "Не указан";
                     }, title: "Сотрудник"
                 },
-                {field: "comment", title: "Комментарий"},
+                {field: "branch_name", title: "Филиал"},
+                {field: "comment", title: "Комментарий", editor: true},
             ];
+            column["inlineEditing"] = {};
             break;
     }
-    grid = table.grid(column);
+    let grid = table.grid(column);
     grid.on("rowDataChanged", function (e, id, record) {
         var new_record = [];
         for (let [key, value] of entries(record)) {
-            if (value != "" || key=="date_exclusion" || key=="date_dismissal") new_record[key] = value;
+            if (value != "" || key == "date_exclusion" || key == "date_dismissal") new_record[key] = value;
         }
         var data = $.extend(true, {_method: "PUT"}, new_record);
         $.ajax({
@@ -393,10 +403,15 @@ function current_table(table) {
         });
     });
 
-    $("#journal-date").change(function ()
-    {
+    $("#journal-date").change(function () {
         grid.reload({date: $(this)[0].value});
     })
+
+    $("#income-date").change(function () {
+        grid.reload({date: $(this)[0].value});
+    })
+
+
 }
 
 $(document).ready(function () {
@@ -509,17 +524,14 @@ $(document).ready(function () {
         return false;
     });
 
-    function allHideIncome()
-    {
+    function allHideIncome() {
         $("#income_child").hide();
         $("#income_staff").hide();
     }
 
-    $("#type_income").change(function ()
-    {
+    $("#type_income").change(function () {
         allHideIncome();
-        switch ($(this)[0].value)
-        {
+        switch ($(this)[0].value) {
             case "0":
                 $("#income_bool").val(0);
                 $("#income_staff").show();
@@ -531,8 +543,7 @@ $(document).ready(function () {
         }
     })
 
-    if ($("#type_income").length==1)
-    {
+    if ($("#type_income").length == 1) {
         $("#type_income").val(0).change();
     }
 

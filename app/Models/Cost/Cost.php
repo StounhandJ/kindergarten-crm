@@ -19,7 +19,7 @@ class Cost extends Model
         'created_at',
         'updated_at',
     ];
-    protected $appends = ['date', 'staff', 'child'];
+    protected $appends = ['date', 'staff', 'child', 'branch_name'];
 
     public function getDateAttribute()
     {
@@ -34,6 +34,12 @@ class Cost extends Model
     public function getChildAttribute()
     {
         return $this->getChildren();
+    }
+
+    public function getBranchNameAttribute()
+    {
+        $pr = $this->getStaffAttribute() ?? $this->getChildAttribute();
+        return $pr? $pr->getBranchNameAttribute() : "";
     }
     //</editor-fold>
 
@@ -103,9 +109,10 @@ class Cost extends Model
         return Cost::where("id", $id)->first() ?? new Cost();
     }
 
-    public static function getBuilderByIncome(bool $income): Builder
+    public static function getBuilderByIncomeAndMonth(bool $income, Carbon $month): Builder
     {
-        return Cost::query()->where("is_profit", "=", $income);
+        return Cost::query()->where("is_profit", "=", $income)->whereDate("created_at", ">=", $month->firstOfMonth())
+            ->whereDate("created_at", "<=", $month->lastOfMonth());
     }
 
     //</editor-fold>
