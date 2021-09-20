@@ -20,13 +20,9 @@ RUN touch /var/www/cron.log
 COPY --chown=www-data:www-data . /var/www
 RUN touch /var/www/storage/logs/laravel.log
 COPY --from=composer /app/vendor /var/www/vendor
-COPY scripts/init.sh ./init.sh
-RUN sed -i -e 's/\r$//' init.sh
-RUN chmod +x ./init.sh
-
-COPY scripts/test.sh ./test.sh
-RUN sed -i -e 's/\r$//' test.sh
-RUN chmod +x ./test.sh
+COPY scripts .
+RUN sed -i -e 's/\r$//' init.sh test.sh
+RUN chmod +x ./init.sh test.sh
 
 RUN php artisan key:generate
 

@@ -33,7 +33,7 @@ class PositionSeeder extends Seeder
             ]
         ];
         foreach ($positions as $position)
-            if (Position::query()->where("name", $position["name"])->where("e_name", $position["e_name"])->count()==0)
+            if (!Position::query()->where("name", $position["name"])->where("e_name", $position["e_name"])->exists())
                 Position::factory([
                     "name"=>$position["name"],
                     "e_name"=>$position["e_name"]

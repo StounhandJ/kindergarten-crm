@@ -26,7 +26,6 @@ services:
       - ./resources:/var/www/resources
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
       - ./tests:/var/www/tests
-      - ./scripts/test.sh:/var/www/test.sh
     depends_on:
       - pg_db_test
     container_name: site_kindergarten_test

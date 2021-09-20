@@ -15,7 +15,11 @@ class BranchSeeder extends Seeder
     public function run()
     {
         $branches = ["Первый", "Второй"];
+        $i = 1;
         foreach ($branches as $branch_name)
-            if (Branch::where("name", $branch_name)->count()==0) Branch::factory(["name"=>$branch_name])->create();
+        {
+            if (!Branch::query()->where("name", $branch_name)->exists()) Branch::factory(["name"=>$branch_name, "id"=>$i])->create();
+            $i++;
+        }
     }
 }

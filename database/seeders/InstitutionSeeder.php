@@ -16,8 +16,11 @@ class InstitutionSeeder extends Seeder
     public function run()
     {
         $institutions = ["Детский сад", "Продленка", "Лагерь"];
-
+        $i = 1;
         foreach ($institutions as $institution_name)
-            if (Institution::where("name", $institution_name)->count()==0) Institution::factory(["name"=>$institution_name])->create();
+        {
+            if (!Institution::query()->where("name", $institution_name)->exists()) Institution::factory(["name"=>$institution_name, "id"=>$i])->create();
+            $i++;
+        }
     }
 }
