@@ -127,7 +127,7 @@ const folder = {
                     	} else {
                     		css.push(ass[i]);
                     	}
-                	};
+                	}
                 });
             	if(js.length > 0){
             		mix.combine(js, folder.dist_assets + "/libs/" + name + "/" + name + ".min.js");
@@ -199,7 +199,7 @@ const folder = {
     lodash(app_pages_assets).forEach(function (assets, type) {
 		for (let i = 0; i < assets.length; ++i) {
         	mix.js(assets[i], out + "pages");
-    	};
+    	}
     });
 
     mix.combine('resources/js/app.js', folder.dist_assets + "js/app.min.js");

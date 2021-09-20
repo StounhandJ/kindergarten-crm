@@ -23,6 +23,11 @@ COPY --from=composer /app/vendor /var/www/vendor
 COPY scripts/init.sh ./init.sh
 RUN sed -i -e 's/\r$//' init.sh
 RUN chmod +x ./init.sh
+
+COPY scripts/test.sh ./test.sh
+RUN sed -i -e 's/\r$//' test.sh
+RUN chmod +x ./test.sh
+
 RUN php artisan key:generate
 
 EXPOSE 9000

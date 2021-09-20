@@ -11,7 +11,7 @@ class GeneralJournalChildObserver
     /**
      * Handle the GeneralJournalChild "created" event.
      *
-     * @param  \App\Models\GeneralJournalChild  $generalJournalChild
+     * @param GeneralJournalChild $generalJournalChild
      * @return void
      */
     public function created(GeneralJournalChild $generalJournalChild)

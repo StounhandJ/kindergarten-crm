@@ -11,7 +11,7 @@ class GeneralJournalStaffObserver
     /**
      * Handle the GeneralJournalStaff "created" event.
      *
-     * @param  \App\Models\GeneralJournalStaff  $generalJournalStaff
+     * @param GeneralJournalStaff $generalJournalStaff
      * @return void
      */
     public function created(GeneralJournalStaff $generalJournalStaff)

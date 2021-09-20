@@ -42,7 +42,7 @@ class SmsNotification extends Notification// implements ShouldQueue
      */
     public function toNexmo($notifiable)
     {
-        return (new NexmoMessage)
+        return (new NexmoMessage())
             ->content(`Необходимо оплатить {$this->price}`)
             ->unicode();
     }

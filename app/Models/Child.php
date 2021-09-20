@@ -14,7 +14,8 @@ use Illuminate\Support\Carbon;
 
 class Child extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     //<editor-fold desc="Setting">
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];

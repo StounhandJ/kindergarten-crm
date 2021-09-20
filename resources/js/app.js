@@ -104,7 +104,7 @@ File: Main Js File
             }
 
             $('body').removeClass('right-bar-enabled');
-            return;
+
         });
     }
 

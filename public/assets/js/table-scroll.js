@@ -12,7 +12,7 @@ window.onload = function () {
 
     var scr_gj = $(".gj-grid-wrapper");
     // console.log(scr_gj);
-    if (scr_gj[0]) {scr_gj[0].style.overflow = 'auto';};
+    if (scr_gj[0]) {scr_gj[0].style.overflow = 'auto';}
     scr_gj.mousedown(function (event) {
         var startX = this.scrollLeft + event.pageX;
         var startY = this.scrollTop + event.pageY;

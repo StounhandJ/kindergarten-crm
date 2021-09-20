@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Cost\ChildCost;
 use App\Notifications\SmsNotification;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,8 @@ use Illuminate\Support\Facades\Notification;
 
 class GeneralJournalChild extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
@@ -199,7 +201,7 @@ class GeneralJournalChild extends Model
                 $generalJournalChild->notify(new SmsNotification("0"));
                 $generalJournalChild->setNotification(true)->save();
             }
-            catch (\Exception $exception)
+            catch (Exception $exception)
             {
                 // ignore
             }
