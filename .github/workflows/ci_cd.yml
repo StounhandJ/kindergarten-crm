@@ -30,6 +30,15 @@ jobs:
 
     name: PHP${{ matrix.php-versions }} - L8 - ${{ matrix.operating-system}}
 
+    env:
+      DB_HOST: localhost
+      DB_DATABASE: test
+      DB_PORT: 55432
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      APP_URL: http://localhost
+      APP_DEBUG: False
+
     steps:
       - uses: actions/checkout@v2
       - name: Install PHP versions
@@ -64,38 +73,14 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
       - name: Run Migrations
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: test
-          DB_PORT: 55432
-          DB_USERNAME: root
-          DB_PASSWORD: root
-
         run: php artisan migrate
-      - name: Run Seed
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: test
-          DB_PORT: 55432
-          DB_USERNAME: root
-          DB_PASSWORD: root
-
-        run: php artisan db:seed
       - name: Create srorage link
         run: php artisan storage:link
 
       - name: Execute tests
-        env:
-          DB_HOST: localhost
-          DB_DATABASE: test
-          DB_PORT: 55432
-          DB_USERNAME: root
-          DB_PASSWORD: root
-          APP_URL: http://localhost
-          APP_DEBUG: False
+        run: vendor/bin/phpunit
 
-        run: php artisan test
-  deploy:
+  Deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
