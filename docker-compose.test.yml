@@ -11,21 +11,29 @@ services:
     environment:
       - APP_URL=http://localhost
       - APP_DEBUG=False
-      - DB_HOST=pg_db
+      - DB_HOST=pg_db_test
       - DB_USERNAME=root
       - DB_PASSWORD=root
       - DB_DATABASE=test
       - PRODUCT=True
     volumes:
-      - ./storage/app:/var/www/storage/app
+      - ./public:/var/www/public
+      - ./app:/var/www/app
+      - ./config:/var/www/config
+      - ./routes:/var/www/routes
+      - ./database:/var/www/database
+      - ./storage:/var/www/storage
+      - ./resources:/var/www/resources
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./tests:/var/www/tests
+      - ./scripts/test.sh:/var/www/test.sh
     depends_on:
       - pg_db_test
     container_name: site_kindergarten_test
-    command: "php artisan test"
+    command: "./test.sh"
 
   pg_db_test:
-    image: postgres:9.6
+    image: postgres:latest
     restart: always
     environment:
       - POSTGRES_USER=root

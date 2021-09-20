@@ -27,7 +27,7 @@ services:
     container_name: site_kindergarten
 
   pg_db:
-    image: postgres:9.6
+    image: postgres:latest
     restart: always
     environment:
       - POSTGRES_USER=root

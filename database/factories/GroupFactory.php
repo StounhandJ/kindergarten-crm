@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Branch;
 use App\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +23,9 @@ class GroupFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "name"=>$this->withFaker()->name(),
+            "branch_id"=> Branch::all()->random(),
+            "children_age"=>$this->withFaker()->numberBetween(2,6),
         ];
     }
 }

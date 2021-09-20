@@ -12,7 +12,7 @@ class Branch extends Model
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
-    protected $hidden = ['delete_at'];
+    protected $hidden = ['deleted_at'];
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">

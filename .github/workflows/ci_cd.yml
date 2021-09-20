@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       pg_db_test:
-        image: postgres:9.6
+        image: postgres:latest
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: root
