@@ -72,30 +72,30 @@ class ChildrenTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_children_store()
-    {
-//        $child = Child::getById(Child::factory()->create()->getId());
-//        $this->assertNotNull($child);
-        $data = [
-            "fio" => "string",
-            "address" => "string",
-            "fio_mother" => "string",
-            "phone_mother" => "string",
-            "fio_father" => "string",
-            "phone_father" => "string",
-            "comment" => "string",
-            "rate" => 23,
-            "date_exclusion" => Carbon::now(),
-            "reason_exclusion" => "string",
-            "date_birth" => Carbon::now(),
-            "date_enrollment" => Carbon::now(),
-            "group_id" => Group::factory()->create()->getId(),
-            "institution_id" => Institution::all()->random()->getId(),
-        ];
-        $response = $this->json('POST', '/action/children', $data);
-
-        $response
-            ->assertStatus(200)
-            ->assertJsonPath("records", $data);
-    }
+//    public function test_children_store()
+//    {
+////        $child = Child::getById(Child::factory()->create()->getId());
+////        $this->assertNotNull($child);
+//        $data = [
+//            "fio" => "string",
+//            "address" => "string",
+//            "fio_mother" => "string",
+//            "phone_mother" => "string",
+//            "fio_father" => "string",
+//            "phone_father" => "string",
+//            "comment" => "string",
+//            "rate" => 23,
+//            "date_exclusion" => Carbon::now(),
+//            "reason_exclusion" => "string",
+//            "date_birth" => Carbon::now(),
+//            "date_enrollment" => Carbon::now(),
+//            "group_id" => Group::factory()->create()->getId(),
+//            "institution_id" => Institution::all()->random()->getId(),
+//        ];
+//        $response = $this->json('POST', '/action/children', $data);
+//
+//        $response
+//            ->assertStatus(200)
+//            ->assertJsonPath("records", $data);
+//    }
 }

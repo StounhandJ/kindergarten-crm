@@ -6,7 +6,9 @@ volumes:
 
 services:
   site_test:
-    build: .
+    build:
+        context: .
+        dockerfile: Dockerfile.test
     restart: "no"
     environment:
       - APP_URL=http://localhost
@@ -29,7 +31,6 @@ services:
     depends_on:
       - pg_db_test
     container_name: site_kindergarten_test
-    command: "./test.sh"
 
   pg_db_test:
     image: postgres:latest

@@ -1,8 +1,8 @@
 FROM composer as composer
 COPY composer.* /app/
-RUN composer install --ignore-platform-reqs --no-scripts --optimize-autoloader
+RUN composer install --ignore-platform-reqs --no-scripts --optimize-autoloader --no-dev
 
-FROM php:fpm
+FROM php:8.0-fpm
 
 COPY composer.lock composer.json /var/www/
 
@@ -20,9 +20,9 @@ RUN touch /var/www/cron.log
 COPY --chown=www-data:www-data . /var/www
 RUN touch /var/www/storage/logs/laravel.log
 COPY --from=composer /app/vendor /var/www/vendor
-COPY scripts .
-RUN sed -i -e 's/\r$//' init.sh test.sh
-RUN chmod +x ./init.sh test.sh
+COPY scripts/init.sh ./init.sh
+RUN sed -i -e 's/\r$//' init.sh
+RUN chmod +x ./init.sh
 
 RUN php artisan key:generate
 
