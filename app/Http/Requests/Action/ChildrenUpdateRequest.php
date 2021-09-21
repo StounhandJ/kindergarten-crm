@@ -18,7 +18,7 @@ class ChildrenUpdateRequest extends ChildrenRequest
             "fio_father"=> "string|max:200",
             "phone_father"=> "string",
             "comment"=> "string",
-            "rate"=> "string",
+            "rate"=> "integer",
             "date_exclusion"=> "nullable|date",
             "reason_exclusion"=> "string",
             "date_birth"=> "date",
