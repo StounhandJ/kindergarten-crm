@@ -10,6 +10,12 @@
                 <li class="menu-title">Основное меню</li>
 
                 <li class="mm-active">
+                    <a href="{{ route('branches') }}" class="waves-effect {{ Request::url() == route('branches') ? "active": "" }}">
+                        <span><i class="mdi mdi-account-supervisor-outline"> Филиалы</i></span>
+                    </a>
+                </li>
+
+                <li class="mm-active">
                     <a href="{{ route('groups') }}" class="waves-effect {{ Request::url() == route('groups') ? "active": "" }}">
                         <span><i class="mdi mdi-account-supervisor-outline"> Группы</i></span>
                     </a>

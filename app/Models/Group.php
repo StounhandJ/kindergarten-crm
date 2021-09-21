@@ -18,7 +18,7 @@ class Group extends Model
 
     protected $appends = ['branch_name'];
 
-    public function getBranchNameAttribute(): string
+    public function getBranchNameAttribute()
     {
         return $this->getBranch()->getName();
     }

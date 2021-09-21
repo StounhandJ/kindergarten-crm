@@ -4,4 +4,4 @@ sleep 3
 
 php artisan migrate
 php artisan storage:link
-vendor/bin/phpunit --coverage-html tests/coverage
+vendor/bin/phpunit --verbose --coverage-html tests/coverage

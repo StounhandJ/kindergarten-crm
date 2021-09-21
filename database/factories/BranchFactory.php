@@ -22,7 +22,7 @@ class BranchFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "name"=>$this->withFaker()->userName()
         ];
     }
 }

@@ -1,6 +1,6 @@
 FROM composer as composer
 COPY composer.* /app/
-RUN composer install --ignore-platform-reqs --no-scripts --optimize-autoloader --no-dev
+RUN composer install --ignore-platform-reqs --no-scripts --optimize-autoloader
 
 FROM php:8.0-fpm
 

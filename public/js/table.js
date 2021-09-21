@@ -72,6 +72,16 @@ function current_table(table) {
     };
 
     switch (tapath.split("?")[0]) {
+        case "branches":
+            column["columns"] = [
+                {field: "id", hidden: true},
+                {
+                    field: "name",
+                    title: "Наименование филиала",
+                    editor: true,
+                }
+            ];
+            break;
         case "group":
             column["columns"] = [
                 {field: "id", hidden: true},
@@ -86,7 +96,7 @@ function current_table(table) {
                     type: "dropdown",
                     editField: "branch_id",
                     editor: {
-                        dataSource: "/action/branch",
+                        dataSource: "/action/branch-array",
                         valueField: "id",
                         textField: "name",
                     },
@@ -189,7 +199,7 @@ function current_table(table) {
                     type: "dropdown",
                     editField: "branch_id",
                     editor: {
-                        dataSource: "/action/branch",
+                        dataSource: "/action/branch-array",
                         valueField: "id",
                         textField: "name",
                     },
@@ -403,6 +413,25 @@ function current_table(table) {
         });
     });
 
+    $(".custom-validation").submit(function (d) {
+        var data = {};
+        $(this)
+            .serializeArray()
+            .forEach((item) => {
+                data[item.name] = item.value;
+            });
+        var tapath = $(this)[0].attributes.getNamedItem("tapath").value;
+        $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
+            .done(function () {
+                closeForm(true);
+                grid.reload();
+            })
+            .fail(function () {
+                alert("Failed to delete.");
+            });
+        return false;
+    });
+
     $("#journal-date").change(function () {
         grid.reload({date: $(this)[0].value});
     })
@@ -425,7 +454,7 @@ $(document).ready(function () {
     }
     // Формы //
     $.ajax({
-        url: "/action/branch",
+        url: "/action/branch-array",
         method: "GET",
         success: function (data) {
             data.forEach((item) => {
@@ -503,25 +532,6 @@ $(document).ready(function () {
                 );
             });
         },
-    });
-
-    $(".custom-validation").submit(function (d) {
-        var data = {};
-        $(this)
-            .serializeArray()
-            .forEach((item) => {
-                data[item.name] = item.value;
-            });
-        var tapath = $(this)[0].attributes.getNamedItem("tapath").value;
-        $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
-            .done(function () {
-                closeForm(true);
-                grid.reload();
-            })
-            .fail(function () {
-                alert("Failed to delete.");
-            });
-        return false;
     });
 
     function allHideIncome() {

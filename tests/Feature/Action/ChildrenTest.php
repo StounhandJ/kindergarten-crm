@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Action;
 
 use App\Models\Child;
 use App\Models\Group;
 use App\Models\Types\Institution;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Testing\Fluent\AssertableJson;

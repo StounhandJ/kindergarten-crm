@@ -1,9 +1,7 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Action;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class InstitutionTest extends TestCase

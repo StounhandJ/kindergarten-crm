@@ -28,7 +28,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix("action")->name("action.")->group(function () {
 
-    Route::apiResource("branch", BranchActionController::class)->only("index");
+    Route::get("branch-array", [BranchActionController::class, "indexArray"]);
+
+    Route::apiResource("branches", BranchActionController::class);
 
     Route::apiResource("position", PositionActionController::class)->only("index");
 
@@ -65,6 +67,10 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return redirect(route("index"));
 });
+
+Route::get('/branches', function () {
+    return view("branches");
+})->name("branches");
 
 Route::get('/groups', function () {
     return view("groups");

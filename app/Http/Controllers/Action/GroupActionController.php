@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Action\GroupCreateRequest;
-use App\Http\Requests\Action\GroupUpdateRequest;
+use App\Http\Requests\Action\BranchCreateRequest;
+use App\Http\Requests\Action\BranchUpdateRequest;
 use App\Http\Requests\TableRequest;
 use App\Models\Group;
 use Illuminate\Http\JsonResponse;
@@ -38,10 +38,10 @@ class GroupActionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param GroupCreateRequest $request
+     * @param BranchCreateRequest $request
      * @return JsonResponse
      */
-    public function store(GroupCreateRequest $request)
+    public function store(BranchCreateRequest $request)
     {
         $group = Group::make($request->getName(), $request->getChildrenAge(), $request->getBranch());
         $group->save();
@@ -62,11 +62,11 @@ class GroupActionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param GroupUpdateRequest $request
+     * @param BranchUpdateRequest $request
      * @param Group $group
      * @return JsonResponse
      */
-    public function update(GroupUpdateRequest $request, Group $group)
+    public function update(BranchUpdateRequest $request, Group $group)
     {
         $group->setNameIfNotEmpty($request->getName());
         $group->setChildrenAgeIfNotEmpty($request->getChildrenAge());
