@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\Types\Institution;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -49,6 +50,28 @@ class ChildrenTest extends TestCase
             ->assertJsonPath("records.id", $child->getId());
     }
 
+    public function test_children_show_remote_child()
+    {
+        $this->assertDatabaseMissing("children", [
+            "id"=>789
+        ]);
+
+        $response = $this->json('GET', '/action/children/789');
+
+        $response
+            ->assertStatus(404);
+    }
+
+    public function test_children_show_incorrect_child()
+    {
+        $child = Child::factory()->create();
+
+        $response = $this->json('GET', '/action/children/' . -1);
+
+        $response
+            ->assertStatus(404);
+    }
+
     public function test_children_attribute_hidden()
     {
         $child = Child::factory()->create();
@@ -72,30 +95,214 @@ class ChildrenTest extends TestCase
         $response->assertStatus(200);
     }
 
-//    public function test_children_store()
-//    {
-////        $child = Child::getById(Child::factory()->create()->getId());
-////        $this->assertNotNull($child);
-//        $data = [
-//            "fio" => "string",
-//            "address" => "string",
-//            "fio_mother" => "string",
-//            "phone_mother" => "string",
-//            "fio_father" => "string",
-//            "phone_father" => "string",
-//            "comment" => "string",
-//            "rate" => 23,
-//            "date_exclusion" => Carbon::now(),
-//            "reason_exclusion" => "string",
-//            "date_birth" => Carbon::now(),
-//            "date_enrollment" => Carbon::now(),
-//            "group_id" => Group::factory()->create()->getId(),
-//            "institution_id" => Institution::all()->random()->getId(),
-//        ];
-//        $response = $this->json('POST', '/action/children', $data);
-//
-//        $response
-//            ->assertStatus(200)
-//            ->assertJsonPath("records", $data);
-//    }
+    public function test_children_delete_remote_child()
+    {
+        $this->assertDatabaseMissing("children", [
+            "id"=>789
+        ]);
+
+        $response = $this->json('DELETE', '/action/children/789');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_children_store()
+    {
+        Event::fake();
+        $data = [
+            "fio" => "string",
+            "address" => "string",
+            "fio_mother" => "string",
+            "phone_mother" => "string",
+            "fio_father" => "string",
+            "phone_father" => "string",
+            "comment" => "string",
+            "rate" => 23,
+            "date_exclusion" => Carbon::now(),
+            "reason_exclusion" => "string",
+            "date_birth" => Carbon::now(),
+            "date_enrollment" => Carbon::now(),
+            "group_id" => Group::factory()->create()->getId(),
+            "institution_id" => Institution::all()->random()->getId(),
+        ];
+        $response = $this->json('POST', '/action/children', $data);
+
+        $response
+            ->assertStatus(200);
+    }
+
+    public function test_children_store_null_required()
+    {
+        Event::fake();
+        $data = [
+            "address" => "string",
+            "fio_mother" => "string",
+            "phone_mother" => "string",
+            "comment" => "string",
+            "phone_father" => "string",
+            "rate" => 23,
+            "date_birth" => Carbon::now(),
+            "date_enrollment" => Carbon::now(),
+            "group_id" => Group::factory()->create()->getId(),
+            "institution_id" => Institution::all()->random()->getId(),
+        ];
+        $response = $this->json('POST', '/action/children', $data);
+
+        $response
+            ->assertStatus(422);
+    }
+
+    public function test_children_store_null_no_required()
+    {
+        Event::fake();
+        $data = [
+            "fio" => "string",
+            "address" => "string",
+            "fio_mother" => "string",
+            "phone_mother" => "string",
+            "fio_father" => "string",
+            "phone_father" => "string",
+            "rate" => 23,
+            "date_birth" => Carbon::now(),
+            "date_enrollment" => Carbon::now(),
+            "group_id" => Group::factory()->create()->getId(),
+            "institution_id" => Institution::all()->random()->getId(),
+        ];
+        $response = $this->json('POST', '/action/children', $data);
+
+        $response
+            ->assertStatus(200);
+    }
+
+    public function test_children_store_incorrect_group_id()
+    {
+        Event::fake();
+        $data = [
+            "fio" => "string",
+            "address" => "string",
+            "fio_mother" => "string",
+            "phone_mother" => "string",
+            "fio_father" => "string",
+            "phone_father" => "string",
+            "comment" => "string",
+            "rate" => 23,
+            "date_exclusion" => Carbon::now(),
+            "reason_exclusion" => "string",
+            "date_birth" => Carbon::now(),
+            "date_enrollment" => Carbon::now(),
+            "group_id" => -1,
+            "institution_id" => Institution::all()->random()->getId(),
+        ];
+        $response = $this->json('POST', '/action/children', $data);
+
+        $response
+            ->assertStatus(422);
+    }
+
+
+    public function test_children_update()
+    {
+        Event::fake();
+
+        $child = Child::factory()->create();
+
+        $data = [
+            "fio" => "string",
+            "address" => "string",
+            "fio_mother" => "string",
+            "phone_mother" => "string",
+            "fio_father" => "string",
+            "phone_father" => "string",
+            "comment" => "string",
+            "rate" => 23,
+            "date_exclusion" => Carbon::now(),
+            "reason_exclusion" => "string",
+            "date_birth" => Carbon::now(),
+            "date_enrollment" => Carbon::now(),
+            "group_id" => Group::factory()->create()->getId(),
+            "institution_id" => Institution::all()->random()->getId(),
+        ];
+        $response = $this->json('PUT', '/action/children/' . $child->getId(), $data);
+
+        $response
+            ->assertStatus(200);
+    }
+
+    public function test_children_update_remote_child()
+    {
+        Event::fake();
+
+        $child = Child::factory()->create();
+        $child->delete();
+
+        $data = [
+            "fio" => "string",
+            "address" => "string",
+            "fio_mother" => "string",
+            "phone_mother" => "string",
+            "fio_father" => "string",
+            "phone_father" => "string",
+            "comment" => "string",
+            "rate" => 23,
+            "date_exclusion" => Carbon::now(),
+            "reason_exclusion" => "string",
+            "date_birth" => Carbon::now(),
+            "date_enrollment" => Carbon::now(),
+            "group_id" => Group::factory()->create()->getId(),
+            "institution_id" => Institution::all()->random()->getId(),
+        ];
+        $response = $this->json('PUT', '/action/children/'.$child->getId(), $data);
+
+        $response
+            ->assertStatus(200);
+    }
+
+    public function test_children_update_incorrect_child()
+    {
+        Event::fake();
+
+        $child = Child::factory()->create();
+
+        $data = [
+            "fio" => "string",
+            "address" => "string",
+            "fio_mother" => "string",
+            "phone_mother" => "string",
+            "fio_father" => "string",
+            "phone_father" => "string",
+            "comment" => "string",
+            "rate" => 23,
+            "date_exclusion" => Carbon::now(),
+            "reason_exclusion" => "string",
+            "date_birth" => Carbon::now(),
+            "date_enrollment" => Carbon::now(),
+            "group_id" => Group::factory()->create()->getId(),
+            "institution_id" => Institution::all()->random()->getId(),
+        ];
+        $response = $this->json('PUT', '/action/children/' . -1, $data);
+
+        $response
+            ->assertStatus(404);
+    }
+
+    public function test_children_update_null_no_required()
+    {
+        Event::fake();
+
+        $child = Child::factory()->create();
+
+        $data = [
+            "fio" => "string",
+            "address" => "string",
+            "fio_mother" => "string",
+            "phone_mother" => "string",
+            "fio_father" => "string",
+            "phone_father" => "string",
+            "comment" => "string",
+        ];
+        $response = $this->json('PUT', '/action/children/' . $child->getId(), $data);
+
+        $response
+            ->assertStatus(200);
+    }
 }
