@@ -25,7 +25,7 @@ class CostRequest extends FormRequest
 
     public function getIncome()
     {
-        return !($this->query("income") == "0");
+        return !($this->input("income") == "0");
     }
 
     public function getChild(): Child

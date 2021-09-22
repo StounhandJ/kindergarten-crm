@@ -413,25 +413,6 @@ function current_table(table) {
         });
     });
 
-    $(".custom-validation").submit(function (d) {
-        var data = {};
-        $(this)
-            .serializeArray()
-            .forEach((item) => {
-                data[item.name] = item.value;
-            });
-        var tapath = $(this)[0].attributes.getNamedItem("tapath").value;
-        $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
-            .done(function () {
-                closeForm(true);
-                grid.reload();
-            })
-            .fail(function () {
-                alert("Failed to delete.");
-            });
-        return false;
-    });
-
     $("#journal-date").change(function () {
         grid.reload({date: $(this)[0].value});
     })
@@ -453,11 +434,30 @@ $(document).ready(function () {
         current_table(table2);
     }
 
+    $(".custom-validation").submit(function (d) {
+        var data = {};
+        $(this)
+            .serializeArray()
+            .forEach((item) => {
+                data[item.name] = item.value;
+            });
+        var tapath = $(this)[0].attributes.getNamedItem("tapath").value;
+        $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
+            .done(function () {
+                closeForm(true);
+            })
+            .fail(function () {
+                alert("Failed to delete.");
+            });
+        return false;
+    });
+
     $.ajax({
         url: "/action/month",
         method: "GET",
         success: function (data) {
-            $("#journal-date")[0].value = data
+            $("#journal-date")[0]? $("#journal-date")[0].value = data : "";
+            $("#income-date")[0]? $("#income-date")[0].value = data : "";
         },
     });
 

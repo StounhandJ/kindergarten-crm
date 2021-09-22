@@ -51,6 +51,6 @@ class TableRequest extends FormRequest
 
     public function getIncome(): bool
     {
-        return !($this->query("income") == "0");
+        return !($this->input("income") == "0");
     }
 }

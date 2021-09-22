@@ -17,6 +17,8 @@ class Staff extends Model
     use SoftDeletes;
 
     //<editor-fold desc="Setting">
+    protected $table = "staff";
+
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
     protected $appends = ['branch_id', "branch_name", "group_name", "position_name", "date_dismissal", "login", "password"];

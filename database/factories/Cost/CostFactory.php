@@ -22,7 +22,8 @@ class CostFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "amount"=>$this->withFaker()->numberBetween(100, 20000),
+            "comment"=>$this->withFaker()->name().$this->withFaker()->address()
         ];
     }
 
