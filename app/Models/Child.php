@@ -61,8 +61,8 @@ class Child extends Model
      */
     public function getJournalOnMonth(Carbon $data): Collection|array
     {
-        return $this->getJournal()->whereDate("create_date", ">=", $data->firstOfMonth())
-            ->whereDate("create_date", "<=", $data->lastOfMonth())->get()->sortBy("create_date");
+        return $this->getJournal()->whereDate("create_date", ">=", $data->clone()->firstOfMonth())
+            ->whereDate("create_date", "<=", $data->clone()->lastOfMonth())->get()->sortBy("create_date");
     }
 
     public function getId()

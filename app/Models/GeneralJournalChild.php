@@ -54,8 +54,7 @@ class GeneralJournalChild extends Model
 
     public function getDebtAttribute()
     {
-        return "Неизвестно";
-//        return $this->getNeedPaidAttribute() - $this->getPaidAttribute();
+        return Debts::getByChildAndMonth($this->getChild(), $this->getMonth()->clone()->addMonths(-1))->getAmount() ?? 0;
     }
 
     public function getAttendanceAttribute()
@@ -102,6 +101,11 @@ class GeneralJournalChild extends Model
         return $this->id;
     }
 
+    public function getChildId()
+    {
+        return $this->child_id;
+    }
+
     public function getChild()
     {
         return Child::getById($this->child_id);
@@ -135,6 +139,15 @@ class GeneralJournalChild extends Model
     public function getMonth()
     {
         return Carbon::make($this->month);
+    }
+
+    public function getBeforeGeneralJournal(): GeneralJournalChild
+    {
+        return GeneralJournalChild::query()
+            ->where("child_id", $this->getChildId())
+            ->whereDate("month", ">=", $this->getMonth()->addMonths(-1)->firstOfMonth())
+            ->whereDate("month", "<=", $this->getMonth()->addMonths(-1)->lastOfMonth())
+            ->firstOrNew();
     }
     //</editor-fold>
 

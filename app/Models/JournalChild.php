@@ -45,6 +45,7 @@ class JournalChild extends Model
     public function setVisitIfNotEmpty(Visit $visit)
     {
         if ($visit->exists) $this->visit_id = $visit->getId();
+        return $this;
     }
     //</editor-fold>
 
