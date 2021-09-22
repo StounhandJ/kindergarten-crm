@@ -13,6 +13,7 @@ use App\Http\Controllers\Action\JournalStaffActionController;
 use App\Http\Controllers\Action\PositionActionController;
 use App\Http\Controllers\Action\StaffActionController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix("action")->name("action.")->group(function () {
+
+    Route::get("month", fn() => Carbon::now()->format("Y-m"));
 
     Route::get("branch-array", [BranchActionController::class, "indexArray"]);
 

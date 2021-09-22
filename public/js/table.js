@@ -452,6 +452,15 @@ $(document).ready(function () {
     if (table2.length == 1) {
         current_table(table2);
     }
+
+    $.ajax({
+        url: "/action/month",
+        method: "GET",
+        success: function (data) {
+            $("#journal-date")[0].value = data
+        },
+    });
+
     // Формы //
     $.ajax({
         url: "/action/branch-array",
