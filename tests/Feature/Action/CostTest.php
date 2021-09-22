@@ -59,6 +59,32 @@ class CostTest extends TestCase
             ->assertJsonPath("records.id", $cost->getId());
     }
 
+    public function test_cost_staff_show()
+    {
+        $staff = Staff::factory()->create();
+        $cost = Cost::profit(100, "f", new Child(), $staff);
+
+        $response = $this->json('GET', '/action/cost/' . $cost->getId());
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonPath("records.id", $cost->getId())
+            ->assertJsonPath("records.staff.id", $staff->getId());
+    }
+
+    public function test_cost_child_show()
+    {
+        $child = Child::factory()->create();
+        $cost = Cost::profit(100, "f", $child, new Staff());
+
+        $response = $this->json('GET', '/action/cost/' . $cost->getId());
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonPath("records.id", $cost->getId())
+            ->assertJsonPath("records.child.id", $child->getId());
+    }
+
     public function test_cost_show_incorrect_cost()
     {
         Cost::factory()->profit()->create();
