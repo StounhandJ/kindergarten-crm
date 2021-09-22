@@ -11,7 +11,7 @@
 
                 <li class="mm-active">
                     <a href="{{ route('branches') }}" class="waves-effect {{ Request::url() == route('branches') ? "active": "" }}">
-                        <span><i class="mdi mdi-account-supervisor-outline"> Филиалы</i></span>
+                        <span><i class="mdi mdi-archive"> Филиалы</i></span>
                     </a>
                 </li>
 
