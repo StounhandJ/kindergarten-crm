@@ -17,27 +17,6 @@ class ChildDebtTest extends TestCase
     private Carbon $next_month;
     private int $needPaid;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->month = Carbon::now();
-        $this->next_month = $this->month->clone()->addMonth();
-
-        $child = Child::factory(["id" => $this->child_id])->create();
-
-        $child->getJournalOnMonth($this->month)
-            ->map(
-                fn(JournalChild $journalChild) => $journalChild->setVisitIfNotEmpty(
-                    Visit::getById(Visit::WHOLE_DAT)
-                )->save()
-            );
-
-        $generalJournalChild = GeneralJournalChild::getByChildAndMonth($child, $this->month);
-
-        $this->needPaid = (int)$generalJournalChild->getNeedPaidAttribute(
-            ) - (int)$generalJournalChild->getPaidAttribute();
-    }
-
     /**
      * Full transfer of payment to debt.
      *
@@ -99,5 +78,26 @@ class ChildDebtTest extends TestCase
         )->getAmount();
 
         $this->assertEqualsWithDelta($expected, $actual, $delta);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->month = Carbon::now();
+        $this->next_month = $this->month->clone()->addMonth();
+
+        $child = Child::factory(["id" => $this->child_id])->create();
+
+        $child->getJournalOnMonth($this->month)
+            ->map(
+                fn(JournalChild $journalChild) => $journalChild->setVisitIfNotEmpty(
+                    Visit::getById(Visit::WHOLE_DAT)
+                )->save()
+            );
+
+        $generalJournalChild = GeneralJournalChild::getByChildAndMonth($child, $this->month);
+
+        $this->needPaid = (int)$generalJournalChild->getNeedPaidAttribute(
+            ) - (int)$generalJournalChild->getPaidAttribute();
     }
 }

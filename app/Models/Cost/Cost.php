@@ -21,89 +21,6 @@ class Cost extends Model
     ];
     protected $appends = ['date', 'staff', 'child', 'branch_name'];
 
-    public function getDateAttribute()
-    {
-        return $this->getDate()->format("Y-m-d");
-    }
-
-    public function getStaffAttribute()
-    {
-        return $this->getStaff();
-    }
-
-    public function getChildAttribute()
-    {
-        return $this->getChildren();
-    }
-
-    public function getBranchNameAttribute()
-    {
-        $pr = $this->getStaffAttribute() ?? $this->getChildAttribute();
-        return $pr? $pr->getBranchNameAttribute() : "";
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Get Attribute">
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    public function getIsProfit()
-    {
-        return $this->is_profit;
-    }
-
-    public function getDate(): Carbon
-    {
-        return Carbon::make($this->created_at);
-    }
-
-    public function getComment()
-    {
-        return $this->comment;
-    }
-
-    public function getChildren()
-    {
-        return $this->children()->first();
-    }
-
-    public function getStaff()
-    {
-        return $this->staff()->first();
-    }
-
-    public function children(): BelongsToMany
-    {
-        return $this->belongsToMany(Child::class)->using(ChildCost::class);
-    }
-
-    public function staff(): BelongsToMany
-    {
-        return $this->belongsToMany(Staff::class)->using(CostStaff::class);
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Set Attribute">
-    private function attachChildOrStaff(Child $child, Staff $staff)
-    {
-        if ($child->exists)
-            $this->children()->attach($child);
-
-        else if ($staff->exists)
-            $this->staff()->attach($staff);
-
-        return $this;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Search Branch">
     public static function getById($id): Cost
     {
         return Cost::where("id", $id)->first() ?? new Cost();
@@ -115,13 +32,11 @@ class Cost extends Model
             ->whereDate("created_at", "<=", $month->lastOfMonth());
     }
 
-    //</editor-fold>
-
     public static function profit($amount, $comment, Child $child, Staff $staff): Cost
     {
         return Cost::factory([
-            "amount"=>$amount,
-            "comment"=>$comment,
+            "amount" => $amount,
+            "comment" => $comment,
         ])->profit()
             ->create()
             ->attachChildOrStaff($child, $staff);
@@ -130,10 +45,100 @@ class Cost extends Model
     public static function losses($amount, $comment, Child $child, Staff $staff): Cost
     {
         return Cost::factory([
-            "amount"=>$amount,
-            "comment"=>$comment,
+            "amount" => $amount,
+            "comment" => $comment,
         ])->losses()
             ->create()
             ->attachChildOrStaff($child, $staff);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Get Attribute">
+
+    public function getDateAttribute()
+    {
+        return $this->getDate()->format("Y-m-d");
+    }
+
+    public function getDate(): Carbon
+    {
+        return Carbon::make($this->created_at);
+    }
+
+    public function getBranchNameAttribute()
+    {
+        $pr = $this->getStaffAttribute() ?? $this->getChildAttribute();
+        return $pr ? $pr->getBranchNameAttribute() : "";
+    }
+
+    public function getStaffAttribute()
+    {
+        return $this->getStaff();
+    }
+
+    public function getStaff()
+    {
+        return $this->staff()->first();
+    }
+
+    public function staff(): BelongsToMany
+    {
+        return $this->belongsToMany(Staff::class)->using(CostStaff::class);
+    }
+
+    public function getChildAttribute()
+    {
+        return $this->getChildren();
+    }
+
+    public function getChildren()
+    {
+        return $this->children()->first();
+    }
+
+    public function children(): BelongsToMany
+    {
+        return $this->belongsToMany(Child::class)->using(ChildCost::class);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
+
+    public function getId()
+    {
+        return $this->id;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Search Branch">
+
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    public function getIsProfit()
+    {
+        return $this->is_profit;
+    }
+
+    //</editor-fold>
+
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    private function attachChildOrStaff(Child $child, Staff $staff)
+    {
+        if ($child->exists) {
+            $this->children()->attach($child);
+        } else {
+            if ($staff->exists) {
+                $this->staff()->attach($staff);
+            }
+        }
+
+        return $this;
     }
 }

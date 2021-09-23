@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Types\Institution;
 use Illuminate\Http\JsonResponse;
+
 use function response;
 
 class InstitutionActionController extends Controller

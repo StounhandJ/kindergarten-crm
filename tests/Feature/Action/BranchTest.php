@@ -21,8 +21,8 @@ class BranchTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson(
                 [
-                    ["id"=>1, "name"=>"Первый"],
-                    ["id"=>2, "name"=>"Второй"]
+                    ["id" => 1, "name" => "Первый"],
+                    ["id" => 2, "name" => "Второй"]
                 ]
             );
     }
@@ -86,7 +86,7 @@ class BranchTest extends TestCase
     public function test_branches_delete_remote_child()
     {
         $this->assertDatabaseMissing("branches", [
-            "id"=>789
+            "id" => 789
         ]);
 
         $response = $this->json('DELETE', '/action/branches/789');

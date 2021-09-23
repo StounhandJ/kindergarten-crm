@@ -21,9 +21,11 @@ class GeneralChildActionController extends Controller
     public function index(TableRequest $request)
     {
         $paginate = GeneralJournalChild::getBuilderByMonth($request->getDate())->paginate($request->getLimit());
-        return response()->json(["message" => "success",
+        return response()->json([
+            "message" => "success",
             "records" => $paginate->items(),
-            "total" => $paginate->total()], 200);
+            "total" => $paginate->total()
+        ], 200);
     }
 
     /**
@@ -41,7 +43,6 @@ class GeneralChildActionController extends Controller
 
         $generalJournalChild->save();
 
-        return response()->json(["message"=>"success", "records"=>$generalJournalChild], 200);
-
+        return response()->json(["message" => "success", "records" => $generalJournalChild], 200);
     }
 }

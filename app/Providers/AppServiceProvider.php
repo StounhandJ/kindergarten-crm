@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->callAfterResolving("test", function (){dd(14124);});
+        $this->callAfterResolving("test", function () {
+            dd(14124);
+        });
     }
 
     /**
@@ -23,6 +25,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
     }
 }

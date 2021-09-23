@@ -30,10 +30,10 @@ class CarbonProvider extends ServiceProvider
             $month = $this->month;
             $days = [];
             $this->firstOfMonth();
-            while ($month==$this->month)
-            {
-                if ($this->isWeekday())
+            while ($month == $this->month) {
+                if ($this->isWeekday()) {
                     $days[] = $this->clone();
+                }
                 $this->addDay();
             }
             $this->setMonth($month);

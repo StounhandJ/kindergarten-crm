@@ -52,7 +52,7 @@ class ChildrenTest extends TestCase
     public function test_children_show_remote_child()
     {
         $this->assertDatabaseMissing("children", [
-            "id"=>789
+            "id" => 789
         ]);
 
         $response = $this->json('GET', '/action/children/789');
@@ -97,7 +97,7 @@ class ChildrenTest extends TestCase
     public function test_children_delete_remote_child()
     {
         $this->assertDatabaseMissing("children", [
-            "id"=>789
+            "id" => 789
         ]);
 
         $response = $this->json('DELETE', '/action/children/789');
@@ -250,7 +250,7 @@ class ChildrenTest extends TestCase
             "group_id" => Group::factory()->create()->getId(),
             "institution_id" => Institution::all()->random()->getId(),
         ];
-        $response = $this->json('PUT', '/action/children/'.$child->getId(), $data);
+        $response = $this->json('PUT', '/action/children/' . $child->getId(), $data);
 
         $response
             ->assertStatus(200);

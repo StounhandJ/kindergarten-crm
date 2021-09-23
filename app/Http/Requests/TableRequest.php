@@ -44,8 +44,9 @@ class TableRequest extends FormRequest
 
     public function getDate(): Carbon
     {
-        if ($this->input("date") != null)
+        if ($this->input("date") != null) {
             return Carbon::make($this->input("date"));
+        }
         return Carbon::now();
     }
 

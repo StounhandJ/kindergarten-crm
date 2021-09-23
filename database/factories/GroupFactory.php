@@ -23,9 +23,9 @@ class GroupFactory extends Factory
     public function definition()
     {
         return [
-            "name"=>$this->withFaker()->name(),
-            "branch_id"=> Branch::all()->random(),
-            "children_age"=>$this->withFaker()->numberBetween(2,6),
+            "name" => $this->withFaker()->name(),
+            "branch_id" => Branch::all()->random(),
+            "children_age" => $this->withFaker()->numberBetween(2, 6),
         ];
     }
 }

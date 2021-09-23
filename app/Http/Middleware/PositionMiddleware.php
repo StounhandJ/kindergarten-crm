@@ -17,7 +17,7 @@ class PositionMiddleware
      */
     public function handle(Request $request, Closure $next, $position)
     {
-        if(!auth()->user()->checkPosition($position)) {
+        if (!auth()->user()->checkPosition($position)) {
             abort(404);
         }
         return $next($request);

@@ -53,18 +53,18 @@ class RouteServiceProvider extends ServiceProvider
         $this->bind('child', fn($post) => Child::withTrashed()->where('id', $post)->firstOrFail());
 
         $this->bind('staff', fn($post) => Staff::withTrashed()->where('id', $post)->firstOrFail());
-}
+    }
 
-/**
- * Configure the rate limiters for the application.
- *
- * @return void
- */
-protected
-function configureRateLimiting()
-{
-    RateLimiter::for('api', function (Request $request) {
-        return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-    });
-}
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * @return void
+     */
+    protected
+    function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Resources\JournalStaffResource;
 use App\Models\JournalStaff;
 use App\Models\Staff;
 use Illuminate\Http\JsonResponse;
+
 use function response;
 
 class JournalStaffActionController extends Controller
@@ -31,10 +32,9 @@ class JournalStaffActionController extends Controller
      */
     public function update(JournalChildrenUpdateRequest $request, JournalStaff $journalStaff)
     {
-         $journalStaff->setVisitIfNotEmpty($request->getVisit());
+        $journalStaff->setVisitIfNotEmpty($request->getVisit());
         $journalStaff->save();
 
         return response()->json(["message" => "success", "records" => $journalStaff], 200);
-
     }
 }

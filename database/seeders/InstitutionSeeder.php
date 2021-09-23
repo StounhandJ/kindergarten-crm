@@ -17,9 +17,10 @@ class InstitutionSeeder extends Seeder
     {
         $institutions = ["Детский сад", "Продленка", "Лагерь"];
         $i = 1;
-        foreach ($institutions as $institution_name)
-        {
-            if (!Institution::query()->where("name", $institution_name)->exists()) Institution::factory(["name"=>$institution_name, "id"=>$i])->create();
+        foreach ($institutions as $institution_name) {
+            if (!Institution::query()->where("name", $institution_name)->exists()) {
+                Institution::factory(["name" => $institution_name, "id" => $i])->create();
+            }
             $i++;
         }
     }

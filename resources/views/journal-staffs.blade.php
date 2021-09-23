@@ -10,7 +10,7 @@
             <thead class="thead-dark" id="j_staffs_table_head">
             </thead>
             <tbody id="j_staffs_table_body">
-                {{-- <div id="loading">Loading</div> --}}
+            {{-- <div id="loading">Loading</div> --}}
             </tbody>
         </table>
     </div>

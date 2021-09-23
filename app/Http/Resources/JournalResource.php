@@ -13,7 +13,7 @@ class JournalResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request)
@@ -29,6 +29,6 @@ class JournalResource extends JsonResource
 
     private function daysToDayAndName(array $days): array
     {
-        return array_map(fn($day)=> ["name"=>$day->dayName,"num"=>$day->day],$days);
+        return array_map(fn($day) => ["name" => $day->dayName, "num" => $day->day], $days);
     }
 }

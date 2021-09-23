@@ -1,7 +1,7 @@
 <?php
 
 return [
-  
+
     "Main" => "Основной",
     "Dashboard" => "Щиток приборов",
     "Calendar" => "Календарь",

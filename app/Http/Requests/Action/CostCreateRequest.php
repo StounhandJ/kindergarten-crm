@@ -14,8 +14,8 @@ class CostCreateRequest extends CostRequest
             "amount" => "required|integer|min:0",
             "income" => "required|boolean",
             "comment" => "nullable|string",
-            "child_id" => "bail|nullable|integer|exists:".Child::class.",id",
-            "staff_id" => "bail|nullable|integer|exists:".Staff::class.",id",
+            "child_id" => "bail|nullable|integer|exists:" . Child::class . ",id",
+            "staff_id" => "bail|nullable|integer|exists:" . Staff::class . ",id",
         ];
     }
 }

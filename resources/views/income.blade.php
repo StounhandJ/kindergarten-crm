@@ -57,7 +57,8 @@
                                 <div class="form-group">
                                     <label>Сумма</label>
                                     <div>
-                                        <input name="amount" type="number" min="0" class="form-control" required placeholder="Введите сумму...">
+                                        <input name="amount" type="number" min="0" class="form-control" required
+                                               placeholder="Введите сумму...">
                                     </div>
                                 </div>
 
@@ -92,7 +93,8 @@
                                 <div class="form-group">
                                     <label>Комментарий</label>
                                     <div>
-                                        <input name="comment" type="text" class="form-control" placeholder="Комментарий...">
+                                        <input name="comment" type="text" class="form-control"
+                                               placeholder="Комментарий...">
                                     </div>
                                 </div>
 

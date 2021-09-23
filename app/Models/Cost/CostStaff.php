@@ -16,16 +16,6 @@ class CostStaff extends Pivot
 
     public $timestamps = false;
 
-    public function getCost()
-    {
-        return Cost::getById($this->cost_id);
-    }
-
-    public function getAmount()
-    {
-        return $this->getCost()->getAmount();
-    }
-
     public static function getByStaffAndMonthLosses(Staff $staff, Carbon $month): Collection
     {
         return CostStaff::query()
@@ -35,5 +25,15 @@ class CostStaff extends Pivot
             ->where("costs.is_profit", "=", false)
             ->where("staff_id", "=", $staff->getId())
             ->get();
+    }
+
+    public function getAmount()
+    {
+        return $this->getCost()->getAmount();
+    }
+
+    public function getCost()
+    {
+        return Cost::getById($this->cost_id);
     }
 }

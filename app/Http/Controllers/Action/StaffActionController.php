@@ -10,6 +10,7 @@ use App\Models\GeneralJournalStaff;
 use App\Models\Staff;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
+
 use function response;
 
 class StaffActionController extends Controller
@@ -22,9 +23,11 @@ class StaffActionController extends Controller
     public function index(TableRequest $request)
     {
         $paginate = Staff::withTrashed()->paginate($request->getLimit());
-        return response()->json(["message" => "success",
+        return response()->json([
+            "message" => "success",
             "records" => $paginate->items(),
-            "total" => $paginate->total()], 200);
+            "total" => $paginate->total()
+        ], 200);
     }
 
     /**
@@ -35,16 +38,26 @@ class StaffActionController extends Controller
      */
     public function store(StaffCreateRequest $request)
     {
-        $staff = Staff::make($request->getFio(), $request->getPhone(), $request->getAddress(),
-            $request->getDateBirth(), $request->getDateEmployment(), $request->getDateDismissal(),
-            $request->getReasonDismissal(), $request->getSalary(), $request->getGroup(), $request->getPosition(),
-            $request->getLogin(), $request->getPassword());
+        $staff = Staff::make(
+            $request->getFio(),
+            $request->getPhone(),
+            $request->getAddress(),
+            $request->getDateBirth(),
+            $request->getDateEmployment(),
+            $request->getDateDismissal(),
+            $request->getReasonDismissal(),
+            $request->getSalary(),
+            $request->getGroup(),
+            $request->getPosition(),
+            $request->getLogin(),
+            $request->getPassword()
+        );
         $staff->save();
 
         $generalJournalStaff = GeneralJournalStaff::make($staff, Carbon::now());
         $generalJournalStaff->save();
 
-        return response()->json(["message"=>"success", "records"=>$staff], 200);
+        return response()->json(["message" => "success", "records" => $staff], 200);
     }
 
     /**
@@ -55,7 +68,7 @@ class StaffActionController extends Controller
      */
     public function show(Staff $staff)
     {
-        return response()->json(["message"=>"success", "records"=>$staff], 200);
+        return response()->json(["message" => "success", "records" => $staff], 200);
     }
 
     /**
@@ -81,7 +94,7 @@ class StaffActionController extends Controller
         $staff->setPasswordIfNotEmpty($request->getPassword());
         $staff->save();
 
-        return response()->json(["message"=>"success", "records"=>$staff], 200);
+        return response()->json(["message" => "success", "records" => $staff], 200);
     }
 
     /**
@@ -93,6 +106,6 @@ class StaffActionController extends Controller
     public function destroy(Staff $staff)
     {
         $result = $staff->delete();
-        return response()->json(["message"=>$result?"success":"error"], $result?200:500);
+        return response()->json(["message" => $result ? "success" : "error"], $result ? 200 : 500);
     }
 }

@@ -10,7 +10,7 @@ class BranchCreateRequest extends GroupRequest
     public function rules()
     {
         return [
-            "name"=> "required|string|min:1|max:60",
+            "name" => "required|string|min:1|max:60",
         ];
     }
 }

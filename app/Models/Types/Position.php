@@ -14,38 +14,44 @@ class Position extends Model
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
+
+    public static function getById($id): Position
+    {
+        return Position::where("id", $id)->first() ?? new Position();
+    }
+
+    public static function make($name)
+    {
+        return Position::factory(["name" => $name])->make();
+    }
+
     public function getId()
     {
         return $this->id;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
 
     public function getName()
     {
         return $this->name;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Search Branch">
 
     public function getEName()
     {
         return $this->e_name;
     }
+
     //</editor-fold>
 
-    //<editor-fold desc="Set Attribute">
     public function setNameIfNotEmpty($name)
     {
-        if ($name!="") $this->name = $name;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Search Branch">
-    public static function getById($id) : Position
-    {
-        return Position::where("id", $id)->first() ?? new Position();
-    }
-    //</editor-fold>
-
-    public static function make($name)
-    {
-        return Position::factory(["name"=>$name] )->make();
+        if ($name != "") {
+            $this->name = $name;
+        }
     }
 }

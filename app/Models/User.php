@@ -44,6 +44,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function getByLogin($login): User
+    {
+        return User::where("login", $login)->first() ?? new User();
+    }
+
+    public static function getByLoginAndPassword($login, $password): User
+    {
+        return User::where("login", $login)->first() ?? new User();
+    }
+
+    public static function getById($id): User
+    {
+        return User::where("id", $id)->first() ?? new User();
+    }
+
+    public static function make($login, $password)
+    {
+        return User::factory(["login" => $login, "password" => $password])
+            ->make();
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
@@ -76,34 +97,13 @@ class User extends Authenticatable
         return $this->getStaff()->getPosition();
     }
 
-    public function checkPosition($e_name_position): bool
-    {
-        return $this->getStaff()->getPosition()->getEName()==$e_name_position;
-    }
-
-    public static function getByLogin($login): User
-    {
-        return User::where("login", $login)->first() ?? new User();
-    }
-
-    public static function getByLoginAndPassword($login, $password): User
-    {
-        return User::where("login", $login)->first() ?? new User();
-    }
-
-    public static function getById($id): User
-    {
-        return User::where("id", $id)->first() ?? new User();
-    }
-
     public function getStaff(): ?Staff
     {
         return $this->hasOne(Staff::class, "user_id", "id")->getResults();
     }
 
-    public static function make($login, $password)
+    public function checkPosition($e_name_position): bool
     {
-        return User::factory(["login"=>$login, "password"=>$password])
-            ->make();
+        return $this->getStaff()->getPosition()->getEName() == $e_name_position;
     }
 }

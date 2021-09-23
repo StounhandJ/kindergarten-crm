@@ -10,6 +10,7 @@ use App\Models\Child;
 use App\Models\GeneralJournalChild;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
+
 use function response;
 
 class ChildrenActionController extends Controller
@@ -22,9 +23,11 @@ class ChildrenActionController extends Controller
     public function index(TableRequest $request)
     {
         $paginate = Child::withTrashed()->paginate($request->getLimit());
-        return response()->json(["message" => "success",
+        return response()->json([
+            "message" => "success",
             "records" => $paginate->items(),
-            "total" => $paginate->total()], 200);
+            "total" => $paginate->total()
+        ], 200);
     }
 
     /**
@@ -36,9 +39,20 @@ class ChildrenActionController extends Controller
     public function store(ChildrenCreateRequest $request)
     {
         $child = Child::make(
-            $request->getFio(), $request->getAddress(), $request->getFioMother(), $request->getPhoneMother(), $request->getFioFather(),
-            $request->getPhoneFather(), $request->getComment(), $request->getRate(), $request->getDateExclusion(), $request->getReasonExclusion(), $request->getDateBirth(),
-            $request->getDateEnrollment(), $request->getGroup(), $request->getInstitution()
+            $request->getFio(),
+            $request->getAddress(),
+            $request->getFioMother(),
+            $request->getPhoneMother(),
+            $request->getFioFather(),
+            $request->getPhoneFather(),
+            $request->getComment(),
+            $request->getRate(),
+            $request->getDateExclusion(),
+            $request->getReasonExclusion(),
+            $request->getDateBirth(),
+            $request->getDateEnrollment(),
+            $request->getGroup(),
+            $request->getInstitution()
         );
         $child->save();
 
@@ -83,7 +97,6 @@ class ChildrenActionController extends Controller
         $child->save();
 
         return response()->json(["message" => "success", "records" => $child], 200);
-
     }
 
     /**
@@ -96,6 +109,5 @@ class ChildrenActionController extends Controller
     {
         $result = $child->delete();
         return response()->json(["message" => $result ? "success" : "error"], $result ? 200 : 500);
-
     }
 }

@@ -50,12 +50,10 @@ class JournalChildrenGenerateCommand extends Command
         $progressBar->setFormat('verbose');
         $progressBar->start();
 
-        foreach ($progressBar->iterate($children, $children_count) as $child)
-        {
-            if (!GeneralJournalChild::getByChildAndMonth($child, $month)->exists)
-            {
+        foreach ($progressBar->iterate($children, $children_count) as $child) {
+            if (!GeneralJournalChild::getByChildAndMonth($child, $month)->exists) {
                 GeneralJournalChild::create($child, $month);
-                $count+=1;
+                $count += 1;
             }
         }
         $progressBar->finish();

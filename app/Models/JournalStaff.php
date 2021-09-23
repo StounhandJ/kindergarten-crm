@@ -16,6 +16,16 @@ class JournalStaff extends Model
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
+
+    public static function make(Staff $staff, Visit $visit, Carbon $date)
+    {
+        return JournalStaff::factory([
+            "staff_id" => $staff->getId(),
+            "visit_id" => $visit->getId(),
+            "create_date" => $date
+        ])->make();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -35,26 +45,21 @@ class JournalStaff extends Model
     {
         return Staff::getById($this->staff_id);
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
 
     public function getCreateDate()
     {
         return Carbon::make($this->create_date);
     }
+
     //</editor-fold>
 
-    //<editor-fold desc="Set Attribute">
     public function setVisitIfNotEmpty(Visit $visit)
     {
-        if ($visit->exists) $this->visit_id = $visit->getId();
-    }
-    //</editor-fold>
-
-    public static function make(Staff $staff, Visit $visit, Carbon $date)
-    {
-        return JournalStaff::factory([
-            "staff_id"=>$staff->getId(),
-            "visit_id"=>$visit->getId(),
-            "create_date"=>$date
-        ] )->make();
+        if ($visit->exists) {
+            $this->visit_id = $visit->getId();
+        }
     }
 }

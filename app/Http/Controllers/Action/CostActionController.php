@@ -8,6 +8,7 @@ use App\Http\Requests\TableRequest;
 use App\Models\Cost\Cost;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+
 use function response;
 
 class CostActionController extends Controller
@@ -19,10 +20,14 @@ class CostActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate())->paginate($request->getLimit());
-        return response()->json(["message" => "success",
+        $paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate())->paginate(
+            $request->getLimit()
+        );
+        return response()->json([
+            "message" => "success",
             "records" => $paginate->items(),
-            "total" => $paginate->total()], 200);
+            "total" => $paginate->total()
+        ], 200);
     }
 
     /**
@@ -33,16 +38,23 @@ class CostActionController extends Controller
      */
     public function store(CostCreateRequest $request)
     {
-        if ($request->getIncome())
-        {
-            $cost = Cost::profit($request->getAmount(), $request->getComment(), $request->getChild(), $request->getStaff());
-        }
-        else
-        {
-            $cost = Cost::losses($request->getAmount(), $request->getComment(), $request->getChild(), $request->getStaff());
+        if ($request->getIncome()) {
+            $cost = Cost::profit(
+                $request->getAmount(),
+                $request->getComment(),
+                $request->getChild(),
+                $request->getStaff()
+            );
+        } else {
+            $cost = Cost::losses(
+                $request->getAmount(),
+                $request->getComment(),
+                $request->getChild(),
+                $request->getStaff()
+            );
         }
 
-        return response()->json(["message"=>"success", "records"=>$cost], 200);
+        return response()->json(["message" => "success", "records" => $cost], 200);
     }
 
     /**
@@ -53,6 +65,6 @@ class CostActionController extends Controller
      */
     public function show(Cost $cost)
     {
-        return response()->json(["message"=>"success", "records"=>$cost], 200);
+        return response()->json(["message" => "success", "records" => $cost], 200);
     }
 }

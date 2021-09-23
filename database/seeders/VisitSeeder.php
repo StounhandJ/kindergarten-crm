@@ -17,8 +17,9 @@ class VisitSeeder extends Seeder
         $positions = ["Не выбрано", "Целый день", "Пол дня", "Больничный", "Отпуск", "Пропущено"];
         $i = 0;
         foreach ($positions as $position_name) {
-            if (!Visit::query()->where("name", $position_name)->exists())
-                    Visit::factory(["name" => $position_name, "id" => $i])->create();
+            if (!Visit::query()->where("name", $position_name)->exists()) {
+                Visit::factory(["name" => $position_name, "id" => $i])->create();
+            }
             $i++;
         }
     }

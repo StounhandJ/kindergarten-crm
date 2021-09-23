@@ -16,16 +16,6 @@ class ChildCost extends Pivot
 
     public $timestamps = false;
 
-    public function getCost()
-    {
-        return Cost::getById($this->cost_id);
-    }
-
-    public function getAmount()
-    {
-        return $this->getCost()->getAmount();
-    }
-
     public static function getByChildAndMonthProfit(Child $child, Carbon $month): Collection
     {
         return ChildCost::query()
@@ -35,5 +25,15 @@ class ChildCost extends Pivot
             ->where("costs.is_profit", "=", true)
             ->where("child_id", "=", $child->getId())
             ->get();
+    }
+
+    public function getAmount()
+    {
+        return $this->getCost()->getAmount();
+    }
+
+    public function getCost()
+    {
+        return Cost::getById($this->cost_id);
     }
 }

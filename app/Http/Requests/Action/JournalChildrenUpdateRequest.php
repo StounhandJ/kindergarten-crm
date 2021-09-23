@@ -10,7 +10,7 @@ class JournalChildrenUpdateRequest extends JournalChildrenRequest
     public function rules()
     {
         return [
-            "visit_id"=>"bail|exists:".Visit::class.",id"
+            "visit_id" => "bail|exists:" . Visit::class . ",id"
         ];
     }
 }

@@ -16,32 +16,6 @@ class Debts extends Model
 
     //<editor-fold desc="Get Attribute">
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getChildId()
-    {
-        return $this->child_id;
-    }
-
-    public function getChild()
-    {
-        return Child::getById($this->child_id);
-    }
-
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    public function getMonth()
-    {
-        return Carbon::make($this->created_at);
-    }
-    //</editor-fold>
-
     public static function getByChildAndMonth(Child $child, Carbon $month): Debts
     {
         return Debts::query()
@@ -59,6 +33,33 @@ class Debts extends Model
             "amount" => $amount,
             "month" => $month
         ])->create();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getChildId()
+    {
+        return $this->child_id;
+    }
+
+    public function getChild()
+    {
+        return Child::getById($this->child_id);
+    }
+
+    //</editor-fold>
+
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    public function getMonth()
+    {
+        return Carbon::make($this->created_at);
     }
 
 }

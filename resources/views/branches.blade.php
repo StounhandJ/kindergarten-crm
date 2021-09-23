@@ -40,7 +40,8 @@
                                         <div class="form-group">
                                             <label>Наименование филиала</label>
                                             <div>
-                                                <input name="name" type="text" class="form-control" required placeholder="Введите название...">
+                                                <input name="name" type="text" class="form-control" required
+                                                       placeholder="Введите название...">
                                             </div>
                                         </div>
 

@@ -17,34 +17,39 @@ class Branch extends Model
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    public function getName()
-    {
-        return $this->name;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Set Attribute">
-    public function setNameIfNotEmpty($name)
-    {
-        if ($name != "") $this->name = $name;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Search Branch">
     public static function getById($id): Branch
     {
         return Branch::where("id", $id)->first() ?? new Branch();
     }
 
-    //</editor-fold>
-
     public static function make($name)
     {
         return Branch::factory(["name" => $name])->make();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
+
+    public function getId()
+    {
+        return $this->id;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Search Branch">
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    //</editor-fold>
+
+    public function setNameIfNotEmpty($name)
+    {
+        if ($name != "") {
+            $this->name = $name;
+        }
     }
 }

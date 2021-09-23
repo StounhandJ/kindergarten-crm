@@ -19,9 +19,9 @@ class InstitutionTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson(
                 [
-                    ["id"=>1, "name"=>"Детский сад"],
-                    ["id"=>2, "name"=>"Продленка"],
-                    ["id"=>3, "name"=>"Лагерь"],
+                    ["id" => 1, "name" => "Детский сад"],
+                    ["id" => 2, "name" => "Продленка"],
+                    ["id" => 3, "name" => "Лагерь"],
                 ]
             );
     }

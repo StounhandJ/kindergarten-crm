@@ -10,9 +10,9 @@ class GroupCreateRequest extends GroupRequest
     public function rules()
     {
         return [
-            "name"=> "required|string|min:1|max:60",
-            "children_age"=> "required|integer",
-            "branch_id"=> "bail|required|exists:".Branch::class.",id"
+            "name" => "required|string|min:1|max:60",
+            "children_age" => "required|integer",
+            "branch_id" => "bail|required|exists:" . Branch::class . ",id"
         ];
     }
 }

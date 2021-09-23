@@ -8,6 +8,7 @@ use App\Http\Requests\Action\BranchUpdateRequest;
 use App\Http\Requests\TableRequest;
 use App\Models\Group;
 use Illuminate\Http\JsonResponse;
+
 use function response;
 
 class GroupActionController extends Controller
@@ -20,9 +21,11 @@ class GroupActionController extends Controller
     public function index(TableRequest $request)
     {
         $paginate = Group::query()->paginate($request->getLimit());
-        return response()->json(["message" => "success",
+        return response()->json([
+            "message" => "success",
             "records" => $paginate->items(),
-            "total" => $paginate->total()], 200);
+            "total" => $paginate->total()
+        ], 200);
     }
 
     /**
@@ -45,7 +48,7 @@ class GroupActionController extends Controller
     {
         $group = Group::make($request->getName(), $request->getChildrenAge(), $request->getBranch());
         $group->save();
-        return response()->json(["message"=>"success", "records"=>$group], 200);
+        return response()->json(["message" => "success", "records" => $group], 200);
     }
 
     /**
@@ -56,7 +59,7 @@ class GroupActionController extends Controller
      */
     public function show(Group $group)
     {
-        return response()->json(["message"=>"success", "records"=>$group], 200);
+        return response()->json(["message" => "success", "records" => $group], 200);
     }
 
     /**
@@ -73,7 +76,7 @@ class GroupActionController extends Controller
         $group->setBranchIfNotEmpty($request->getBranch());
         $group->save();
 
-        return response()->json(["message"=>"success", "records"=>$group], 200);
+        return response()->json(["message" => "success", "records" => $group], 200);
     }
 
     /**
@@ -85,6 +88,6 @@ class GroupActionController extends Controller
     public function destroy(Group $group)
     {
         $result = $group->delete();
-        return response()->json(["message"=>$result?"success":"error"], $result?200:500);
+        return response()->json(["message" => $result ? "success" : "error"], $result ? 200 : 500);
     }
 }

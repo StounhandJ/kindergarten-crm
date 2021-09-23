@@ -40,7 +40,8 @@
                                         <div class="form-group">
                                             <label>Наименование группы</label>
                                             <div>
-                                                <input name="name" type="text" class="form-control" required placeholder="Введите название...">
+                                                <input name="name" type="text" class="form-control" required
+                                                       placeholder="Введите название...">
                                             </div>
                                         </div>
 
@@ -56,7 +57,8 @@
                                         <div class="form-group">
                                             <label>Возраст детей</label>
                                             <div>
-                                                <input name="children_age" data-parsley-type="number" type="number" min = "1" max = "100" class="form-control"
+                                                <input name="children_age" data-parsley-type="number" type="number"
+                                                       min="1" max="100" class="form-control"
                                                        required placeholder="Введите возраст детей...">
                                             </div>
                                         </div>

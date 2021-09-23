@@ -19,8 +19,16 @@ class GeneralJournalStaffObserver
         $month = $generalJournalStaff->getMonth();
         for ($i = 1; $i <= $month->lastOfMonth()->day; $i++) {
             $journalDateDay = $month->setDay($i);
-            if ($month->isWeek() and $generalJournalStaff->getStaff()->getJournal()->whereDate("create_date", "=", $journalDateDay)->count() == 0) {
-                JournalStaff::make($generalJournalStaff->getStaff(), Visit::getById(Visit::NOT_SELECTED), $journalDateDay)->save();
+            if ($month->isWeek() and $generalJournalStaff->getStaff()->getJournal()->whereDate(
+                    "create_date",
+                    "=",
+                    $journalDateDay
+                )->count() == 0) {
+                JournalStaff::make(
+                    $generalJournalStaff->getStaff(),
+                    Visit::getById(Visit::NOT_SELECTED),
+                    $journalDateDay
+                )->save();
             }
         }
     }

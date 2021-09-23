@@ -11,20 +11,20 @@ class ChildrenUpdateRequest extends ChildrenRequest
     public function rules()
     {
         return [
-            "fio"=> "string|max:200",
-            "address"=> "string",
-            "fio_mother"=> "string|max:200",
-            "phone_mother"=> "string",
-            "fio_father"=> "string|max:200",
-            "phone_father"=> "string",
-            "comment"=> "string",
-            "rate"=> "integer",
-            "date_exclusion"=> "nullable|date",
-            "reason_exclusion"=> "string",
-            "date_birth"=> "date",
-            "date_enrollment"=> "date",
-            "group_id"=> "bail|integer|exists:".Group::class.",id",
-            "institution_id"=> "bail|integer|exists:".Institution::class.",id",
+            "fio" => "string|max:200",
+            "address" => "string",
+            "fio_mother" => "string|max:200",
+            "phone_mother" => "string",
+            "fio_father" => "string|max:200",
+            "phone_father" => "string",
+            "comment" => "string",
+            "rate" => "integer",
+            "date_exclusion" => "nullable|date",
+            "reason_exclusion" => "string",
+            "date_birth" => "date",
+            "date_enrollment" => "date",
+            "group_id" => "bail|integer|exists:" . Group::class . ",id",
+            "institution_id" => "bail|integer|exists:" . Institution::class . ",id",
         ];
     }
 }

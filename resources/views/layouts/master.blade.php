@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>@yield('title')</title>
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('/assets/images/favicon.ico') }}">
@@ -25,13 +25,13 @@
             </div>
         </div>
     </div>
-@show
+    @show
 
     <!-- Begin page -->
     <div id="layout-wrapper">
-        @include('layouts.topbar')
-        @include('layouts.sidebar')
-        <!-- ============================================================== -->
+    @include('layouts.topbar')
+    @include('layouts.sidebar')
+    <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
@@ -54,7 +54,7 @@
 
     <!-- JAVASCRIPT -->
     @include('layouts.footer-script')
-{{--    <div class="modal-backdrop fade show"></div>--}}
-</body>
+    {{--    <div class="modal-backdrop fade show"></div>--}}
+    </body>
 
 </html>

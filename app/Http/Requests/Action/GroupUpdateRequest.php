@@ -10,9 +10,9 @@ class GroupUpdateRequest extends GroupRequest
     public function rules()
     {
         return [
-            "name"=> "string|min:1|max:60",
-            "children_age"=> "integer",
-            "branch_id"=> "bail|exists:".Branch::class.",id"
+            "name" => "string|min:1|max:60",
+            "children_age" => "integer",
+            "branch_id" => "bail|exists:" . Branch::class . ",id"
         ];
     }
 }

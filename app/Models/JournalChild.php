@@ -10,11 +10,22 @@ use Illuminate\Database\Eloquent\Model;
 class JournalChild extends Model
 {
     use HasFactory;
+
     //<editor-fold desc="Setting">
     public $timestamps = false;
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
+
+    public static function make(Child $child, Visit $visit, Carbon $date)
+    {
+        return JournalChild::factory([
+            "child_id" => $child->getId(),
+            "visit_id" => $visit->getId(),
+            "create_date" => $date
+        ])->make();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -34,27 +45,22 @@ class JournalChild extends Model
     {
         return Child::getById($this->child_id);
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
 
     public function getCreateDate()
     {
         return Carbon::make($this->create_date);
     }
+
     //</editor-fold>
 
-    //<editor-fold desc="Set Attribute">
     public function setVisitIfNotEmpty(Visit $visit)
     {
-        if ($visit->exists) $this->visit_id = $visit->getId();
+        if ($visit->exists) {
+            $this->visit_id = $visit->getId();
+        }
         return $this;
-    }
-    //</editor-fold>
-
-    public static function make(Child $child, Visit $visit, Carbon $date)
-    {
-        return JournalChild::factory([
-            "child_id"=>$child->getId(),
-            "visit_id"=>$visit->getId(),
-            "create_date"=>$date
-        ] )->make();
     }
 }

@@ -18,10 +18,10 @@ class CreatePositionsTable extends Migration
             $table->string("name");
         });
 
-         Schema::table('staff', function (Blueprint $table) {
+        Schema::table('staff', function (Blueprint $table) {
             $table->foreignId("position_id")->references('id')->on('positions');
             $table->string("fio");
-         });
+        });
     }
 
     /**

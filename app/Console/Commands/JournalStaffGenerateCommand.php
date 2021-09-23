@@ -49,13 +49,11 @@ class JournalStaffGenerateCommand extends Command
         $progressBar = $this->output->createProgressBar();
         $progressBar->setFormat('verbose');
         $progressBar->start();
-        foreach ($progressBar->iterate($staffs, $staff_count) as $staff)
-        {
-            if (!GeneralJournalStaff::getByChildAndMonth($staff, $month)->exists)
-            {
+        foreach ($progressBar->iterate($staffs, $staff_count) as $staff) {
+            if (!GeneralJournalStaff::getByChildAndMonth($staff, $month)->exists) {
                 $generalJournalStaff = GeneralJournalStaff::make($staff, $month);
                 $generalJournalStaff->save();
-                $count+=1;
+                $count += 1;
             }
         }
         $progressBar->finish();

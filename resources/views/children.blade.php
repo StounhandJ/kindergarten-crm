@@ -30,7 +30,7 @@
             <div style="display: flex;justify-content: flex-end;">
                 <div class="col-sm-6 col-md-3 mt-4">
                     <div class="modal fade bs-example-modal-center form-create" tabindex="-1"
-                        aria-labelledby="mySmallModalLabel" style="display: none;" aria-modal="true" role="dialog">
+                         aria-labelledby="mySmallModalLabel" style="display: none;" aria-modal="true" role="dialog">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -43,7 +43,8 @@
                                         <div class="form-group">
                                             <label>ФИО ребёнка</label>
                                             <div>
-                                                <input name="fio" type="text" class="form-control" required placeholder="Иванов Иван Иванович">
+                                                <input name="fio" type="text" class="form-control" required
+                                                       placeholder="Иванов Иван Иванович">
                                             </div>
                                         </div>
 
@@ -57,50 +58,56 @@
                                         <div class="form-group">
                                             <label>Адрес</label>
                                             <div>
-                                                <input name="address" type="text" class="form-control" required placeholder="г. Москва, ул. Лесная, д. 28к2, кв. 19">
+                                                <input name="address" type="text" class="form-control" required
+                                                       placeholder="г. Москва, ул. Лесная, д. 28к2, кв. 19">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>ФИО Матери</label>
                                             <div>
-                                                <input name="fio_mother" type="text" class="form-control" required placeholder="Иванова Мария Ивановна">
+                                                <input name="fio_mother" type="text" class="form-control" required
+                                                       placeholder="Иванова Мария Ивановна">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Телефон матери</label>
                                             <div>
-                                                <input name="phone_mother" type="tel" class="form-control" required placeholder="+7 (999) 999-99-99">
+                                                <input name="phone_mother" type="tel" class="form-control" required
+                                                       placeholder="+7 (999) 999-99-99">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>ФИО Отца</label>
                                             <div>
-                                                <input name="fio_father" type="text" class="form-control" required placeholder="Иванов Иван Иванович">
+                                                <input name="fio_father" type="text" class="form-control" required
+                                                       placeholder="Иванов Иван Иванович">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Телефон Отца</label>
                                             <div>
-                                                <input name="phone_father" type="tel" class="form-control" required placeholder="+7 (999) 999-99-99">
+                                                <input name="phone_father" type="tel" class="form-control" required
+                                                       placeholder="+7 (999) 999-99-99">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Комментарий</label>
                                             <div>
-                                                <input name="comment" type="text" class="form-control" placeholder="Введите комментарий">
+                                                <input name="comment" type="text" class="form-control"
+                                                       placeholder="Введите комментарий">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Ставка</label>
                                             <div>
-                                                <input name="rate" data-parsley-type="number" min = "0" type="number"
-                                                    class="form-control" required placeholder="25000">
+                                                <input name="rate" data-parsley-type="number" min="0" type="number"
+                                                       class="form-control" required placeholder="25000">
                                             </div>
                                         </div>
 
@@ -132,7 +139,7 @@
                                         <div class="form-group mb-0">
                                             <div>
                                                 <button type="submit"
-                                                    class="btn mr-1 btn-success waves-effect waves-light btn-create-row">
+                                                        class="btn mr-1 btn-success waves-effect waves-light btn-create-row">
                                                     Добавить
                                                 </button>
                                             </div>
@@ -154,7 +161,7 @@
 
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.js" type="text/javascript"></script>
 
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.css" rel="stylesheet" type="text/css"/>
 
     <script src="{{ URL::asset('/assets/libs/parsleyjs/parsleyjs.min.js') }}"></script>
 

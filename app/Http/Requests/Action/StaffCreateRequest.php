@@ -16,18 +16,18 @@ class StaffCreateRequest extends StaffRequest
     public function rules()
     {
         return [
-            "fio"=> "required|string|max:200",
+            "fio" => "required|string|max:200",
             "login" => "required|string|unique:users,login",
             "password" => "required|string",
-            "address"=> "required|string",
-            "phone"=> "required|string",
-            "date_birth"=> "required|date",
-            "date_employment"=> "required|date",
-            "date_dismissal"=> "date",
-            "reason_dismissal"=> "string",
+            "address" => "required|string",
+            "phone" => "required|string",
+            "date_birth" => "required|date",
+            "date_employment" => "required|date",
+            "date_dismissal" => "date",
+            "reason_dismissal" => "string",
             "salary" => "required|integer|min:0",
-            "group_id"=> "bail|nullable|integer|exists:".Group::class.",id",
-            "position_id"=> "bail|required|integer|exists:".Position::class.",id"
+            "group_id" => "bail|nullable|integer|exists:" . Group::class . ",id",
+            "position_id" => "bail|required|integer|exists:" . Position::class . ",id"
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\Action\BranchUpdateRequest;
 use App\Http\Requests\TableRequest;
 use App\Models\Branch;
 use Illuminate\Http\JsonResponse;
+
 use function response;
 
 class BranchActionController extends Controller
@@ -16,9 +17,11 @@ class BranchActionController extends Controller
     public function index(TableRequest $request)
     {
         $paginate = Branch::query()->paginate($request->getLimit());
-        return response()->json(["message" => "success",
+        return response()->json([
+            "message" => "success",
             "records" => $paginate->items(),
-            "total" => $paginate->total()], 200);
+            "total" => $paginate->total()
+        ], 200);
     }
 
     /**
@@ -41,7 +44,7 @@ class BranchActionController extends Controller
     {
         $group = Branch::make($request->getName(), $request->getChildrenAge(), $request->getBranch());
         $group->save();
-        return response()->json(["message"=>"success", "records"=>$group], 200);
+        return response()->json(["message" => "success", "records" => $group], 200);
     }
 
     /**
@@ -52,7 +55,7 @@ class BranchActionController extends Controller
      */
     public function show(Branch $branch)
     {
-        return response()->json(["message"=>"success", "records"=>$branch], 200);
+        return response()->json(["message" => "success", "records" => $branch], 200);
     }
 
     /**
@@ -67,7 +70,7 @@ class BranchActionController extends Controller
         $branch->setNameIfNotEmpty($request->getName());
         $branch->save();
 
-        return response()->json(["message"=>"success", "records"=>$branch], 200);
+        return response()->json(["message" => "success", "records" => $branch], 200);
     }
 
     /**
@@ -79,6 +82,6 @@ class BranchActionController extends Controller
     public function destroy(Branch $branch)
     {
         $result = $branch->delete();
-        return response()->json(["message"=>$result?"success":"error"], $result?200:500);
+        return response()->json(["message" => $result ? "success" : "error"], $result ? 200 : 500);
     }
 }

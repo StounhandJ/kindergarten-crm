@@ -21,17 +21,79 @@ class Staff extends Model
 
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
-    protected $appends = ['branch_id', "branch_name", "group_name", "position_name", "date_dismissal", "login", "password"];
+    protected $appends = [
+        'branch_id',
+        "branch_name",
+        "group_name",
+        "position_name",
+        "date_dismissal",
+        "login",
+        "password"
+    ];
+
+    public static function getById($id): Staff
+    {
+        return Staff::where("id", $id)->first() ?? new Staff();
+    }
+
+    public static function getByUserId($id): Staff
+    {
+        return Staff::where("user_id", $id)->first() ?? new Staff();
+    }
+
+    public static function make(
+        $fio,
+        $phone,
+        $address,
+        $date_birth,
+        $date_employment,
+        $date_dismissal,
+        $reason_dismissal,
+        $salary,
+        Group $group,
+        Position $position,
+        $login,
+        $password
+    ) {
+        $user = User::make($login, $password);
+        $user->save();
+        return Staff::factory([
+            "fio" => $fio,
+            "phone" => $phone,
+            "address" => $address,
+            "date_birth" => $date_birth,
+            "date_employment" => $date_employment,
+            "deleted_at" => $date_dismissal,
+            "reason_dismissal" => $reason_dismissal,
+            "salary" => $salary,
+            "group_id" => $group->getId(),
+            "position_id" => $position->getId(),
+            "user_id" => $user->getId()
+        ])->make();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function getBranchIdAttribute()
     {
         return $this->getGroup()->getBranch()->getId();
     }
 
+    public function getGroup()
+    {
+        return $this->belongsTo(Group::class, "group_id")->getResults() ?? new Group();
+    }
+
     public function getBranchNameAttribute()
     {
         return $this->getGroup()->getBranch()->getName();
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Get Attribute">
 
     public function getGroupNameAttribute()
     {
@@ -43,9 +105,19 @@ class Staff extends Model
         return $this->getPosition()->getName();
     }
 
+    public function getPosition()
+    {
+        return $this->belongsTo(Position::class, "position_id")->getResults();
+    }
+
     public function getDateDismissalAttribute()
     {
         return $this->getDateDismissal();
+    }
+
+    public function getDateDismissal()
+    {
+        return $this->deleted_at;
     }
 
     public function getLoginAttribute()
@@ -53,16 +125,14 @@ class Staff extends Model
         return $this->getUser()->getLogin();
     }
 
+    public function getUser(): User
+    {
+        return $this->hasOne(User::class, "id", "user_id")->getResults();
+    }
+
     public function getPasswordAttribute()
     {
         return "";
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Get Attribute">
-    public function getJournal(): HasMany
-    {
-        return $this->hasMany(JournalStaff::class);
     }
 
     public function getJournalOnMonth(Carbon $data): Collection
@@ -71,9 +141,9 @@ class Staff extends Model
             ->whereDate("create_date", "<=", $data->lastOfMonth())->get()->sortBy("create_date");
     }
 
-    public function getId()
+    public function getJournal(): HasMany
     {
-        return $this->id;
+        return $this->hasMany(JournalStaff::class);
     }
 
     public function getFio()
@@ -95,15 +165,13 @@ class Staff extends Model
     {
         return $this->date_birth;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
 
     public function getDateEmployment()
     {
         return $this->date_employment;
-    }
-
-    public function getDateDismissal()
-    {
-        return $this->deleted_at;
     }
 
     public function getReasonDismissal()
@@ -116,46 +184,39 @@ class Staff extends Model
         return $this->salary;
     }
 
-    public function getGroup()
-    {
-        return $this->belongsTo(Group::class, "group_id")->getResults() ?? new Group();
-    }
-
-    public function getPosition()
-    {
-        return $this->belongsTo(Position::class, "position_id")->getResults();
-    }
-
-    public function getUser(): User
-    {
-        return $this->hasOne(User::class, "id", "user_id")->getResults();
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Set Attribute">
     public function setFioIfNotEmpty($fio)
     {
-        if ($fio != "") $this->fio = $fio;
+        if ($fio != "") {
+            $this->fio = $fio;
+        }
     }
 
     public function setPhoneIfNotEmpty($phone)
     {
-        if ($phone != "") $this->phone = $phone;
+        if ($phone != "") {
+            $this->phone = $phone;
+        }
     }
 
     public function setAddressIfNotEmpty($address)
     {
-        if ($address != "") $this->address = $address;
+        if ($address != "") {
+            $this->address = $address;
+        }
     }
 
     public function setDateBirthIfNotEmpty($date_birth)
     {
-        if ($date_birth != "") $this->date_birth = $date_birth;
+        if ($date_birth != "") {
+            $this->date_birth = $date_birth;
+        }
     }
 
     public function setDateEmploymentIfNotEmpty($date_employment)
     {
-        if ($date_employment != "") $this->date_employment = $date_employment;
+        if ($date_employment != "") {
+            $this->date_employment = $date_employment;
+        }
     }
 
     public function setDateDismissal($deleted_at)
@@ -165,71 +226,54 @@ class Staff extends Model
 
     public function setReasonDismissalIfNotEmpty($reason_dismissal)
     {
-        if ($reason_dismissal != "") $this->reason_dismissal = $reason_dismissal;
+        if ($reason_dismissal != "") {
+            $this->reason_dismissal = $reason_dismissal;
+        }
     }
 
     public function setSalaryIfNotEmpty($salary)
     {
-        if ($salary != "") $this->salary = $salary;
+        if ($salary != "") {
+            $this->salary = $salary;
+        }
     }
 
     public function setGroup(Group $group)
     {
-        if ($group->exists) $this->group_id = $group->getId();
-        else $this->group_id = null;
-    }
-
-    public function setPositionIfNotEmpty(Position $position)
-    {
-        if ($position->exists) $this->position_id = $position->getId();
-    }
-
-    public function setLoginIfNotEmpty($login)
-    {
-        if ($login != "")
-            $this->getUser()
-                ->setLogin($login)
-                ->save();
-    }
-
-    public function setPasswordIfNotEmpty($password)
-    {
-        if ($password != "")
-            $this->getUser()
-                ->setPassword($password)
-                ->save();
+        if ($group->exists) {
+            $this->group_id = $group->getId();
+        } else {
+            $this->group_id = null;
+        }
     }
     //</editor-fold>
 
     //<editor-fold desc="Search Branch">
-    public static function getById($id): Staff
+
+    public function setPositionIfNotEmpty(Position $position)
     {
-        return Staff::where("id", $id)->first() ?? new Staff();
+        if ($position->exists) {
+            $this->position_id = $position->getId();
+        }
     }
 
-    public static function getByUserId($id): Staff
+    public function setLoginIfNotEmpty($login)
     {
-        return Staff::where("user_id", $id)->first() ?? new Staff();
+        if ($login != "") {
+            $this->getUser()
+                ->setLogin($login)
+                ->save();
+        }
     }
 
     //</editor-fold>
 
-    public static function make($fio, $phone, $address, $date_birth, $date_employment, $date_dismissal, $reason_dismissal, $salary ,Group $group, Position $position, $login, $password)
+    public function setPasswordIfNotEmpty($password)
     {
-        $user = User::make($login, $password);
-        $user->save();
-        return Staff::factory([
-            "fio" => $fio,
-            "phone" => $phone,
-            "address" => $address,
-            "date_birth" => $date_birth,
-            "date_employment" => $date_employment,
-            "deleted_at" => $date_dismissal,
-            "reason_dismissal" => $reason_dismissal,
-            "salary" => $salary,
-            "group_id" => $group->getId(),
-            "position_id" => $position->getId(),
-            "user_id" => $user->getId()
-        ])->make();
+        if ($password != "") {
+            $this->getUser()
+                ->setPassword($password)
+                ->save();
+        }
     }
 }

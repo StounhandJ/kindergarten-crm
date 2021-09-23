@@ -22,9 +22,53 @@ class Child extends Model
 
     protected $appends = ['branch_id', "branch_name", "institution_name", "group_name", "date_exclusion"];
 
+    public static function getById($id): Child
+    {
+        return Child::where("id", $id)->first() ?? new Child();
+    }
+
+    public static function make(
+        $name,
+        $address,
+        $fio_mother,
+        $phone_mother,
+        $fio_father,
+        $phone_father,
+        $comment,
+        $rate,
+        $date_exclusion,
+        $reason_exclusion,
+        $date_birth,
+        $date_enrollment,
+        Group $group,
+        Institution $institution
+    ) {
+        return Child::factory([
+            "fio" => $name,
+            "address" => $address,
+            "fio_mother" => $fio_mother,
+            "phone_mother" => $phone_mother,
+            "fio_father" => $fio_father,
+            "phone_father" => $phone_father,
+            "comment" => $comment,
+            "rate" => $rate,
+            "deleted_at" => $date_exclusion,
+            "reason_exclusion" => $reason_exclusion,
+            "date_birth" => $date_birth,
+            "date_enrollment" => $date_enrollment,
+            "group_id" => $group->getId(),
+            "institution_id" => $institution->getId(),
+        ])->make();
+    }
+
     public function getBranchIdAttribute()
     {
         return $this->getGroup()->getBranch()->getId();
+    }
+
+    public function getGroup(): Group
+    {
+        return Group::getById($this->group_id);
     }
 
     public function getBranchNameAttribute()
@@ -32,9 +76,18 @@ class Child extends Model
         return $this->getGroup()->getBranch()->getName();
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="Get Attribute">
+
     public function getInstitutionNameAttribute()
     {
         return $this->getInstitution()->getName();
+    }
+
+    public function getInstitution(): Institution
+    {
+        return Institution::getById($this->institution_id);
     }
 
     public function getGroupNameAttribute()
@@ -47,12 +100,9 @@ class Child extends Model
         return $this->getDateExclusion();
     }
 
-    //</editor-fold>
-
-    //<editor-fold desc="Get Attribute">
-    public function getJournal(): HasMany
+    public function getDateExclusion()
     {
-        return $this->hasMany(JournalChild::class);
+        return $this->deleted_at;
     }
 
     /**
@@ -63,6 +113,11 @@ class Child extends Model
     {
         return $this->getJournal()->whereDate("create_date", ">=", $data->clone()->firstOfMonth())
             ->whereDate("create_date", "<=", $data->clone()->lastOfMonth())->get()->sortBy("create_date");
+    }
+
+    public function getJournal(): HasMany
+    {
+        return $this->hasMany(JournalChild::class);
     }
 
     public function getId()
@@ -115,15 +170,13 @@ class Child extends Model
         return $this->contract;
     }
 
-    public function getDateExclusion()
-    {
-        return $this->deleted_at;
-    }
-
     public function getReasonExclusion()
     {
         return $this->reason_exclusion;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
 
     public function getDateBirth()
     {
@@ -135,56 +188,60 @@ class Child extends Model
         return $this->date_enrollment;
     }
 
-    public function getGroup(): Group
-    {
-        return Group::getById($this->group_id);
-    }
-
-    public function getInstitution(): Institution
-    {
-        return Institution::getById($this->institution_id);
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Set Attribute">
     public function setFioIfNotEmpty($fio)
     {
-        if ($fio != "") $this->fio = $fio;
+        if ($fio != "") {
+            $this->fio = $fio;
+        }
     }
 
     public function setAddressIfNotEmpty($address)
     {
-        if ($address != "") $this->address = $address;
+        if ($address != "") {
+            $this->address = $address;
+        }
     }
 
     public function setFioMotherIfNotEmpty($fio_mother)
     {
-        if ($fio_mother != "") $this->fio_mother = $fio_mother;
+        if ($fio_mother != "") {
+            $this->fio_mother = $fio_mother;
+        }
     }
 
     public function setPhoneMotherIfNotEmpty($phone_mother)
     {
-        if ($phone_mother != "") $this->phone_mother = $phone_mother;
+        if ($phone_mother != "") {
+            $this->phone_mother = $phone_mother;
+        }
     }
 
     public function setFioFatherIfNotEmpty($fio_father)
     {
-        if ($fio_father != "") $this->fio_father = $fio_father;
+        if ($fio_father != "") {
+            $this->fio_father = $fio_father;
+        }
     }
 
     public function setPhoneFatherIfNotEmpty($phone_father)
     {
-        if ($phone_father != "") $this->phone_father = $phone_father;
+        if ($phone_father != "") {
+            $this->phone_father = $phone_father;
+        }
     }
 
     public function setCommentIfNotEmpty($comment)
     {
-        if ($comment != "") $this->comment = $comment;
+        if ($comment != "") {
+            $this->comment = $comment;
+        }
     }
 
     public function setRateIfNotEmpty($rate)
     {
-        if ($rate != "") $this->rate = $rate;
+        if ($rate != "") {
+            $this->rate = $rate;
+        }
     }
 
     public function setDateExclusion($deleted_at)
@@ -194,57 +251,41 @@ class Child extends Model
 
     public function setReasonExclusionIfNotEmpty($reason_exclusion)
     {
-        if ($reason_exclusion != "") $this->reason_exclusion = $reason_exclusion;
+        if ($reason_exclusion != "") {
+            $this->reason_exclusion = $reason_exclusion;
+        }
     }
 
     public function setDateBirthIfNotEmpty($date_birth)
     {
-        if ($date_birth != "") $this->date_birth = $date_birth;
+        if ($date_birth != "") {
+            $this->date_birth = $date_birth;
+        }
     }
 
     public function setDateEnrollmentIfNotEmpty($date_enrollment)
     {
-        if ($date_enrollment != "") $this->date_enrollment = $date_enrollment;
-    }
-
-    public function setGroupIfNotEmpty(Group $group)
-    {
-        if ($group->exists) $this->group_id = $group->getId();
-    }
-
-    public function setInstitutionIfNotEmpty(Institution $institution)
-    {
-        if ($institution->exists) $this->institution_id = $institution->getId();
+        if ($date_enrollment != "") {
+            $this->date_enrollment = $date_enrollment;
+        }
     }
     //</editor-fold>
 
     //<editor-fold desc="Search Branch">
-    public static function getById($id): Child
+
+    public function setGroupIfNotEmpty(Group $group)
     {
-        return Child::where("id", $id)->first() ?? new Child();
+        if ($group->exists) {
+            $this->group_id = $group->getId();
+        }
     }
 
     //</editor-fold>
 
-    public static function make($name, $address, $fio_mother, $phone_mother, $fio_father,
-        $phone_father, $comment, $rate, $date_exclusion, $reason_exclusion, $date_birth, $date_enrollment,
-                                Group $group, Institution $institution)
+    public function setInstitutionIfNotEmpty(Institution $institution)
     {
-        return Child::factory([
-            "fio" => $name,
-            "address" => $address,
-            "fio_mother" => $fio_mother,
-            "phone_mother" => $phone_mother,
-            "fio_father" => $fio_father,
-            "phone_father" => $phone_father,
-            "comment" => $comment,
-            "rate" => $rate,
-            "deleted_at" => $date_exclusion,
-            "reason_exclusion" => $reason_exclusion,
-            "date_birth" => $date_birth,
-            "date_enrollment" => $date_enrollment,
-            "group_id" => $group->getId(),
-            "institution_id" => $institution->getId(),
-        ])->make();
+        if ($institution->exists) {
+            $this->institution_id = $institution->getId();
+        }
     }
 }

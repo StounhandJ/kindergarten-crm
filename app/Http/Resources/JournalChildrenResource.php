@@ -34,14 +34,6 @@ class JournalChildrenResource extends JsonResource
         return $data;
     }
 
-    /**
-     * @param Carbon[] $days
-     */
-    private function daysToDayAndName(array $days): array
-    {
-        return array_map(fn($day) => ["name" => $day->dayName, "num" => $day->day], $days);
-    }
-
     private function days(Child $child, Carbon $month): array
     {
         $journals = $child->getJournalOnMonth($month);
@@ -50,5 +42,13 @@ class JournalChildrenResource extends JsonResource
             $daysArray[] = ["id" => $journal->getId(), "visit" => $journal->getVisitId()];
         }
         return $daysArray;
+    }
+
+    /**
+     * @param Carbon[] $days
+     */
+    private function daysToDayAndName(array $days): array
+    {
+        return array_map(fn($day) => ["name" => $day->dayName, "num" => $day->day], $days);
     }
 }

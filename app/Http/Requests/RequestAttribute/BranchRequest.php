@@ -5,7 +5,7 @@ namespace App\Http\Requests\RequestAttribute;
 use App\Models\Branch;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BranchRequest  extends FormRequest
+class BranchRequest extends FormRequest
 {
     public function authorize()
     {
