@@ -12,7 +12,7 @@ class GroupCreateRequest extends GroupRequest
         return [
             "name" => "required|string|min:1|max:60",
             "children_age" => "required|integer",
-            "branch_id" => "bail|required|exists:" . Branch::class . ",id"
+            "branch_id" => "bail|required|integer|exists:" . Branch::class . ",id"
         ];
     }
 }

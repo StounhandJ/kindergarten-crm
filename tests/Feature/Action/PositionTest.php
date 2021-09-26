@@ -13,7 +13,7 @@ class PositionTest extends TestCase
      *
      * @return void
      */
-    public function test_base_institution()
+    public function test_base_position()
     {
         $response = $this->getJson('/action/position');
 
@@ -24,7 +24,7 @@ class PositionTest extends TestCase
                     ["id" => 1, "name" => "Директор", "e_name" => "director"],
                     ["id" => 2, "name" => "Старший воспитатель", "e_name" => "senior_tutor"],
                     ["id" => 3, "name" => "Воспитатель", "e_name" => "tutor"],
-                    ["id" => 3, "name" => "Повар", "e_name" => "cook"],
+                    ["id" => 4, "name" => "Повар", "e_name" => "cook"],
                 ]
             );
     }

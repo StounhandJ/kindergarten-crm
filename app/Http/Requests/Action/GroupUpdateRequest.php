@@ -12,7 +12,7 @@ class GroupUpdateRequest extends GroupRequest
         return [
             "name" => "string|min:1|max:60",
             "children_age" => "integer",
-            "branch_id" => "bail|exists:" . Branch::class . ",id"
+            "branch_id" => "bail|integer|exists:" . Branch::class . ",id"
         ];
     }
 }
