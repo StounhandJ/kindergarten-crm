@@ -32,13 +32,23 @@ class PositionSeeder extends Seeder
                 "e_name" => "cook"
             ]
         ];
+        $i = 1;
         foreach ($positions as $position) {
-            if (!Position::query()->where("name", $position["name"])->where("e_name", $position["e_name"])->exists()) {
+            if (!Position::query()->where("id", $i)->exists()) {
                 Position::factory([
+                    "id"=>$i,
                     "name" => $position["name"],
                     "e_name" => $position["e_name"]
                 ])->create();
             }
+            elseif (!Position::query()->where("name", $position["name"])->where("e_name", $position["e_name"])->exists())
+            {
+                Position::query()->where("id", $i)->update([
+                    "name" => $position["name"],
+                    "e_name" => $position["e_name"]
+                ]);
+            }
+            $i++;
         }
     }
 }
