@@ -31,69 +31,20 @@ class Staff extends Model
         "password"
     ];
 
-    public static function getById($id): Staff
-    {
-        return Staff::where("id", $id)->first() ?? new Staff();
-    }
-
-    public static function getByUserId($id): Staff
-    {
-        return Staff::where("user_id", $id)->first() ?? new Staff();
-    }
-
-    public static function make(
-        $fio,
-        $phone,
-        $address,
-        $date_birth,
-        $date_employment,
-        $date_dismissal,
-        $reason_dismissal,
-        $salary,
-        Group $group,
-        Position $position,
-        $login,
-        $password
-    ) {
-        $user = User::make($login, $password);
-        $user->save();
-        return Staff::factory([
-            "fio" => $fio,
-            "phone" => $phone,
-            "address" => $address,
-            "date_birth" => $date_birth,
-            "date_employment" => $date_employment,
-            "deleted_at" => $date_dismissal,
-            "reason_dismissal" => $reason_dismissal,
-            "salary" => $salary,
-            "group_id" => $group->getId(),
-            "position_id" => $position->getId(),
-            "user_id" => $user->getId()
-        ])->make();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function getBranchIdAttribute()
     {
         return $this->getGroup()->getBranch()->getId();
-    }
-
-    public function getGroup()
-    {
-        return $this->belongsTo(Group::class, "group_id")->getResults() ?? new Group();
     }
 
     public function getBranchNameAttribute()
     {
         return $this->getGroup()->getBranch()->getName();
     }
-    //</editor-fold>
 
-    //<editor-fold desc="Get Attribute">
+    public function getLoginAttribute()
+    {
+        return $this->getUser()->getLogin();
+    }
 
     public function getGroupNameAttribute()
     {
@@ -105,14 +56,32 @@ class Staff extends Model
         return $this->getPosition()->getName();
     }
 
-    public function getPosition()
+    public function getPasswordAttribute()
     {
-        return $this->belongsTo(Position::class, "position_id")->getResults();
+        return "";
     }
 
     public function getDateDismissalAttribute()
     {
         return $this->getDateDismissal();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Get Attribute">
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getGroup()
+    {
+        return $this->belongsTo(Group::class, "group_id")->getResults() ?? new Group();
+    }
+
+    public function getPosition()
+    {
+        return $this->belongsTo(Position::class, "position_id")->getResults();
     }
 
     public function getDateDismissal()
@@ -120,19 +89,9 @@ class Staff extends Model
         return $this->deleted_at;
     }
 
-    public function getLoginAttribute()
-    {
-        return $this->getUser()->getLogin();
-    }
-
     public function getUser(): User
     {
         return $this->hasOne(User::class, "id", "user_id")->getResults();
-    }
-
-    public function getPasswordAttribute()
-    {
-        return "";
     }
 
     public function getJournalOnMonth(Carbon $data): Collection
@@ -165,9 +124,6 @@ class Staff extends Model
     {
         return $this->date_birth;
     }
-    //</editor-fold>
-
-    //<editor-fold desc="Set Attribute">
 
     public function getDateEmployment()
     {
@@ -183,6 +139,9 @@ class Staff extends Model
     {
         return $this->salary;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
 
     public function setFioIfNotEmpty($fio)
     {
@@ -246,9 +205,15 @@ class Staff extends Model
             $this->group_id = null;
         }
     }
-    //</editor-fold>
 
-    //<editor-fold desc="Search Branch">
+    public function setPasswordIfNotEmpty($password)
+    {
+        if ($password != "") {
+            $this->getUser()
+                ->setPassword($password)
+                ->save();
+        }
+    }
 
     public function setPositionIfNotEmpty(Position $position)
     {
@@ -265,15 +230,50 @@ class Staff extends Model
                 ->save();
         }
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Search Branch">
+
+    public static function getById($id): Staff
+    {
+        return Staff::where("id", $id)->first() ?? new Staff();
+    }
+
+    public static function getByUserId($id): Staff
+    {
+        return Staff::where("user_id", $id)->first() ?? new Staff();
+    }
 
     //</editor-fold>
 
-    public function setPasswordIfNotEmpty($password)
-    {
-        if ($password != "") {
-            $this->getUser()
-                ->setPassword($password)
-                ->save();
-        }
+    public static function make(
+        $fio,
+        $phone,
+        $address,
+        $date_birth,
+        $date_employment,
+        $date_dismissal,
+        $reason_dismissal,
+        $salary,
+        Group $group,
+        Position $position,
+        $login,
+        $password
+    ) {
+        $user = User::make($login, $password);
+        $user->save();
+        return Staff::factory([
+            "fio" => $fio,
+            "phone" => $phone,
+            "address" => $address,
+            "date_birth" => $date_birth,
+            "date_employment" => $date_employment,
+            "deleted_at" => $date_dismissal,
+            "reason_dismissal" => $reason_dismissal,
+            "salary" => $salary,
+            "group_id" => $group->getId(),
+            "position_id" => $position->getId(),
+            "user_id" => $user->getId()
+        ])->make();
     }
 }

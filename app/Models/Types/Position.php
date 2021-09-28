@@ -11,6 +11,11 @@ class Position extends Model
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
+
+    public const DIRECTOR = 1;
+    public const SENIOR_TUTOR = 2;
+    public const TUTOR = 3;
+    public const COOK = 4;
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">

@@ -18,6 +18,6 @@ class JournalStaffTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonCount(4, "staff");
+            ->assertJsonCount(5, "staff");
     }
 }
