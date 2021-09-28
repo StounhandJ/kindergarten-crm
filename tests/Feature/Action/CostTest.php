@@ -163,4 +163,28 @@ class CostTest extends TestCase
         $response
             ->assertStatus(422);
     }
+
+    public function test_cost_cash()
+    {
+        $expected = -200;
+
+        Cost::factory([
+            "amount"=>100,
+            "is_profit"=>true
+        ])->create();
+        Cost::factory([
+            "amount"=>300,
+            "is_profit"=>true
+        ])->create();
+        Cost::factory([
+            "amount"=>600,
+            "is_profit"=>false
+        ])->create();
+
+        $response = $this->json('GET', '/action/cost-cash');
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonPath("amount", $expected);
+    }
 }

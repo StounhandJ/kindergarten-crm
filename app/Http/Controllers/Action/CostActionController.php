@@ -67,4 +67,13 @@ class CostActionController extends Controller
     {
         return response()->json(["message" => "success", "records" => $cost], 200);
     }
+
+    public function cash()
+    {
+        $sum = 0;
+        foreach (Cost::query()->lazy(300) as $cost) {
+            $sum += $cost->getAmount() * ($cost->getIsProfit() ? 1 : -1);
+        }
+        return response()->json(["amount"=>$sum], 200);
+    }
 }

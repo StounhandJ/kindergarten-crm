@@ -461,6 +461,14 @@ $(document).ready(function () {
         },
     });
 
+    $.ajax({
+        url: "/action/cost-cash",
+        method: "GET",
+        success: function (data) {
+            $("#cash")[0]? $("#cash")[0].innerText = data["amount"] : "";
+        },
+    });
+
     // Формы //
     $.ajax({
         url: "/action/branch-array",

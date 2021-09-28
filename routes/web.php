@@ -49,6 +49,8 @@ Route::prefix("action")->name("action.")->group(function () {
     Route::apiResource("cost", CostActionController::class)
         ->only("index", "show", "store");
 
+    Route::get("cost-cash", [CostActionController::class, "cash"]);
+
     Route::apiResource("journal-children", JournalChildrenActionController::class)
         ->only("index", "update");
 

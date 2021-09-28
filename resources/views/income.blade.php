@@ -13,6 +13,7 @@
 @section('content')
     <div class="row">
         <div class="card-body" style="overflow:hidden;">
+            <h4><i id="cash">0</i> р.</h4>
             <div class="container-fluid">
                 <div class="row">
                     <input id="income-date" class="form-control input-mask" type="month">
