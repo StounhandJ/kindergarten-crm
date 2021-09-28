@@ -20,7 +20,7 @@ class GroupActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Group::query()->paginate($request->getLimit());
+        $paginate = Group::query()->orderBy("updated_at", "desc")->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),

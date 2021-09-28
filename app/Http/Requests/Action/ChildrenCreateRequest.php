@@ -17,7 +17,7 @@ class ChildrenCreateRequest extends ChildrenRequest
             "phone_mother" => "required|string",
             "fio_father" => "required|string|max:200",
             "phone_father" => "required|string",
-            "comment" => "string",
+            "comment" => "nullable|string",
             "rate" => "required|integer",
             "date_exclusion" => "date",
             "reason_exclusion" => "string",

@@ -20,9 +20,9 @@ class CostActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate())->paginate(
-            $request->getLimit()
-        );
+        $paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate())
+            ->orderBy("updated_at", "desc")
+            ->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),

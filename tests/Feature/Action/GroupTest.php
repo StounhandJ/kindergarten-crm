@@ -78,7 +78,7 @@ class GroupTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson(fn(AssertableJson $json) => $json->has("records")->
-            missingAll(['deleted_at'])
+            missingAll(['delete_at', 'created_at', 'updated_at'])
                 ->etc()
             );
     }

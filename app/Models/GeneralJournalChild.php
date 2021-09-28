@@ -18,9 +18,9 @@ class GeneralJournalChild extends Model
     use Notifiable;
 
     //<editor-fold desc="Setting">
-    public $timestamps = false;
+    public $timestamps = true;
 
-    protected $hidden = ['child_id'];
+    protected $hidden = ['child_id', 'created_at', 'updated_at'];
 
     protected $appends = [
         'child',

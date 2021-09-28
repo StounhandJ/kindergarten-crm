@@ -22,7 +22,7 @@ class StaffActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Staff::withTrashed()->paginate($request->getLimit());
+        $paginate = Staff::withTrashed()->orderBy("updated_at", "desc")->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),

@@ -22,7 +22,7 @@ class ChildrenActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = Child::withTrashed()->paginate($request->getLimit());
+        $paginate = Child::withTrashed()->orderBy("updated_at", "desc")->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),

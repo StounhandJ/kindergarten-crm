@@ -13,9 +13,9 @@ class GeneralJournalStaff extends Model
     use HasFactory;
 
     //<editor-fold desc="Setting">
-    public $timestamps = false;
+    public $timestamps = true;
 
-    protected $hidden = ['staff_id'];
+    protected $hidden = ['staff_id', 'created_at', 'updated_at'];
 
     protected $appends = [
         'staff',

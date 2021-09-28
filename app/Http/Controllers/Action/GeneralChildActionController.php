@@ -20,7 +20,7 @@ class GeneralChildActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = GeneralJournalChild::getBuilderByMonth($request->getDate())->paginate($request->getLimit());
+        $paginate = GeneralJournalChild::getBuilderByMonth($request->getDate())->orderBy("updated_at", "desc")->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),

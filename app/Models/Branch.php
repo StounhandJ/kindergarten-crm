@@ -12,8 +12,8 @@ class Branch extends Model
     use SoftDeletes;
 
     //<editor-fold desc="Setting">
-    public $timestamps = false;
-    protected $hidden = ['deleted_at'];
+    public $timestamps = true;
+    protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">

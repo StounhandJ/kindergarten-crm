@@ -12,33 +12,19 @@ class Group extends Model
     use SoftDeletes;
 
     //<editor-fold desc="Setting">
-    public $timestamps = false;
+    public $timestamps = true;
 
-    protected $hidden = ['delete_at'];
+    protected $hidden = ['delete_at', 'created_at', 'updated_at'];
 
     protected $appends = ['branch_name'];
-
-    public static function getById($id): Group
-    {
-        return Group::where("id", $id)->first() ?? new Group();
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Get Attribute">
-
-    public static function make($name, $children_age, Branch $branch)
-    {
-        return Group::factory([
-            "name" => $name,
-            "children_age" => $children_age,
-            "branch_id" => $branch->getId()
-        ])->make();
-    }
 
     public function getBranchNameAttribute()
     {
         return $this->getBranch()->getName();
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Get Attribute">
 
     public function getBranch(): Branch
     {
@@ -49,9 +35,6 @@ class Group extends Model
     {
         return $this->id;
     }
-    //</editor-fold>
-
-    //<editor-fold desc="Set Attribute">
 
     public function getName()
     {
@@ -62,18 +45,10 @@ class Group extends Model
     {
         return $this->children_age;
     }
-    //</editor-fold>
-
-    //<editor-fold desc="Search Branch">
-
-    public function setNameIfNotEmpty($name)
-    {
-        if ($name != "") {
-            $this->name = $name;
-        }
-    }
 
     //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
 
     public function setBranchIfNotEmpty(Branch $branch)
     {
@@ -89,5 +64,29 @@ class Group extends Model
         }
     }
 
+    public function setNameIfNotEmpty($name)
+    {
+        if ($name != "") {
+            $this->name = $name;
+        }
+    }
+    //</editor-fold>
 
+    //<editor-fold desc="Search Branch">
+
+    public static function getById($id): Group
+    {
+        return Group::where("id", $id)->firstOrNew();
+    }
+
+    //</editor-fold>
+
+    public static function make($name, $children_age, Branch $branch)
+    {
+        return Group::factory([
+            "name" => $name,
+            "children_age" => $children_age,
+            "branch_id" => $branch->getId()
+        ])->make();
+    }
 }

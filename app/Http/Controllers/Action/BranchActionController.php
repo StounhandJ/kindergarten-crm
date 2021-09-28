@@ -16,7 +16,7 @@ class BranchActionController extends Controller
 
     public function index(TableRequest $request)
     {
-        $paginate = Branch::query()->paginate($request->getLimit());
+        $paginate = Branch::query()->orderBy("updated_at", "desc")->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),
