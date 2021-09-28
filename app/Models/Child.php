@@ -22,72 +22,14 @@ class Child extends Model
 
     protected $appends = ['branch_id', "branch_name", "institution_name", "group_name", "date_exclusion"];
 
-    public static function getById($id): Child
-    {
-        return Child::where("id", $id)->first() ?? new Child();
-    }
-
-    public static function make(
-        $name,
-        $address,
-        $fio_mother,
-        $phone_mother,
-        $fio_father,
-        $phone_father,
-        $comment,
-        $rate,
-        $date_exclusion,
-        $reason_exclusion,
-        $date_birth,
-        $date_enrollment,
-        Group $group,
-        Institution $institution
-    ) {
-        return Child::factory([
-            "fio" => $name,
-            "address" => $address,
-            "fio_mother" => $fio_mother,
-            "phone_mother" => $phone_mother,
-            "fio_father" => $fio_father,
-            "phone_father" => $phone_father,
-            "comment" => $comment,
-            "rate" => $rate,
-            "deleted_at" => $date_exclusion,
-            "reason_exclusion" => $reason_exclusion,
-            "date_birth" => $date_birth,
-            "date_enrollment" => $date_enrollment,
-            "group_id" => $group->getId(),
-            "institution_id" => $institution->getId(),
-        ])->make();
-    }
-
     public function getBranchIdAttribute()
     {
         return $this->getGroup()->getBranch()->getId();
     }
 
-    public function getGroup(): Group
-    {
-        return Group::getById($this->group_id);
-    }
-
     public function getBranchNameAttribute()
     {
         return $this->getGroup()->getBranch()->getName();
-    }
-
-    //</editor-fold>
-
-    //<editor-fold desc="Get Attribute">
-
-    public function getInstitutionNameAttribute()
-    {
-        return $this->getInstitution()->getName();
-    }
-
-    public function getInstitution(): Institution
-    {
-        return Institution::getById($this->institution_id);
     }
 
     public function getGroupNameAttribute()
@@ -98,6 +40,25 @@ class Child extends Model
     public function getDateExclusionAttribute()
     {
         return $this->getDateExclusion();
+    }
+
+    public function getInstitutionNameAttribute()
+    {
+        return $this->getInstitution()->getName();
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Get Attribute">
+
+    public function getGroup(): Group
+    {
+        return Group::getById($this->group_id);
+    }
+
+    public function getInstitution(): Institution
+    {
+        return Institution::getById($this->institution_id);
     }
 
     public function getDateExclusion()
@@ -174,9 +135,6 @@ class Child extends Model
     {
         return $this->reason_exclusion;
     }
-    //</editor-fold>
-
-    //<editor-fold desc="Set Attribute">
 
     public function getDateBirth()
     {
@@ -187,6 +145,9 @@ class Child extends Model
     {
         return $this->date_enrollment;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Set Attribute">
 
     public function setFioIfNotEmpty($fio)
     {
@@ -269,9 +230,6 @@ class Child extends Model
             $this->date_enrollment = $date_enrollment;
         }
     }
-    //</editor-fold>
-
-    //<editor-fold desc="Search Branch">
 
     public function setGroupIfNotEmpty(Group $group)
     {
@@ -280,12 +238,60 @@ class Child extends Model
         }
     }
 
-    //</editor-fold>
-
     public function setInstitutionIfNotEmpty(Institution $institution)
     {
         if ($institution->exists) {
             $this->institution_id = $institution->getId();
         }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Search Branch">
+
+    public static function getById($id): Child
+    {
+        return Child::where("id", $id)->firstOrNew();
+    }
+
+    public static function getByGroup(Group $group): Collection
+    {
+        return Child::query()->where("group_id", $group->getId())->get();
+    }
+
+    //</editor-fold>
+
+
+    public static function make(
+        $name,
+        $address,
+        $fio_mother,
+        $phone_mother,
+        $fio_father,
+        $phone_father,
+        $comment,
+        $rate,
+        $date_exclusion,
+        $reason_exclusion,
+        $date_birth,
+        $date_enrollment,
+        Group $group,
+        Institution $institution
+    ) {
+        return Child::factory([
+            "fio" => $name,
+            "address" => $address,
+            "fio_mother" => $fio_mother,
+            "phone_mother" => $phone_mother,
+            "fio_father" => $fio_father,
+            "phone_father" => $phone_father,
+            "comment" => $comment,
+            "rate" => $rate,
+            "deleted_at" => $date_exclusion,
+            "reason_exclusion" => $reason_exclusion,
+            "date_birth" => $date_birth,
+            "date_enrollment" => $date_enrollment,
+            "group_id" => $group->getId(),
+            "institution_id" => $institution->getId(),
+        ])->make();
     }
 }

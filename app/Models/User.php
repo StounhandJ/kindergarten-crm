@@ -102,8 +102,23 @@ class User extends Authenticatable
         return $this->hasOne(Staff::class, "user_id", "id")->getResults();
     }
 
-    public function checkPosition($e_name_position): bool
+    /**
+     * @param string[]|string $positions
+     * @return bool
+     */
+    public function checkPosition(array|string $positions): bool
     {
-        return $this->getStaff()->getPosition()->getEName() == $e_name_position;
+        $e_name_position = $this->getStaff()->getPosition()->getEName();
+        $result = false;
+        if (is_array($positions))
+        {
+            foreach ($positions as $position)
+                if ($e_name_position==$position)
+                    $result = true;
+        }
+        elseif (is_string($positions) && $positions==$e_name_position) {
+            $result = true;
+        }
+        return $result;
     }
 }

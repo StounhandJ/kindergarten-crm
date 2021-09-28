@@ -18,7 +18,7 @@ class JournalChildrenActionController extends Controller
      */
     public function index()
     {
-        return JournalChildrenResource::make(Child::all());
+        return JournalChildrenResource::make(Child::getByGroup(auth()->user()->getStaff()->getGroup()));
     }
 
     /**

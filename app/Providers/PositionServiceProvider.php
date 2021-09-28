@@ -25,22 +25,7 @@ class PositionServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::if('position', function ($roles) {
-            if (is_null(auth()->user())) {
-                return false;
-            }
-
-            if (is_string($roles)) {
-                return auth()->user()->checkPosition($roles);
-            }
-
-            if (is_array($roles)) {
-                foreach ($roles as $role) {
-                    if (auth()->user()->checkPosition($role)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return auth()->check() && auth()->user()->checkPosition($roles);
         });
     }
 }

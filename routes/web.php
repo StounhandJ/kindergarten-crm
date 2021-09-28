@@ -66,43 +66,43 @@ Route::prefix("action")->middleware("auth")->name("action.")->group(function () 
 
 Route::get('/', function () {
     return view("pages-blank");
-})->name("index")->middleware("auth");
+})->name("index")->middleware("position");
 
 Route::get('/branches', function () {
     return view("branches");
-})->name("branches")->middleware("auth");
+})->name("branches")->middleware("position:director");
 
 Route::get('/groups', function () {
     return view("groups");
-})->name("groups")->middleware("auth");
+})->name("groups")->middleware("position:director");
 
 Route::get('/children', function () {
     return view("children");
-})->name("children")->middleware("auth");
+})->name("children")->middleware("position:director");
 
 Route::get('/staffs', function () {
     return view("staffs");
-})->name("staffs")->middleware("auth");
+})->name("staffs")->middleware("position:director");
 
 Route::get('/card/children', function () {
     return view("card-children");
-})->name("card.children")->middleware("auth");
+})->name("card.children")->middleware("position:director,senior_tutor");
 
 Route::get('/card/staffs', function () {
     return view("card-staffs");
-})->name("card.staffs")->middleware("auth");
+})->name("card.staffs")->middleware("position:director,senior_tutor");
 
 Route::get('/journal/children', function () {
     return view("journal-children");
-})->name("journal.children")->middleware("auth");
+})->name("journal.children")->middleware("position:senior_tutor,tutor");
 
 Route::get('/journal/staffs', function () {
     return view("journal-staffs");
-})->name("journal.staffs")->middleware("auth");
+})->name("journal.staffs")->middleware("position:director,senior_tutor,tutor");
 
 Route::get('/income', function () {
     return view("income");
-})->name("income")->middleware("auth");
+})->name("income")->middleware("position:director,senior_tutor");
 
 Route::get('/login', [AuthController::class, "login"])->name("login.page")->middleware("guest");
 Route::post('/login', [AuthActionController::class, "login"])->name("login")->middleware("guest");

@@ -14,10 +14,10 @@
 
                 <a href="{{route("index")}}" class="logo logo-light">
                     <span class="logo-sm">
-                        Logo
+                        Лого
                     </span>
                     <span class="logo-lg">
-                        Logo
+                        Лого
                     </span>
                 </a>
             </div>
@@ -34,7 +34,7 @@
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @auth()
-                        <a href="{{ route("logout") }}">logout</a>
+                        {{ auth()->user()->getStaff()->getPosition()->getName() }} <a href="{{ route("logout") }}">Выход</a>
                     @endauth
                 </button>
             </div>
