@@ -16,7 +16,7 @@
         <div class="card-body" style="overflow:hidden;">
             <div class="container-fluid">
                 <div class="row">
-                    <div style="overflow:hidden;">
+                    <div style="overflow:auto;">
                         <table id="grid" tapath="staff">
 
                         </table>

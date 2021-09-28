@@ -16,7 +16,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <input id="journal-date" class="form-control input-mask" type="month">
-                    <div style="overflow:hidden;">
+                    <div style="overflow:auto;">
                         <table id="grid" tapath="general-journal-staff">
 
                         </table>
