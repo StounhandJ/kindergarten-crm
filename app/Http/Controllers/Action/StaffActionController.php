@@ -54,9 +54,6 @@ class StaffActionController extends Controller
         );
         $staff->save();
 
-        $generalJournalStaff = GeneralJournalStaff::make($staff, Carbon::now());
-        $generalJournalStaff->save();
-
         return response()->json(["message" => "success", "records" => $staff], 200);
     }
 
