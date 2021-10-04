@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Child;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -28,6 +29,7 @@ class TableRequest extends FormRequest
         return [
             "page" => "integer|min:1",
             "limit" => "integer|min:0",
+            "child_id" => "bail|integer|exists:" . Child::class . ",id",
             "date" => "date"
         ];
     }
@@ -53,5 +55,10 @@ class TableRequest extends FormRequest
     public function getIncome(): bool
     {
         return !($this->input("income") == "0");
+    }
+
+    public function getChild(): Child
+    {
+        return Child::getById($this->input("child_id"));
     }
 }

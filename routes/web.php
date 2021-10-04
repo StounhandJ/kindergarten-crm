@@ -62,6 +62,8 @@ Route::prefix("action")->middleware("auth")->name("action.")->group(function () 
 
     Route::apiResource("general-journal-staff", GeneralStaffActionController::class)
         ->only("index", "update");
+
+    Route::post("notification", [GeneralChildActionController::class, "notification"]);
 });
 
 Route::get('/', function () {
@@ -107,3 +109,5 @@ Route::get('/income', function () {
 Route::get('/login', [AuthController::class, "login"])->name("login.page")->middleware("guest");
 Route::post('/login', [AuthActionController::class, "login"])->name("login")->middleware("guest");
 Route::get('/logout', [AuthActionController::class, "logout"])->name("logout")->middleware("auth");
+
+//Route::post("134gs/sms/callback", [GeneralChildActionController::class, "notification"])->name("sms.callback");

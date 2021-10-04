@@ -15,12 +15,11 @@ function closeForm(clear = false) {
     $(".form-create").css("padding-right", "");
     $(".form-create").removeClass("show");
     $(".form-create-dark").remove();
-    if (clear)
-    {
+    if (clear) {
         $(".form-create")
             .find("input")
             .each(function (i, item) {
-                if (item.id!="income_bool" && item.id!="input-date")
+                if (item.id != "income_bool" && item.id != "input-date")
                     item.value = "";
             });
 
@@ -344,7 +343,27 @@ function current_table(table) {
                 {field: "debt", title: "Долг"},
                 {field: "transferred", title: "Переносится на сл. месяц"},
                 {field: "comment", title: "Комментарий", editor: true},
-                {field: "notification", type: "checkbox", title: "Уведомление отправлено"},
+                {
+                    field: "notification", renderer: (value, data) => {
+                        var id = data["id"];
+                        var month = data["month"];
+
+                        var color = value==-1?"red":(value==0?"with":"green")
+                        var text = value==-1?"Ошибка":(value==0?"Отправить":"Успешно")
+
+                        var button_notification = $(`<button style="background-color: ${color};">${text}</>`)
+                        button_notification.click(function () {
+                            $(this).css("background-color", "blue")
+                            $(this)[0].innerText = "Отправка..."
+                            $.ajax({
+                                url: "/action/notification/",
+                                data: {"child_id": id, "date": month},
+                                method: "POST"
+                            });
+                        })
+                        return button_notification
+                    }, title: "Отправить уведомление"
+                },
             ];
             column["detailTemplate"] = '<div><b>Кол-во дней:</b> {days}' +
                 '<br><b>Посещаемость:</b> {attendance}' +
@@ -455,7 +474,7 @@ $(document).ready(function () {
         $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
             .done(function () {
                 closeForm(true);
-                $("#input-date")[0]? $("#input-date")[0].value = data : "";
+                $("#input-date")[0] ? $("#input-date")[0].value = data : "";
             })
             .fail(function () {
                 alert("Failed to delete.");
@@ -467,9 +486,9 @@ $(document).ready(function () {
         url: "/action/month",
         method: "GET",
         success: function (data) {
-            $("#journal-date")[0]? $("#journal-date")[0].value = data : "";
-            $("#income-date")[0]? $("#income-date")[0].value = data : "";
-            $("#input-date")[0]? $("#input-date")[0].value = data : "";
+            $("#journal-date")[0] ? $("#journal-date")[0].value = data : "";
+            $("#income-date")[0] ? $("#income-date")[0].value = data : "";
+            $("#input-date")[0] ? $("#input-date")[0].value = data : "";
         },
     });
 
@@ -477,7 +496,7 @@ $(document).ready(function () {
         url: "/action/cost-cash",
         method: "GET",
         success: function (data) {
-            $("#cash")[0]? $("#cash")[0].innerText = data["amount"] : "";
+            $("#cash")[0] ? $("#cash")[0].innerText = data["amount"] : "";
         },
     });
 

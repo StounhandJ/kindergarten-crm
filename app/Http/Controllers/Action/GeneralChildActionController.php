@@ -20,7 +20,10 @@ class GeneralChildActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = GeneralJournalChild::getBuilderByMonth($request->getDate())->orderBy("updated_at", "desc")->paginate($request->getLimit());
+        $paginate = GeneralJournalChild::getBuilderByMonth($request->getDate())->orderBy(
+            "updated_at",
+            "desc"
+        )->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),
@@ -37,12 +40,19 @@ class GeneralChildActionController extends Controller
      */
     public function update(GeneralChildUpdateRequest $request, GeneralJournalChild $generalJournalChild)
     {
-        $generalJournalChild->setReductionFeesIfNotEmpty($request->getReductionFees());
-        $generalJournalChild->setIncreaseFeesIfNotEmpty($request->getIncreaseFees());
-        $generalJournalChild->setComment($request->getComment());
-
-        $generalJournalChild->save();
+        $generalJournalChild->setReductionFeesIfNotEmpty($request->getReductionFees())
+            ->setIncreaseFeesIfNotEmpty($request->getIncreaseFees())
+            ->setComment($request->getComment())
+            ->save();
 
         return response()->json(["message" => "success", "records" => $generalJournalChild], 200);
+    }
+
+    public function notification(TableRequest $request)
+    {
+        (GeneralJournalChild::getByChildAndMonth($request->getChild(), $request->getDate()))->sendNotify();
+        return response()->json([
+            "message" => "success"
+        ], 200);
     }
 }
