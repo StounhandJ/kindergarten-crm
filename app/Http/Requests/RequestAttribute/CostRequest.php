@@ -5,6 +5,7 @@ namespace App\Http\Requests\RequestAttribute;
 use App\Models\Child;
 use App\Models\Staff;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 
 class CostRequest extends FormRequest
 {
@@ -26,6 +27,11 @@ class CostRequest extends FormRequest
     public function getIncome()
     {
         return !($this->input("income") == "0");
+    }
+
+    public function getMonth()
+    {
+        return Carbon::make($this->input("month"));
     }
 
     public function getChild(): Child

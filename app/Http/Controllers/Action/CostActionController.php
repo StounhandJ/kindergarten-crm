@@ -43,14 +43,16 @@ class CostActionController extends Controller
                 $request->getAmount(),
                 $request->getComment(),
                 $request->getChild(),
-                $request->getStaff()
+                $request->getStaff(),
+                $request->getMonth()
             );
         } else {
             $cost = Cost::losses(
                 $request->getAmount(),
                 $request->getComment(),
                 $request->getChild(),
-                $request->getStaff()
+                $request->getStaff(),
+                $request->getMonth()
             );
         }
 

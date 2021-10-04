@@ -16,11 +16,21 @@ function closeForm(clear = false) {
     $(".form-create").removeClass("show");
     $(".form-create-dark").remove();
     if (clear)
+    {
         $(".form-create")
             .find("input")
             .each(function (i, item) {
+                if (item.id!="income_bool" && item.id!="input-date")
+                    item.value = "";
+            });
+
+        $(".form-create")
+            .find("select")
+            .each(function (i, item) {
                 item.value = "";
             });
+    }
+
 }
 
 function current_table(table) {
@@ -445,6 +455,7 @@ $(document).ready(function () {
         $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
             .done(function () {
                 closeForm(true);
+                $("#input-date")[0]? $("#input-date")[0].value = data : "";
             })
             .fail(function () {
                 alert("Failed to delete.");
@@ -458,6 +469,7 @@ $(document).ready(function () {
         success: function (data) {
             $("#journal-date")[0]? $("#journal-date")[0].value = data : "";
             $("#income-date")[0]? $("#income-date")[0].value = data : "";
+            $("#input-date")[0]? $("#input-date")[0].value = data : "";
         },
     });
 

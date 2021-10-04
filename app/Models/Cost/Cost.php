@@ -4,11 +4,11 @@ namespace App\Models\Cost;
 
 use App\Models\Child;
 use App\Models\Staff;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 class Cost extends Model
 {
@@ -32,21 +32,23 @@ class Cost extends Model
             ->whereDate("created_at", "<=", $month->lastOfMonth());
     }
 
-    public static function profit($amount, $comment, Child $child, Staff $staff): Cost
+    public static function profit($amount, $comment, Child $child, Staff $staff, Carbon $month): Cost
     {
         return Cost::factory([
             "amount" => $amount,
             "comment" => $comment,
+            "created_at" => $month
         ])->profit()
             ->create()
             ->attachChildOrStaff($child, $staff);
     }
 
-    public static function losses($amount, $comment, Child $child, Staff $staff): Cost
+    public static function losses($amount, $comment, Child $child, Staff $staff, Carbon $month): Cost
     {
         return Cost::factory([
             "amount" => $amount,
             "comment" => $comment,
+            "created_at" => $month
         ])->losses()
             ->create()
             ->attachChildOrStaff($child, $staff);
