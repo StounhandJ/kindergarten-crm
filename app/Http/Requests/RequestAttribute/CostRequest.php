@@ -31,7 +31,7 @@ class CostRequest extends FormRequest
 
     public function getMonth()
     {
-        return Carbon::make($this->input("month"));
+        return is_null($this->input("month"))?Carbon::now():Carbon::make($this->input("month"));
     }
 
     public function getChild(): Child

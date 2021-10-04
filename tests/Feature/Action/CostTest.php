@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Child;
 use App\Models\Cost\Cost;
 use App\Models\Staff;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -62,7 +63,7 @@ class CostTest extends TestCase
     public function test_cost_staff_show()
     {
         $staff = Staff::factory()->create();
-        $cost = Cost::profit(100, "f", new Child(), $staff);
+        $cost = Cost::profit(100, "f", new Child(), $staff, Carbon::now());
 
         $response = $this->json('GET', '/action/cost/' . $cost->getId());
 
@@ -75,7 +76,7 @@ class CostTest extends TestCase
     public function test_cost_child_show()
     {
         $child = Child::factory()->create();
-        $cost = Cost::profit(100, "f", $child, new Staff());
+        $cost = Cost::profit(100, "f", $child, new Staff(), Carbon::now());
 
         $response = $this->json('GET', '/action/cost/' . $cost->getId());
 
@@ -101,7 +102,8 @@ class CostTest extends TestCase
             "amount" => 100,
             "comment" => "ffff",
             "staff_id" => Staff::factory()->create()->getId(),
-            "income" => 1
+            "income" => 1,
+            "month" => Carbon::now()->addMonths(-2)
         ];
         $response = $this->json('POST', '/action/cost', $data);
 
@@ -129,7 +131,8 @@ class CostTest extends TestCase
             "amount" => 100,
             "comment" => "ffff",
             "child_id" => Child::factory()->create()->getId(),
-            "income" => 1
+            "income" => 1,
+            "month" => Carbon::now()
         ];
         $response = $this->json('POST', '/action/cost', $data);
 
@@ -143,7 +146,8 @@ class CostTest extends TestCase
             "amount" => 100,
             "comment" => "ffff",
             "child_id" => Child::factory()->create()->getId(),
-            "income" => 0
+            "income" => 0,
+            "month" => Carbon::now()
         ];
         $response = $this->json('POST', '/action/cost', $data);
 

@@ -14,7 +14,7 @@ class CostCreateRequest extends CostRequest
             "amount" => "required|integer|min:0",
             "income" => "required|boolean",
             "comment" => "nullable|string",
-            "month" => "required|date",
+            "month" => "nullable|date",
             "child_id" => "bail|nullable|integer|exists:" . Child::class . ",id",
             "staff_id" => "bail|nullable|integer|exists:" . Staff::class . ",id",
         ];
