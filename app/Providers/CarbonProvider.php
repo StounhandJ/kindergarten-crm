@@ -49,5 +49,25 @@ class CarbonProvider extends ServiceProvider
             /** @var Carbon $this */
             return $this->isWeekday();
         });
+
+        Carbon::macro('dateName', function () {
+            /** @var Carbon $this */
+            $months = [
+                "Января",
+                "Февраля",
+                "Марта",
+                "Апреля",
+                "Мая",
+                "Июня",
+                "Июля",
+                "Июня",
+                "Августа",
+                "Сентября",
+                "Октября",
+                "Ноября",
+                "Декабря"
+            ];
+            return sprintf($this->format("\"d\" %\s Y года"), $months[$this->month]);
+        });
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 
 use App\Models\Types\Institution;
 use App\Models\Types\Visit;
+use App\Services\ChangePhone;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,7 @@ class Child extends Model
     //<editor-fold desc="Setting">
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
-    protected $appends = ['branch_id', "branch_name", "institution_name", "group_name", "date_exclusion"];
+    protected $appends = ['branch_id', "branch_name", "institution_name", "group_name", "date_exclusion", "document_url"];
 
     public function getBranchIdAttribute()
     {
@@ -45,6 +46,11 @@ class Child extends Model
     public function getInstitutionNameAttribute()
     {
         return $this->getInstitution()->getName();
+    }
+
+    public function getDocumentUrlAttribute()
+    {
+        return route("document.child", ["child_id"=>$this->getId()]);
     }
 
     //</editor-fold>
@@ -106,6 +112,11 @@ class Child extends Model
         return $this->phone_mother;
     }
 
+    public function getСleanPhoneMother()
+    {
+        return ChangePhone::clear($this->getPhoneMother());
+    }
+
     public function getFioFather()
     {
         return $this->fio_father;
@@ -114,6 +125,11 @@ class Child extends Model
     public function getPhoneFather()
     {
         return $this->phone_father;
+    }
+
+    public function getСleanPhoneFather()
+    {
+        return ChangePhone::clear($this->getPhoneFather());
     }
 
     public function getComment()
@@ -136,9 +152,9 @@ class Child extends Model
         return $this->reason_exclusion;
     }
 
-    public function getDateBirth()
+    public function getDateBirth(): Carbon
     {
-        return $this->date_birth;
+        return Carbon::make($this->date_birth);
     }
 
     public function getDateEnrollment()
@@ -149,100 +165,128 @@ class Child extends Model
 
     //<editor-fold desc="Set Attribute">
 
-    public function setFioIfNotEmpty($fio)
+    public function setFioIfNotEmpty($fio): static
     {
         if ($fio != "") {
             $this->fio = $fio;
         }
+
+        return $this;
     }
 
-    public function setAddressIfNotEmpty($address)
+    public function setAddressIfNotEmpty($address): static
     {
         if ($address != "") {
             $this->address = $address;
         }
+
+        return $this;
     }
 
-    public function setFioMotherIfNotEmpty($fio_mother)
+    public function setFioMotherIfNotEmpty($fio_mother): static
     {
         if ($fio_mother != "") {
             $this->fio_mother = $fio_mother;
         }
+
+        return $this;
     }
 
-    public function setPhoneMotherIfNotEmpty($phone_mother)
+    public function setPhoneMotherIfNotEmpty($phone_mother): static
     {
         if ($phone_mother != "") {
             $this->phone_mother = $phone_mother;
         }
+
+        return $this;
     }
 
-    public function setFioFatherIfNotEmpty($fio_father)
+    public function setFioFatherIfNotEmpty($fio_father): static
     {
         if ($fio_father != "") {
             $this->fio_father = $fio_father;
         }
+
+        return $this;
     }
 
-    public function setPhoneFatherIfNotEmpty($phone_father)
+    public function setPhoneFatherIfNotEmpty($phone_father): static
     {
         if ($phone_father != "") {
             $this->phone_father = $phone_father;
         }
+
+        return $this;
     }
 
-    public function setCommentIfNotEmpty($comment)
+    public function setCommentIfNotEmpty($comment): static
     {
         if ($comment != "") {
             $this->comment = $comment;
         }
+
+        return $this;
     }
 
-    public function setRateIfNotEmpty($rate)
+    public function setRateIfNotEmpty($rate): static
     {
         if ($rate != "") {
             $this->rate = $rate;
         }
+
+        return $this;
     }
 
-    public function setDateExclusion($deleted_at)
+    public function setDateExclusion($deleted_at): static
     {
         $this->deleted_at = $deleted_at;
+
+        return $this;
     }
 
-    public function setReasonExclusionIfNotEmpty($reason_exclusion)
+    public function setReasonExclusionIfNotEmpty($reason_exclusion): static
     {
         if ($reason_exclusion != "") {
             $this->reason_exclusion = $reason_exclusion;
         }
+
+        return $this;
     }
 
-    public function setDateBirthIfNotEmpty($date_birth)
+    public function setDateBirthIfNotEmpty($date_birth): static
     {
         if ($date_birth != "") {
             $this->date_birth = $date_birth;
         }
+
+        return $this;
     }
 
-    public function setDateEnrollmentIfNotEmpty($date_enrollment)
+    public function setDateEnrollmentIfNotEmpty($date_enrollment): static
     {
         if ($date_enrollment != "") {
             $this->date_enrollment = $date_enrollment;
         }
+
+        return $this;
     }
 
-    public function setGroupIfNotEmpty(Group $group)
+    public function setGroupIfNotEmpty(Group $group): static
     {
         if ($group->exists) {
             $this->group_id = $group->getId();
         }
+
+        return $this;
     }
 
-    public function setInstitutionIfNotEmpty(Institution $institution)
+    public function setInstitutionIfNotEmpty(Institution $institution): static
     {
         if ($institution->exists) {
             $this->institution_id = $institution->getId();
         }
+
+        return $this;
     }
     //</editor-fold>
 

@@ -264,6 +264,6 @@ class GeneralJournalChild extends Model
      */
     public function routeNotificationForNexmo($notification)
     {
-        return $this->getChild()->getPhoneMother() ?? $this->getChild()->getPhoneFather();
+        return $this->getChild()->getСleanPhoneMother() ?? $this->getChild()->getСleanPhoneFather();
     }
 }

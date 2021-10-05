@@ -13,6 +13,7 @@ use App\Http\Controllers\Action\JournalStaffActionController;
 use App\Http\Controllers\Action\PositionActionController;
 use App\Http\Controllers\Action\StaffActionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DocumentController;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix("action")->middleware("auth")->name("action.")->group(function () {
+Route::prefix("action")->middleware("position")->name("action.")->group(function () {
     Route::get("month", fn() => Carbon::now()->format("Y-m"));
 
     Route::get("branch-array", [BranchActionController::class, "indexArray"]);
@@ -80,11 +81,11 @@ Route::get('/groups', function () {
 
 Route::get('/children', function () {
     return view("children");
-})->name("children")->middleware("position:director");
+})->name("children")->middleware("position:director,senior_tutor");
 
 Route::get('/staffs', function () {
     return view("staffs");
-})->name("staffs")->middleware("position:director");
+})->name("staffs")->middleware("position:director,senior_tutor");
 
 Route::get('/card/children', function () {
     return view("card-children");
@@ -110,4 +111,5 @@ Route::get('/login', [AuthController::class, "login"])->name("login.page")->midd
 Route::post('/login', [AuthActionController::class, "login"])->name("login")->middleware("guest");
 Route::get('/logout', [AuthActionController::class, "logout"])->name("logout")->middleware("auth");
 
+Route::get("/document/child", [DocumentController::class, "store"])->middleware("position:director,senior_tutor")->name("document.child");
 //Route::post("134gs/sms/callback", [GeneralChildActionController::class, "notification"])->name("sms.callback");

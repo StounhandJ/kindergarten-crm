@@ -194,6 +194,12 @@ function current_table(table) {
                     title: "Причина ухода",
                     editor: true,
                 },
+                {
+                    field: "document_url", renderer: (value) => {
+                        return `<a href="${value}">Скачать</a>`
+                    }, title: "Договор"
+                },
+
             ];
             break;
         case "staff":
@@ -348,8 +354,8 @@ function current_table(table) {
                         var id = data["id"];
                         var month = data["month"];
 
-                        var color = value==-1?"red":(value==0?"with":"green")
-                        var text = value==-1?"Ошибка":(value==0?"Отправить":"Успешно")
+                        var color = value == -1 ? "red" : (value == 0 ? "with" : "green")
+                        var text = value == -1 ? "Ошибка" : (value == 0 ? "Отправить" : "Успешно")
 
                         var button_notification = $(`<button style="background-color: ${color};">${text}</>`)
                         button_notification.click(function () {

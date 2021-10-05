@@ -231,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Nexmo' => Nexmo\Laravel\Facade\Nexmo::class,
+        "TemplateProcessor" => \PhpOffice\PhpWord\TemplateProcessor::class
     ],
 
 ];
