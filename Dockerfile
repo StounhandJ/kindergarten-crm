@@ -14,6 +14,14 @@ RUN apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql
 
+#RUN apt-get install -y php-zip \
+#    && docker-php-ext-enable zip.so \
+
+RUN apt-get install -y \
+        libzip-dev \
+        zip \
+  && docker-php-ext-install zip
+
 COPY scripts/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN touch /var/www/cron.log
 

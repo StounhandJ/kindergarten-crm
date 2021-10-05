@@ -15,7 +15,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "nexmo/client-core": "^2.9",
-        "nexmo/laravel": "^2.4"
+        "nexmo/laravel": "^2.4",
+        "phpoffice/phpword": "^0.18.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
