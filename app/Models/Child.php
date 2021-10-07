@@ -157,9 +157,9 @@ class Child extends Model
         return Carbon::make($this->date_birth);
     }
 
-    public function getDateEnrollment()
+    public function getDateEnrollment(): Carbon
     {
-        return $this->date_enrollment;
+        return Carbon::make($this->date_enrollment);
     }
     //</editor-fold>
 

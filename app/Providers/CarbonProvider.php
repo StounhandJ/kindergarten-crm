@@ -50,7 +50,7 @@ class CarbonProvider extends ServiceProvider
             return $this->isWeekday();
         });
 
-        Carbon::macro('dateName', function () {
+        Carbon::macro('dateName', function ($reduction = false) {
             /** @var Carbon $this */
             $months = [
                 "Января",
@@ -67,7 +67,7 @@ class CarbonProvider extends ServiceProvider
                 "Ноября",
                 "Декабря"
             ];
-            return sprintf($this->format("\"d\" %\s Y года"), $months[$this->month]);
+            return sprintf($this->format("\"d\" %\s Y ".($reduction?"г.":"года")), $months[$this->month]);
         });
     }
 }
