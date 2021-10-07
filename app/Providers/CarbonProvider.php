@@ -60,14 +60,13 @@ class CarbonProvider extends ServiceProvider
                 "Мая",
                 "Июня",
                 "Июля",
-                "Июня",
                 "Августа",
                 "Сентября",
                 "Октября",
                 "Ноября",
                 "Декабря"
             ];
-            return sprintf($this->format("\"d\" %\s Y ".($reduction?"г.":"года")), $months[$this->month]);
+            return sprintf($this->format("\"d\" %\s Y ".($reduction?"г.":"года")), $months[$this->month-1]);
         });
     }
 }
