@@ -81,10 +81,10 @@ class ChildrenActionController extends Controller
     {
         $child->setFioIfNotEmpty($request->getFio());
         $child->setAddressIfNotEmpty($request->getAddress());
-        $child->setFioMotherIfNotEmpty($request->getFioMother());
-        $child->setPhoneMotherIfNotEmpty($request->getPhoneMother());
-        $child->setFioFatherIfNotEmpty($request->getFioFather());
-        $child->setPhoneFatherIfNotEmpty($request->getPhoneFather());
+        $child->setFioMother($request->getFioMother());
+        $child->setPhoneMother($request->getPhoneMother());
+        $child->setFioFather($request->getFioFather());
+        $child->setPhoneFather($request->getPhoneFather());
         $child->setCommentIfNotEmpty($request->getComment());
         $child->setRateIfNotEmpty($request->getRate());
         $child->setDateExclusion($request->getDateExclusion());

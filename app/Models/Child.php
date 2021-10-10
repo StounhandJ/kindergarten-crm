@@ -183,38 +183,30 @@ class Child extends Model
         return $this;
     }
 
-    public function setFioMotherIfNotEmpty($fio_mother): static
+    public function setFioMother($fio_mother): static
     {
-        if ($fio_mother != "") {
-            $this->fio_mother = $fio_mother;
-        }
+        $this->fio_mother = $fio_mother;
 
         return $this;
     }
 
-    public function setPhoneMotherIfNotEmpty($phone_mother): static
+    public function setPhoneMother($phone_mother): static
     {
-        if ($phone_mother != "") {
-            $this->phone_mother = $phone_mother;
-        }
+        $this->phone_mother = $phone_mother;
 
         return $this;
     }
 
-    public function setFioFatherIfNotEmpty($fio_father): static
+    public function setFioFather($fio_father): static
     {
-        if ($fio_father != "") {
-            $this->fio_father = $fio_father;
-        }
+        $this->fio_father = $fio_father;
 
         return $this;
     }
 
-    public function setPhoneFatherIfNotEmpty($phone_father): static
+    public function setPhoneFather($phone_father): static
     {
-        if ($phone_father != "") {
-            $this->phone_father = $phone_father;
-        }
+        $this->phone_father = $phone_father;
 
         return $this;
     }

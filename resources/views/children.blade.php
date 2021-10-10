@@ -66,7 +66,7 @@
                                         <div class="form-group">
                                             <label>ФИО Матери</label>
                                             <div>
-                                                <input name="fio_mother" type="text" class="form-control" required
+                                                <input name="fio_mother" type="text" class="form-control"
                                                        placeholder="Иванова Мария Ивановна">
                                             </div>
                                         </div>
@@ -74,7 +74,7 @@
                                         <div class="form-group">
                                             <label>Телефон матери</label>
                                             <div>
-                                                <input name="phone_mother" type="tel" class="form-control" required
+                                                <input name="phone_mother" type="tel" class="form-control"
                                                        placeholder="+7 (999) 999-99-99">
                                             </div>
                                         </div>
@@ -82,7 +82,7 @@
                                         <div class="form-group">
                                             <label>ФИО Отца</label>
                                             <div>
-                                                <input name="fio_father" type="text" class="form-control" required
+                                                <input name="fio_father" type="text" class="form-control"
                                                        placeholder="Иванов Иван Иванович">
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@
                                         <div class="form-group">
                                             <label>Телефон Отца</label>
                                             <div>
-                                                <input name="phone_father" type="tel" class="form-control" required
+                                                <input name="phone_father" type="tel" class="form-control"
                                                        placeholder="+7 (999) 999-99-99">
                                             </div>
                                         </div>
