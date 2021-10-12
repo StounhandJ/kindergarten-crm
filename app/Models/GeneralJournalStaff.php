@@ -87,7 +87,7 @@ class GeneralJournalStaff extends Model
     public function getSalaryAttribute()
     {
         return ($this->getCostDayAttribute() * $this->getAttendanceAttribute()
-                - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute();
+                - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute() + $this->getAdvancePayment();
     }
 
     //</editor-fold>
