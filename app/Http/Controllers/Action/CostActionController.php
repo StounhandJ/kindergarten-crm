@@ -20,9 +20,12 @@ class CostActionController extends Controller
      */
     public function index(TableRequest $request)
     {
+//        dd($paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate())
+//            ->orderBy("costs.updated_at", "desc")->toSql());
         $paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate())
-            ->orderBy("updated_at", "desc")
+            ->orderBy("costs.updated_at", "desc")
             ->paginate($request->getLimit());
+//        dd($paginate->items());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),
@@ -38,23 +41,14 @@ class CostActionController extends Controller
      */
     public function store(CostCreateRequest $request)
     {
-        if ($request->getIncome()) {
-            $cost = Cost::profit(
-                $request->getAmount(),
-                $request->getComment(),
-                $request->getChild(),
-                $request->getStaff(),
-                $request->getMonth()
-            );
-        } else {
-            $cost = Cost::losses(
-                $request->getAmount(),
-                $request->getComment(),
-                $request->getChild(),
-                $request->getStaff(),
-                $request->getMonth()
-            );
-        }
+        $cost = Cost::make(
+            $request->getCategoryCost(),
+            $request->getAmount(),
+            $request->getComment(),
+            $request->getChild(),
+            $request->getStaff(),
+            $request->getMonth()
+        );
 
         return response()->json(["message" => "success", "records" => $cost], 200);
     }
@@ -76,6 +70,6 @@ class CostActionController extends Controller
         foreach (Cost::query()->lazy(300) as $cost) {
             $sum += $cost->getAmount() * ($cost->getIsProfit() ? 1 : -1);
         }
-        return response()->json(["amount"=>$sum], 200);
+        return response()->json(["amount" => $sum], 200);
     }
 }

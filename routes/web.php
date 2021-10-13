@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Action\AuthActionController;
 use App\Http\Controllers\Action\BranchActionController;
+use App\Http\Controllers\Action\CategoryCostController;
 use App\Http\Controllers\Action\ChildrenActionController;
 use App\Http\Controllers\Action\CostActionController;
 use App\Http\Controllers\Action\GeneralChildActionController;
@@ -63,6 +64,10 @@ Route::prefix("action")->middleware("position")->name("action.")->group(function
 
     Route::apiResource("general-journal-staff", GeneralStaffActionController::class)
         ->only("index", "update");
+
+    Route::apiResource("category-cost", CategoryCostController::class)->except("destroy");
+
+    Route::get("category-cost-array", [CategoryCostController::class, "indexArray"]);
 
     Route::post("notification", [GeneralChildActionController::class, "notification"]);
 });

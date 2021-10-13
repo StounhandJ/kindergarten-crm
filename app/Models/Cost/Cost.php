@@ -95,8 +95,13 @@ class Cost extends Model
 
     public static function getBuilderByIncomeAndMonth(bool $income, Carbon $month): Builder
     {
-        return Cost::query()->where("is_profit", "=", $income)->whereDate("created_at", ">=", $month->firstOfMonth())
-            ->whereDate("created_at", "<=", $month->lastOfMonth());
+        return Cost::query()
+            ->select(["costs.*"])
+            ->whereDate("costs.created_at", ">=", $month->firstOfMonth())
+            ->whereDate("costs.created_at", "<=", $month->lastOfMonth())
+            ->join('category_costs', 'category_costs.id', '=', 'category_id')
+
+            ->where("category_costs.is_profit", "=", $income);
     }
 
     //</editor-fold>
@@ -123,25 +128,13 @@ class Cost extends Model
         return $this->belongsToMany(Staff::class)->using(CostStaff::class);
     }
 
-    public static function profit($amount, $comment, Child $child, Staff $staff, Carbon $month): Cost
+    public static function make(CategoryCost $categoryCost, $amount, $comment, Child $child, Staff $staff, Carbon $month): Cost
     {
         return Cost::factory([
+            "category_id"=>$categoryCost->getId(),
             "amount" => $amount,
             "comment" => $comment,
             "created_at" => $month
-        ])->profit()
-            ->create()
-            ->attachChildOrStaff($child, $staff);
-    }
-
-    public static function losses($amount, $comment, Child $child, Staff $staff, Carbon $month): Cost
-    {
-        return Cost::factory([
-            "amount" => $amount,
-            "comment" => $comment,
-            "created_at" => $month
-        ])->losses()
-            ->create()
-            ->attachChildOrStaff($child, $staff);
+        ])->create()->attachChildOrStaff($child, $staff);
     }
 }

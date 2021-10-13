@@ -588,6 +588,18 @@ $(document).ready(function () {
         },
     });
 
+    $.ajax({
+        url: "/action/category-cost-array",
+        method: "GET",
+        success: function (data) {
+            data.forEach((item) => {
+                $('select[name="category_id"]').append(
+                    new Option(`${item.name} - ${item.is_profit? "Доход" : "Расход"}`, item.id)
+                );
+            });
+        },
+    });
+
     function allHideIncome() {
         $("#income_child").hide();
         $("#income_staff").hide();
