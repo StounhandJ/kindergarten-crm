@@ -102,7 +102,7 @@ Route::get('/card/staffs', function () {
 
 Route::get('/journal/children', function () {
     return view("journal-children");
-})->name("journal.children")->middleware("position:senior_tutor,tutor");
+})->name("journal.children")->middleware("position:senior_tutor,tutor,director");
 
 Route::get('/journal/staffs', function () {
     return view("journal-staffs");

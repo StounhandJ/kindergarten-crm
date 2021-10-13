@@ -97,7 +97,7 @@
             </ul>
             @endposition
 
-            @position(["tutor", "senior_tutor"])
+            @position(["tutor", "senior_tutor", "director"])
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Меню преподавателя</li>
 
