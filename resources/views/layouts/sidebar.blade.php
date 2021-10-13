@@ -74,7 +74,17 @@
                 </li>
                 @endposition
 
-                @position("director")
+                @position(["director", "senior_tutor"])
+                <li class="mm-active">
+                    <a href="{{ route('category-cost') }}"
+                       class="waves-effect {{ Request::url() == route('category-cost') ? "active": "" }}">
+
+                        <span><i class="mdi mdi-cash-multiple"> Категории расходов/доходов</i></span>
+                    </a>
+                </li>
+                @endposition
+
+                @position(["director", "senior_tutor"])
                 <li class="mm-active">
                     <a href="{{ route('income') }}"
                        class="waves-effect {{ Request::url() == route('income') ? "active": "" }}">

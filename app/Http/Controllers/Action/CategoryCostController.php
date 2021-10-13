@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Action\CategoryCostCreateRequest;
+use App\Http\Requests\Action\CategoryCostUpdateRequest;
 use App\Http\Requests\TableRequest;
 use App\Models\Cost\CategoryCost;
 use Illuminate\Http\JsonResponse;
@@ -28,7 +30,7 @@ class CategoryCostController extends Controller
         ], 200);
     }
 
-    public function indexArray(TableRequest $request)
+    public function indexArray()
     {
         return response()->json(CategoryCost::query()->orderBy("updated_at", "desc")->get(), 200);
     }
@@ -36,35 +38,31 @@ class CategoryCostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param CategoryCostCreateRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(CategoryCostCreateRequest $request)
     {
-        //
+        $categoryCost = CategoryCost::make($request->getName(), $request->getIsProfit());
+        $categoryCost->save();
+        return response()->json(["message" => "success", "records" => $categoryCost], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cost\CategoryCost  $categoryCost
-     * @return Response
-     */
-    public function show(CategoryCost $categoryCost)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cost\CategoryCost  $categoryCost
-     * @return Response
+     * @param CategoryCostUpdateRequest $request
+     * @param CategoryCost $categoryCost
+     * @return JsonResponse
      */
-    public function update(Request $request, CategoryCost $categoryCost)
+    public function update(CategoryCostUpdateRequest $request, CategoryCost $categoryCost)
     {
-        //
+        $categoryCost->setNameIfNotEmpty($request->getName());
+        $categoryCost->setNameIfNotEmpty($request->getIsProfit());
+        $categoryCost->save();
+
+        return response()->json(["message" => "success", "records" => $categoryCost], 200);
     }
 
 }

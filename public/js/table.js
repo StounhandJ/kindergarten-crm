@@ -34,13 +34,49 @@ function closeForm(clear = false) {
 
 function current_table(table) {
     var tapath = table[0].attributes.getNamedItem("tapath").value;
+    let grid;
+
+    let isEditManager = true;
+    let editManager = function (value, record, $cell, $displayEl, id, $grid) {
+        var data = $grid.data(),
+            $edit = $('<button role="edit" class="gj-button-md"><i class="gj-icon pencil"></i> Изменить</button>').attr('data-key', id),
+            $delete  = $('<button role="delete" class="gj-button-md"><i class="gj-icon delete"></i> Удалить</button>').attr('data-key', id),
+            $update = $('<button role="update" class="gj-button-md"><i class="gj-icon check-circle"></i> Сохранить</button>').attr('data-key', id).hide(),
+            $cancel = $('<button role="cancel" class="gj-button-md"><i class="gj-icon cancel"></i> Отмена</button>').attr('data-key', id).hide();
+        $edit.on('click', function (e) {
+            $grid.edit($(this).data('key'));
+            $edit.hide();
+            $delete.hide();
+            $update.show();
+            $cancel.show();
+        });
+        $delete.on('click', function (e) {
+            $grid.removeRow($(this).data('key'));
+        });
+        $update.on('click', function (e) {
+            $grid.update($(this).data('key'));
+            $edit.show();
+            $delete.show();
+            $update.hide();
+            $cancel.hide();
+        });
+        $cancel.on('click', function (e) {
+            $grid.cancel($(this).data('key'));
+            $edit.show();
+            $delete.show();
+            $update.hide();
+            $cancel.hide();
+        });
+        $displayEl.empty().append($edit).append($delete).append($update).append($cancel);
+    }
+
     var column = {
         dataSource: "/action/" + tapath,
         uiLibrary: "bootstrap4",
         primaryKey: "id",
         resizableColumns: true,
         notFoundText: "Записей нет",
-        inlineEditing: {mode: "command"},
+        inlineEditing: {mode: "command", managementColumn: false},
         pager: {
             limit: 5,
             leftControls: [
@@ -377,6 +413,38 @@ function current_table(table) {
                 '<br><b>Отпуск:</b> {vacation_days}' +
                 '<br><b>Пропущено:</b> {truancy_days}</div>';
             break;
+        case "category-cost":
+            editManager = function (value, record, $cell, $displayEl, id, $grid) {
+                var data = $grid.data(),
+                    $edit = $('<button role="edit" class="gj-button-md"><i class="gj-icon pencil"></i> Изменить</button>').attr('data-key', id),
+                    $update = $('<button role="update" class="gj-button-md"><i class="gj-icon check-circle"></i> Сохранить</button>').attr('data-key', id).hide(),
+                    $cancel = $('<button role="cancel" class="gj-button-md"><i class="gj-icon cancel"></i> Отмена</button>').attr('data-key', id).hide();
+                $edit.on('click', function (e) {
+                    $grid.edit($(this).data('key'));
+                    $edit.hide();
+                    $update.show();
+                    $cancel.show();
+                });
+                $update.on('click', function (e) {
+                    $grid.update($(this).data('key'));
+                    $edit.show();
+                    $update.hide();
+                    $cancel.hide();
+                });
+                $cancel.on('click', function (e) {
+                    $grid.cancel($(this).data('key'));
+                    $edit.show();
+                    $update.hide();
+                    $cancel.hide();
+                });
+                $displayEl.empty().append($edit).append($update).append($cancel);
+            }
+            column["columns"] = [
+                {field: "id", hidden: true},
+                {field: "name", title: "Название", editor: true},
+                {field: "is_profit", title: "Это доход", type: 'checkbox', editor: true, align: 'center' }
+            ];
+            break;
         case "cost":
             column["columns"] = [
                 {field: "id", hidden: true},
@@ -395,10 +463,12 @@ function current_table(table) {
                 {field: "branch_name", title: "Филиал"},
                 {field: "comment", title: "Комментарий", editor: true},
             ];
-            column["inlineEditing"] = {};
+            isEditManager = false;
             break;
     }
-    let grid = table.grid(column);
+    if (isEditManager)
+        column["columns"].push({width: 300, align: 'center', renderer: editManager});
+    grid = table.grid(column);
     grid.on("rowDataChanged", function (e, id, record) {
         var new_record = [];
         for (let [key, value] of entries(record)) {
@@ -594,7 +664,7 @@ $(document).ready(function () {
         success: function (data) {
             data.forEach((item) => {
                 $('select[name="category_id"]').append(
-                    new Option(`${item.name} - ${item.is_profit? "Доход" : "Расход"}`, item.id)
+                    new Option(`${item.name} - ${item.is_profit ? "Доход" : "Расход"}`, item.id)
                 );
             });
         },
