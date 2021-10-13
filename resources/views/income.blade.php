@@ -53,8 +53,6 @@
                         </div>
                         <div class="modal-body">
                             <form class="custom-validation" tapath="cost" novalidate>
-                                <input name="income" id="income_bool" type="text" hidden>
-
                                 <div class="form-group">
                                     <label>Сумма</label>
                                     <div>
@@ -66,7 +64,7 @@
                                 <div class="form-group">
                                     <label>Тип</label>
                                     <div>
-                                        <select name="category_id" class="form-control" required>
+                                        <select name="category_id" id="category_id" class="form-control" required>
 
                                         </select>
                                     </div>

@@ -43,7 +43,7 @@ class CategoryCostController extends Controller
      */
     public function store(CategoryCostCreateRequest $request)
     {
-        $categoryCost = CategoryCost::make($request->getName(), $request->getIsProfit());
+        $categoryCost = CategoryCost::make($request->getName(), $request->getIsProfit(), $request->getIsSetChild(), $request->getIsSetStaff());
         $categoryCost->save();
         return response()->json(["message" => "success", "records" => $categoryCost], 200);
     }
@@ -58,9 +58,11 @@ class CategoryCostController extends Controller
      */
     public function update(CategoryCostUpdateRequest $request, CategoryCost $categoryCost)
     {
-        $categoryCost->setNameIfNotEmpty($request->getName());
-        $categoryCost->setNameIfNotEmpty($request->getIsProfit());
-        $categoryCost->save();
+        $categoryCost->setNameIfNotEmpty($request->getName())
+            ->setNameIfNotEmpty($request->getIsProfit())
+            ->setIsSetChildIfNotEmpty($request->getIsSetChild())
+            ->setIsSetStaffIfNotEmpty($request->getIsSetStaff())
+            ->save();
 
         return response()->json(["message" => "success", "records" => $categoryCost], 200);
     }

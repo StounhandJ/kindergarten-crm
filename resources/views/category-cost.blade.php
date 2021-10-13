@@ -45,19 +45,41 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                   id="flexRadioDefault1">
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                Default radio
-                                            </label>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="is_profit"
+                                                       id="is_profit_on" checked>
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Это доход
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="is_profit"
+                                                       id="is_profit_off">
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Это не доход
+                                                </label>
+                                            </div>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                   id="flexRadioDefault2" checked>
-                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                Default checked radio
+
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="is_set_child"
+                                                   id="flexRadioDefault1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Указывать ребенка?
                                             </label>
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="is_set_staff"
+                                                   id="flexRadioDefault1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Указывать сотрудника?
+                                            </label>
+                                                </div>
                                         </div>
 
                                         <div class="form-group mb-0">

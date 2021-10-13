@@ -17,11 +17,15 @@ class CategoryCostSeeder extends Seeder
         $categoryCosts = [
             [
                 "name" => "ЗП",
-                "is_profit" => false
+                "is_profit" => false,
+                "is_set_child" => false,
+                "is_set_staff" => true
             ],
             [
                 "name" => "Оплата за детей",
-                "is_profit" => true
+                "is_profit" => true,
+                "is_set_child" => true,
+                "is_set_staff" => false
             ]
         ];
         if (CategoryCost::query()->count() == 0) {

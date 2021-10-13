@@ -18,6 +18,16 @@ class CategoryCostRequest extends FormRequest
 
     public function getIsProfit()
     {
-        return $this->input("is_profit");
+        return $this->input("is_profit")=="true";
+    }
+
+    public function getIsSetChild()
+    {
+        return $this->input("is_set_child")=="true";
+    }
+
+    public function getIsSetStaff()
+    {
+        return $this->input("is_set_staff")=="true";
     }
 }

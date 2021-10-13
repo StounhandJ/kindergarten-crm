@@ -40,7 +40,7 @@ function current_table(table) {
     let editManager = function (value, record, $cell, $displayEl, id, $grid) {
         var data = $grid.data(),
             $edit = $('<button role="edit" class="gj-button-md"><i class="gj-icon pencil"></i> Изменить</button>').attr('data-key', id),
-            $delete  = $('<button role="delete" class="gj-button-md"><i class="gj-icon delete"></i> Удалить</button>').attr('data-key', id),
+            $delete = $('<button role="delete" class="gj-button-md"><i class="gj-icon delete"></i> Удалить</button>').attr('data-key', id),
             $update = $('<button role="update" class="gj-button-md"><i class="gj-icon check-circle"></i> Сохранить</button>').attr('data-key', id).hide(),
             $cancel = $('<button role="cancel" class="gj-button-md"><i class="gj-icon cancel"></i> Отмена</button>').attr('data-key', id).hide();
         $edit.on('click', function (e) {
@@ -442,7 +442,9 @@ function current_table(table) {
             column["columns"] = [
                 {field: "id", hidden: true},
                 {field: "name", title: "Название", editor: true},
-                {field: "is_profit", title: "Это доход", type: 'checkbox', editor: true, align: 'center' }
+                {field: "is_profit", title: "Это доход", type: 'checkbox', editor: true, align: 'center'},
+                {field: "is_set_child", title: "Указывать ребенка", type: 'checkbox', editor: true, align: 'center'},
+                {field: "is_set_staff", title: "Указывать сотрудника", type: 'checkbox', editor: true, align: 'center'}
             ];
             break;
         case "cost":
@@ -473,7 +475,8 @@ function current_table(table) {
     grid.on("rowDataChanged", function (e, id, record) {
         var new_record = [];
         for (let [key, value] of entries(record)) {
-            if (value != "" || key == "date_exclusion" || key == "date_dismissal") new_record[key] = value;
+            console.log(key, value);
+            if (value !== "" || key == "date_exclusion" || key == "date_dismissal") new_record[key] = value;
         }
         var data = $.extend(true, {_method: "PUT"}, new_record);
         $.ajax({
@@ -545,7 +548,12 @@ $(document).ready(function () {
         $(this)
             .serializeArray()
             .forEach((item) => {
-                data[item.name] = item.value;
+                if (item.name == "is_set_child" || item.name == "is_set_staff")
+                    data[item.name] = true;
+                else if (item.name == "is_profit")
+                    data["is_profit"] = $('input[data-parsley-id="8"]')[0].id == "is_profit_on" ? true : false;
+                else
+                    data[item.name] = item.value;
             });
         var tapath = $(this)[0].attributes.getNamedItem("tapath").value;
         $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
@@ -659,15 +667,26 @@ $(document).ready(function () {
         },
     });
 
+    $("#category_id").on('change', function () {
+        allHideIncome();
+        const option = $(this).children(`option[value="${$(this)[0].value}"]`);
+        if (option[0].attributes.show_child.value === "true")
+            $("#income_child").show();
+        if (option[0].attributes.show_staff.value === "true")
+            $("#income_staff").show();
+    })
+
     $.ajax({
         url: "/action/category-cost-array",
         method: "GET",
         success: function (data) {
             data.forEach((item) => {
-                $('select[name="category_id"]').append(
-                    new Option(`${item.name} - ${item.is_profit ? "Доход" : "Расход"}`, item.id)
+                $('#category_id').append(
+                    $(`<option show_child="${item.is_set_child}" show_staff="${item.is_set_staff}" value="${item.id}">${item.name} - ${item.is_profit ? "Доход" : "Расход"}</option>`)
                 );
             });
+            $('#category_id').val($('#category_id option:first')[0].value).change();
+
         },
     });
 
@@ -676,19 +695,6 @@ $(document).ready(function () {
         $("#income_staff").hide();
     }
 
-    $("#type_income").change(function () {
-        allHideIncome();
-        switch ($(this)[0].value) {
-            case "0":
-                $("#income_bool").val(0);
-                $("#income_staff").show();
-                break;
-            case "1":
-                $("#income_bool").val(1);
-                $("#income_child").show();
-                break;
-        }
-    })
 
     if ($("#type_income").length == 1) {
         $("#type_income").val(0).change();

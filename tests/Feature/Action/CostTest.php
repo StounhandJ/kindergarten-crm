@@ -22,10 +22,18 @@ class CostTest extends TestCase
     {
         parent::setUp();
 
-        $this->category_staff_losses = CategoryCost::factory(["name" => "Staff Losses", "is_profit" => false])->create();
-        $this->category_staff_profit = CategoryCost::factory(["name" => "Staff Profit", "is_profit" => true])->create();
-        $this->category_child_profit = CategoryCost::factory(["name" => "Child Profit", "is_profit" => true])->create();
-        $this->category_child_losses = CategoryCost::factory(["name" => "Child Losses", "is_profit" => false])->create();
+        $this->category_staff_losses = CategoryCost::factory([
+            "name" => "Staff Losses", "is_profit" => false, "is_set_child"=>false, "is_set_staff" => true
+        ])->create();
+        $this->category_staff_profit = CategoryCost::factory([
+            "name" => "Staff Profit", "is_profit" => true, "is_set_child"=>false, "is_set_staff" => true
+        ])->create();
+        $this->category_child_profit = CategoryCost::factory([
+            "name" => "Child Profit", "is_profit" => true, "is_set_child"=>true, "is_set_staff" => false
+        ])->create();
+        $this->category_child_losses = CategoryCost::factory([
+            "name" => "Child Losses", "is_profit" => false, "is_set_child"=>true, "is_set_staff" => false
+        ])->create();
     }
 
     public function test_cost_limit_profit()
