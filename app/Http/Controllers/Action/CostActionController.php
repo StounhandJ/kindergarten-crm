@@ -20,12 +20,7 @@ class CostActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-//        dd($paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate())
-//            ->orderBy("costs.updated_at", "desc")->toSql());
-        $paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate())
-            ->orderBy("costs.updated_at", "desc")
-            ->paginate($request->getLimit());
-//        dd($paginate->items());
+        $paginate = Cost::getBuilderByIncomeAndMonth($request->getIncome(), $request->getDate(), true)->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),
@@ -41,7 +36,7 @@ class CostActionController extends Controller
      */
     public function store(CostCreateRequest $request)
     {
-        $cost = Cost::make(
+        $cost = Cost::create(
             $request->getCategoryCost(),
             $request->getAmount(),
             $request->getComment(),

@@ -31,7 +31,7 @@ class CategoryCost extends Model
         return $this->name;
     }
 
-    public function getIsProfit()
+    public function isProfit()
     {
         return $this->is_profit;
     }

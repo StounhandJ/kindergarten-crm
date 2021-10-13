@@ -27,7 +27,6 @@ class CategoryCostSeeder extends Seeder
         if (CategoryCost::query()->count() == 0) {
             foreach ($categoryCosts as $categoryCost) {
                 CategoryCost::factory($categoryCost)->create();
-
         }
         }
     }

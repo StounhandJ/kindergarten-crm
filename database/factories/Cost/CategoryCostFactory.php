@@ -22,7 +22,8 @@ class CategoryCostFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "name" => $this->withFaker()->userName(),
+            "is_profit" => $this->withFaker()->boolean()
         ];
     }
 }
