@@ -20,12 +20,17 @@ class Cost extends Model
         'created_at',
         'updated_at',
     ];
-    protected $appends = ['date', 'staff', 'child', 'branch_name'];
+    protected $appends = ['date', 'staff', 'child', 'branch_name', 'category_name'];
 
     public function getBranchNameAttribute()
     {
         $pr = $this->getStaffAttribute() ?? $this->getChildAttribute();
         return $pr ? $pr->getBranchNameAttribute() : "";
+    }
+
+    public function getCategoryNameAttribute()
+    {
+        return $this->getCategoryCost()->getName();
     }
 
     public function getStaffAttribute()

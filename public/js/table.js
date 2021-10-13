@@ -449,6 +449,7 @@ function current_table(table) {
             column["columns"] = [
                 {field: "id", hidden: true},
                 {field: "amount", title: "Сумма"},
+                {field: "category_name", title: "Категория"},
                 {field: "date", title: "Дата"},
                 {
                     renderer: (value, record) => {
