@@ -38,7 +38,7 @@ class CostTest extends TestCase
 
     public function test_cost_limit_profit()
     {
-        Cost::factory()->count(4)->create();
+        Cost::factory(["category_id"=>$this->category_staff_profit->getId()])->count(4)->create();
 
         $response = $this->json('GET', '/action/cost', ["income" => 1, "limit" => 3]);
 
@@ -49,7 +49,7 @@ class CostTest extends TestCase
 
     public function test_cost_limit_losses()
     {
-        Cost::factory()->count(4)->create();
+        Cost::factory(["category_id"=>$this->category_staff_losses->getId()])->count(4)->create();
 
         $response = $this->json('GET', '/action/cost', ["income" => 0, "limit" => 3]);
 
