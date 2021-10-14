@@ -87,7 +87,7 @@ class GeneralJournalStaff extends Model
     public function getSalaryAttribute()
     {
         return ($this->getCostDayAttribute() * $this->getAttendanceAttribute()
-                - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute() + $this->getAdvancePayment();
+                - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute() - $this->getAdvancePayment();
     }
 
     //</editor-fold>
@@ -114,7 +114,8 @@ class GeneralJournalStaff extends Model
         $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
         $whole_days = $journals->filter(fn($journal) => $journal->getVisit()->IsWholeDat())->count();
         $half_days = $journals->filter(fn($journal) => $journal->getVisit()->IsHalfDat())->count() / 2;
-        return $whole_days + $half_days;
+        $vacation_days = $journals->filter(fn($journal) => $journal->getVisit()->IsVacation())->count() / 2;
+        return $whole_days + $half_days + $vacation_days;
     }
 
     public function getReductionSalary()

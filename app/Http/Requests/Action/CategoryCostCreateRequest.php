@@ -10,9 +10,9 @@ class CategoryCostCreateRequest extends CategoryCostRequest
     {
         return [
             "name" => "required|string|min:1|max:60",
-            "is_profit" => "boolean",
-            "is_set_child" => "boolean",
-            "is_set_staff" => "boolean"
+            "is_profit" => "in:true,false",
+            "is_set_child" => "in:true,false",
+            "is_set_staff" => "in:true,false"
         ];
     }
 }

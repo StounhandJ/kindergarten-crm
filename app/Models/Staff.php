@@ -71,7 +71,7 @@ class Staff extends Model
 
     public function getVacationTotalAttribute()
     {
-        return round($this->getDateEmployment()->range(Carbon::now())->count()/(365/28),1);
+        return round($this->getDateEmployment()->range(Carbon::now())->count()/(365/14),1);
     }
 
     public function getVacationOffAttribute()
