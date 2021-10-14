@@ -299,9 +299,9 @@ function current_table(table) {
                         textField: "name",
                     },
                 },
-                {field: "-", title: "Отпуск всего", editor: true},
-                {field: "-", title: "Отгулено", editor: true},
-                {field: "-", title: "Остаток на сегодня", editor: true},
+                {field: "vacation_total", title: "Отпуск всего", editor: true},
+                {field: "vacation_off", title: "Отгуляно", editor: true},
+                {field: "vacation_for_today", title: "Остаток на сегодня", editor: true},
                 {
                     field: "date_dismissal",
                     title: "Дата увольнения",
