@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') @lang('translation.Responsive_Table') @endsection
+@section('title')Сотрудники@endsection
 
 @section('table-add-btn')
     <div class="table-add-btn" style="padding:0">

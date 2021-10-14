@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') @lang('translation.Responsive_Table') @endsection
+@section('title')Доходы/расходы@endsection
 
 @section('table-add-btn')
     <div class="table-add-btn">

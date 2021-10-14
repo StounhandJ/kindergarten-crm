@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') @lang('translation.Responsive_Table') @endsection
+@section('title')Табель сотрудников@endsection
 
 @section('content')
     <div class="j_staffs_table table-responsive">

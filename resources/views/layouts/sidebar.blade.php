@@ -50,7 +50,7 @@
                 <li class="mm-active">
                     <a href="{{ route('card.children') }}"
                        class="waves-effect {{ Request::url() == route('card.children') ? "active": "" }}">
-                        <span><i class="mdi mdi-clipboard-list-outline"> Табеля детей общие</i></span>
+                        <span><i class="mdi mdi-clipboard-list-outline"> Ежемесячный журнал детей</i></span>
                     </a>
                 </li>
                 @endposition
@@ -59,7 +59,7 @@
                 <li class="mm-active">
                     <a href="{{ route('card.staffs') }}"
                        class="waves-effect {{ Request::url() == route('card.staffs') ? "active": "" }}">
-                        <span><i class="mdi mdi-clipboard-list-outline"> Табеля персонала общие</i></span>
+                        <span><i class="mdi mdi-clipboard-list-outline"> Ежемесячный журнал персонала</i></span>
                     </a>
                 </li>
                 @endposition

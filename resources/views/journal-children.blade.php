@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') @lang('translation.Responsive_Table') @endsection
+@section('title')Табель детей@endsection
 
 @section('content')
     <div class="j_children_table table-responsive">
