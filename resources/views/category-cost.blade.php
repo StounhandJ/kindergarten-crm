@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title')Филиал@endsection
+@section('title')Категории расходов/доходов@endsection
 
 @section('table-add-btn')
     <div class="table-add-btn">
@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <table id="grid" tapath="branches">
+                        <table id="grid" tapath="category-cost">
 
                         </table>
                     </div>
@@ -31,18 +31,55 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title mt-0">Создание группы</h5>
+                                    <h5 class="modal-title mt-0">Создание категории расходов/доходов</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form class="custom-validation" tapath="branches" novalidate>
+                                    <form class="custom-validation" tapath="category-cost" novalidate>
                                         <div class="form-group">
-                                            <label>Наименование филиала</label>
+                                            <label>Наименование</label>
                                             <div>
                                                 <input name="name" type="text" class="form-control" required
                                                        placeholder="Введите название...">
                                             </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="is_profit"
+                                                       id="is_profit_on" checked>
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Это доход
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="is_profit"
+                                                       id="is_profit_off">
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Это не доход
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="is_set_child"
+                                                   id="flexRadioDefault1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Указывать ребенка?
+                                            </label>
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="is_set_staff"
+                                                   id="flexRadioDefault1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Указывать сотрудника?
+                                            </label>
+                                                </div>
                                         </div>
 
                                         <div class="form-group mb-0">

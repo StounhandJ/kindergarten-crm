@@ -4,6 +4,7 @@ namespace Tests\Feature\Action;
 
 use App\Models\Branch;
 use App\Models\Child;
+use App\Models\Cost\CategoryCost;
 use App\Models\Cost\Cost;
 use App\Models\Staff;
 use Illuminate\Support\Carbon;
@@ -12,9 +13,32 @@ use Tests\TestCase;
 
 class CostTest extends TestCase
 {
+    private CategoryCost $category_staff_losses;
+    private CategoryCost $category_staff_profit;
+    private CategoryCost $category_child_profit;
+    private CategoryCost $category_child_losses;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->category_staff_losses = CategoryCost::factory([
+            "name" => "Staff Losses", "is_profit" => false, "is_set_child"=>false, "is_set_staff" => true
+        ])->create();
+        $this->category_staff_profit = CategoryCost::factory([
+            "name" => "Staff Profit", "is_profit" => true, "is_set_child"=>false, "is_set_staff" => true
+        ])->create();
+        $this->category_child_profit = CategoryCost::factory([
+            "name" => "Child Profit", "is_profit" => true, "is_set_child"=>true, "is_set_staff" => false
+        ])->create();
+        $this->category_child_losses = CategoryCost::factory([
+            "name" => "Child Losses", "is_profit" => false, "is_set_child"=>true, "is_set_staff" => false
+        ])->create();
+    }
+
     public function test_cost_limit_profit()
     {
-        Cost::factory()->profit()->count(4)->create();
+        Cost::factory(["category_id"=>$this->category_staff_profit->getId()])->count(4)->create();
 
         $response = $this->json('GET', '/action/cost', ["income" => 1, "limit" => 3]);
 
@@ -25,7 +49,7 @@ class CostTest extends TestCase
 
     public function test_cost_limit_losses()
     {
-        Cost::factory()->losses()->count(4)->create();
+        Cost::factory(["category_id"=>$this->category_staff_losses->getId()])->count(4)->create();
 
         $response = $this->json('GET', '/action/cost', ["income" => 0, "limit" => 3]);
 
@@ -41,7 +65,7 @@ class CostTest extends TestCase
      */
     public function test_costs_limit_page()
     {
-        Cost::factory()->profit()->count(4)->create();
+        Cost::factory()->count(4)->create();
 
         $response_one = $this->json('GET', '/action/cost', ["limit" => 3, "page" => 1]);
         $response_two = $this->json('GET', '/action/cost', ["limit" => 2, "page" => 2]);
@@ -51,7 +75,7 @@ class CostTest extends TestCase
 
     public function test_cost_show()
     {
-        $cost = Cost::factory()->profit()->create();
+        $cost = Cost::factory()->create();
 
         $response = $this->json('GET', '/action/cost/' . $cost->getId());
 
@@ -63,7 +87,7 @@ class CostTest extends TestCase
     public function test_cost_staff_show()
     {
         $staff = Staff::factory()->create();
-        $cost = Cost::profit(100, "f", new Child(), $staff, Carbon::now());
+        $cost = Cost::create($this->category_staff_profit, 100, "f", new Child(), $staff, Carbon::now());
 
         $response = $this->json('GET', '/action/cost/' . $cost->getId());
 
@@ -76,7 +100,7 @@ class CostTest extends TestCase
     public function test_cost_child_show()
     {
         $child = Child::factory()->create();
-        $cost = Cost::profit(100, "f", $child, new Staff(), Carbon::now());
+        $cost = Cost::create($this->category_child_profit, 100, "f", $child, new Staff(), Carbon::now());
 
         $response = $this->json('GET', '/action/cost/' . $cost->getId());
 
@@ -88,7 +112,7 @@ class CostTest extends TestCase
 
     public function test_cost_show_incorrect_cost()
     {
-        Cost::factory()->profit()->create();
+        Cost::factory()->create();
 
         $response = $this->json('GET', '/action/cost/' . -1);
 
@@ -102,7 +126,7 @@ class CostTest extends TestCase
             "amount" => 100,
             "comment" => "ffff",
             "staff_id" => Staff::factory()->create()->getId(),
-            "income" => 1,
+            "category_id" => $this->category_staff_profit->getId(),
             "month" => Carbon::now()->addMonths(-2)
         ];
         $response = $this->json('POST', '/action/cost', $data);
@@ -117,7 +141,7 @@ class CostTest extends TestCase
             "amount" => 100,
             "comment" => "ffff",
             "staff_id" => Staff::factory()->create()->getId(),
-            "income" => 0
+            "category_id" => $this->category_staff_losses->getId(),
         ];
         $response = $this->json('POST', '/action/cost', $data);
 
@@ -131,7 +155,7 @@ class CostTest extends TestCase
             "amount" => 100,
             "comment" => "ffff",
             "child_id" => Child::factory()->create()->getId(),
-            "income" => 1,
+            "category_id" => $this->category_child_profit->getId(),
             "month" => Carbon::now()
         ];
         $response = $this->json('POST', '/action/cost', $data);
@@ -146,7 +170,7 @@ class CostTest extends TestCase
             "amount" => 100,
             "comment" => "ffff",
             "child_id" => Child::factory()->create()->getId(),
-            "income" => 0,
+            "category_id" => $this->category_child_losses->getId(),
             "month" => Carbon::now()
         ];
         $response = $this->json('POST', '/action/cost', $data);
@@ -160,7 +184,7 @@ class CostTest extends TestCase
         $data = [
             "comment" => "ffff",
             "child_id" => Child::factory()->create()->getId(),
-            "income" => 0
+            "category_id" => $this->category_child_losses->getId(),
         ];
         $response = $this->json('POST', '/action/cost', $data);
 
@@ -174,15 +198,15 @@ class CostTest extends TestCase
 
         Cost::factory([
             "amount"=>100,
-            "is_profit"=>true
+            "category_id"=>$this->category_child_profit->getId()
         ])->create();
         Cost::factory([
             "amount"=>300,
-            "is_profit"=>true
+            "category_id"=>$this->category_child_profit->getId()
         ])->create();
         Cost::factory([
             "amount"=>600,
-            "is_profit"=>false
+            "category_id"=>$this->category_staff_losses->getId()
         ])->create();
 
         $response = $this->json('GET', '/action/cost-cash');

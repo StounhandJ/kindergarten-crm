@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             InstitutionSeeder::class,
             PositionSeeder::class,
             VisitSeeder::class,
-            StaffSeeder::class
+            StaffSeeder::class,
+            CategoryCostSeeder::class
         ]);
     }
 }

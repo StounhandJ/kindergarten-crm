@@ -28,7 +28,10 @@ class Staff extends Model
         "position_name",
         "date_dismissal",
         "login",
-        "password"
+        "password",
+        "vacation_total",
+        "vacation_off",
+        "vacation_for_today"
     ];
 
     public function getBranchIdAttribute()
@@ -65,6 +68,22 @@ class Staff extends Model
     {
         return $this->getDateDismissal();
     }
+
+    public function getVacationTotalAttribute()
+    {
+        return round($this->getDateEmployment()->range(Carbon::now())->count()/(365/28),1);
+    }
+
+    public function getVacationOffAttribute()
+    {
+        $journals = $this->getAllJournal();
+        return $journals->filter(fn($journal) => $journal->getVisit()->IsVacation())->count();
+    }
+
+    public function getVacationForTodayAttribute()
+    {
+        return $this->getVacationTotalAttribute()-$this->getVacationOffAttribute();
+    }
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
@@ -94,6 +113,11 @@ class Staff extends Model
         return $this->hasOne(User::class, "id", "user_id")->getResults();
     }
 
+    public function getAllJournal(): Collection
+    {
+        return $this->getJournal()->get()->sortBy("create_date");
+    }
+
     public function getJournalOnMonth(Carbon $data): Collection
     {
         return $this->getJournal()->whereDate("create_date", ">=", $data->firstOfMonth())
@@ -120,14 +144,14 @@ class Staff extends Model
         return $this->address;
     }
 
-    public function getDateBirth()
+    public function getDateBirth(): ?Carbon
     {
-        return $this->date_birth;
+        return Carbon::make($this->date_birth);
     }
 
-    public function getDateEmployment()
+    public function getDateEmployment(): ?Carbon
     {
-        return $this->date_employment;
+        return Carbon::make($this->date_employment);
     }
 
     public function getReasonDismissal()

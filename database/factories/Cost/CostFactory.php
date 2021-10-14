@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Cost;
 
+use App\Models\Cost\CategoryCost;
 use App\Models\Cost\Cost;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,6 +24,7 @@ class CostFactory extends Factory
     {
         return [
             "amount" => $this->withFaker()->numberBetween(100, 20000),
+            "category_id" => CategoryCost::factory()->create(),
             "comment" => $this->withFaker()->name() . $this->withFaker()->address()
         ];
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Action\AuthActionController;
 use App\Http\Controllers\Action\BranchActionController;
+use App\Http\Controllers\Action\CategoryCostController;
 use App\Http\Controllers\Action\ChildrenActionController;
 use App\Http\Controllers\Action\CostActionController;
 use App\Http\Controllers\Action\GeneralChildActionController;
@@ -64,6 +65,10 @@ Route::prefix("action")->middleware("position")->name("action.")->group(function
     Route::apiResource("general-journal-staff", GeneralStaffActionController::class)
         ->only("index", "update");
 
+    Route::apiResource("category-cost", CategoryCostController::class)->except("destroy", "show");
+
+    Route::get("category-cost-array", [CategoryCostController::class, "indexArray"]);
+
     Route::post("notification", [GeneralChildActionController::class, "notification"]);
 });
 
@@ -97,11 +102,15 @@ Route::get('/card/staffs', function () {
 
 Route::get('/journal/children', function () {
     return view("journal-children");
-})->name("journal.children")->middleware("position:senior_tutor,tutor");
+})->name("journal.children")->middleware("position:senior_tutor,tutor,director");
 
 Route::get('/journal/staffs', function () {
     return view("journal-staffs");
 })->name("journal.staffs")->middleware("position:director,senior_tutor,tutor");
+
+Route::get('/category-cost', function () {
+    return view("category-cost");
+})->name("category-cost")->middleware("position:director,senior_tutor");
 
 Route::get('/income', function () {
     return view("income");

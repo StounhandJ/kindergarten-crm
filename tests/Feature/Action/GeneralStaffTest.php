@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class GeneralStaffTest extends TestCase
 {
-public function test_general_staff_limit()
+    public function test_general_staff_limit()
     {
         staff::factory()->count(4)->create();
 

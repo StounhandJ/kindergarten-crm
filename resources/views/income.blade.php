@@ -53,8 +53,6 @@
                         </div>
                         <div class="modal-body">
                             <form class="custom-validation" tapath="cost" novalidate>
-                                <input name="income" id="income_bool" type="text" hidden>
-
                                 <div class="form-group">
                                     <label>Сумма</label>
                                     <div>
@@ -66,9 +64,8 @@
                                 <div class="form-group">
                                     <label>Тип</label>
                                     <div>
-                                        <select id="type_income" class="form-control" required>
-                                            <option value="0">ЗП - Расход</option>
-                                            <option value="1">Оплата за детей - Доход</option>
+                                        <select name="category_id" id="category_id" class="form-control" required>
+
                                         </select>
                                     </div>
                                 </div>
@@ -94,7 +91,8 @@
                                 <div class="form-group">
                                     <label>Месяц</label>
                                     <div>
-                                        <input name="month" id="input-date" class="form-control input-mask" type="month">
+                                        <input name="month" id="input-date" class="form-control input-mask"
+                                               type="month">
                                     </div>
                                 </div>
 

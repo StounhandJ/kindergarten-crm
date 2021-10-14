@@ -3,6 +3,7 @@
 namespace App\Http\Requests\RequestAttribute;
 
 use App\Models\Child;
+use App\Models\Cost\CategoryCost;
 use App\Models\Staff;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
@@ -42,5 +43,10 @@ class CostRequest extends FormRequest
     public function getStaff(): Staff
     {
         return Staff::getById($this->input("staff_id"));
+    }
+
+    public function getCategoryCost(): CategoryCost
+    {
+        return CategoryCost::getById($this->input("category_id"));
     }
 }

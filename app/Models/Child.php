@@ -291,7 +291,12 @@ class Child extends Model
 
     public static function getByGroup(Group $group): Collection
     {
-        return Child::query()->where("group_id", $group->getId())->get();
+        return Child::query()->where("group_id", $group->getId())->orderBy("fio")->get();
+    }
+
+    public static function allOrderByFio(): Collection
+    {
+        return Child::query()->orderBy("fio")->get();
     }
 
     //</editor-fold>

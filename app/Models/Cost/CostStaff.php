@@ -19,10 +19,12 @@ class CostStaff extends Pivot
     public static function getByStaffAndMonthLosses(Staff $staff, Carbon $month): Collection
     {
         return CostStaff::query()
+            ->select(["cost_staff.*"])
             ->join("costs", "costs.id", "=", "cost_id")
             ->whereDate("costs.created_at", ">=", $month->firstOfMonth())
             ->whereDate("costs.created_at", "<=", $month->lastOfMonth())
-            ->where("costs.is_profit", "=", false)
+            ->join('category_costs', 'category_costs.id', '=', 'costs.category_id')
+            ->where("category_costs.is_profit", "=", false)
             ->where("staff_id", "=", $staff->getId())
             ->get();
     }

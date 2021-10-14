@@ -7,6 +7,7 @@ use App\Http\Requests\Action\JournalChildrenUpdateRequest;
 use App\Http\Resources\JournalChildrenResource;
 use App\Models\Child;
 use App\Models\JournalChild;
+use App\Models\Types\Position;
 use Illuminate\Http\JsonResponse;
 
 class JournalChildrenActionController extends Controller
@@ -18,7 +19,11 @@ class JournalChildrenActionController extends Controller
      */
     public function index()
     {
-        return JournalChildrenResource::make(Child::getByGroup(auth()->user()->getStaff()->getGroup()));
+        if (auth()->user()->getPosition()->getId() == Position::DIRECTOR)
+            $children = Child::allOrderByFio();
+        else
+            $children = Child::getByGroup(auth()->user()->getStaff()->getGroup());
+        return JournalChildrenResource::make($children);
     }
 
     /**
