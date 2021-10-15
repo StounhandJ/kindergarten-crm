@@ -484,7 +484,7 @@ function current_table(table) {
             data: data,
             method: "POST",
         }).fail(function () {
-            alert("Failed to save.");
+            alert("Ошибка при сохранение");
         });
     });
     grid.on("rowRemoving", function (e, $row, id, record) {
@@ -498,7 +498,7 @@ function current_table(table) {
                     grid.reload();
                 })
                 .fail(function () {
-                    alert("Failed to delete.");
+                    alert("Ошибка при удалении");
                 });
         }
     });
@@ -700,7 +700,10 @@ $(document).ready(function () {
         $("#type_income").val(0).change();
     }
 
-    // $("#grid")[0].attributes.getNamedItem("tapath").value += "?date=08.08.2021";
-    // console.log("set");
-    // current_table($("#grid"));
+    $(".btn-download-vedomosty").click(function () {
+        const url = new URL(window.location.origin + "/document/vedomosty");
+        url.searchParams.set('date', $("#journal-date")[0].value);
+        window.open(url, '_blank');
+    });
+
 });

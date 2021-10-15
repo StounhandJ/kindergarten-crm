@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title')Ежемесечный журнал сотрудников@endsection
+@section('title')Ежемесячный журнал сотрудников@endsection
 
 @section('table-add-btn')
     <div class="table-add-btn">
-        {{-- <button type="button" class="btn btn-success waves-effect waves-light btn-create-row">
-            Создать
-        </button> --}}
+         <button type="button" class="btn btn-primary waves-effect waves-light btn-download-vedomosty">
+            Ведомость
+        </button>
     </div>
 @endsection
 

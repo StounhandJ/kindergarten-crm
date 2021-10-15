@@ -98,7 +98,7 @@ class Staff extends Model
         return $this->belongsTo(Group::class, "group_id")->getResults() ?? new Group();
     }
 
-    public function getPosition()
+    public function getPosition(): Position
     {
         return $this->belongsTo(Position::class, "position_id")->getResults();
     }

@@ -49,7 +49,9 @@ class GeneralJournalChild extends Model
     public function getDaysAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        return $this->getMonth()->countWeekDays() -
+        $weekDays = $this->getMonth()->countWeekDays();
+        $weekDays -= $this->getNoWorkDaysBecauseOfEnrollment();
+        return $weekDays -
             $journals->filter(fn($journal) => $journal->getVisit()->IsWeekend())->count();
     }
 
@@ -66,11 +68,12 @@ class GeneralJournalChild extends Model
     public function getNeedPaidAttribute()
     {
         $transferred_from_las_month = 0;
+        $noWork = $this->getNoWorkDaysBecauseOfEnrollment() * $this->getCostDayAttribute();
         $before_general_journal = $this->getBeforeGeneralJournal();
         if ($before_general_journal->exists)
             $transferred_from_las_month = $before_general_journal->getTransferredAttribute();
-        return ($this->getChild()->getRate() - $this->getReductionFees() + $this->getIncreaseFees())
-            - $this->getPaidAttribute() - $transferred_from_las_month + $this->getDebtAttribute();
+        return $this->getChild()->getRate() - $this->getReductionFees() + $this->getIncreaseFees()
+            - $this->getPaidAttribute() - $transferred_from_las_month + $this->getDebtAttribute() - $noWork;
     }
 
     public function getDebtAttribute()
@@ -84,7 +87,11 @@ class GeneralJournalChild extends Model
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
         $whole_days = $journals->filter(fn($journal) => $journal->getVisit()->IsWholeDat())->count();
         $half_days = $journals->filter(fn($journal) => $journal->getVisit()->IsHalfDat())->count() / 2;
-        return $whole_days + $half_days;
+        $sum = $whole_days + $half_days;
+        $days = $this->getDaysAttribute();
+        if ($sum>$days)
+            $sum = $days - ($sum - floor($sum));
+        return $sum;
     }
 
     public function getSickDaysAttribute()
@@ -101,7 +108,8 @@ class GeneralJournalChild extends Model
 
     public function getCostDayAttribute()
     {
-        return ceil($this->getChild()->getRate() / $this->getDaysAttribute());
+        $noWork = $this->getNoWorkDaysBecauseOfEnrollment();
+        return ceil($this->getChild()->getRate() / ($this->getDaysAttribute() + $noWork));
     }
 
     public function getTruancyDaysAttribute()
@@ -117,11 +125,14 @@ class GeneralJournalChild extends Model
         $transferred_vacation = $this->getCostDayAttribute() * $this->getVacationDaysAttribute();
         return $transferred_truancy + $transferred_sick + $transferred_vacation;
     }
-    /*
-     * полный 0.3
-     * бол 0.3
-     * отпуск 1
-     */
+
+    public function getNoWorkDaysBecauseOfEnrollment()
+    {
+        $noWork = 0;
+        if ($this->getMonth()->format("M Y") == $this->getChild()->getDateEnrollment()->format("M Y"))
+            $noWork = $this->getChild()->getDateEnrollment()->countWeekDays(true);
+        return $noWork;
+    }
 
     //</editor-fold>
 

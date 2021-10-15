@@ -25,24 +25,28 @@ class CarbonProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setLocale("ru");
-        Carbon::macro('weekDays', function () {
+        Carbon::macro('weekDays', function ($current_date = false) {
             /** @var Carbon $this */
-            $month = $this->month;
+            $date = $this->clone();
+
+            $month = $date->month;
+            if (!$current_date)
+                $date->lastOfMonth();
+
             $days = [];
-            $this->firstOfMonth();
-            while ($month == $this->month) {
-                if ($this->isWeekday()) {
-                    $days[] = $this->clone();
+            while ($month == $date->month) {
+                if ($date->isWeekday()) {
+                    $days[] = $date->clone();
                 }
-                $this->addDay();
+                $date->addDay(-1);
             }
-            $this->setMonth($month);
+
             return $days;
         });
 
-        Carbon::macro('countWeekDays', function () {
+        Carbon::macro('countWeekDays', function ($current_date = false) {
             /** @var Carbon $this */
-            return count($this->weekDays());
+            return count($this->weekDays($current_date));
         });
 
         Carbon::macro('isWeek', function () {
@@ -50,7 +54,7 @@ class CarbonProvider extends ServiceProvider
             return $this->isWeekday();
         });
 
-        Carbon::macro('dateName', function ($reduction = false) {
+        Carbon::macro('dateName', function ($reduction = false, $day = true) {
             /** @var Carbon $this */
             $months = [
                 "Января",
@@ -66,7 +70,11 @@ class CarbonProvider extends ServiceProvider
                 "Ноября",
                 "Декабря"
             ];
-            return sprintf($this->format("\"d\" %\s Y ".($reduction?"г.":"года")), $months[$this->month-1]);
+            return sprintf(
+                $this->format(($day ? "\"d\" " : "") . "%\s Y %\s"),
+                $months[$this->month - 1],
+                ($reduction ? "г." : "года")
+            );
         });
     }
 }

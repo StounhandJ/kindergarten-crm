@@ -38,7 +38,9 @@ class GeneralJournalStaff extends Model
     public function getDaysAttribute()
     {
         $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
-        return $this->getMonth()->countWeekDays() -
+        $weekDays = $this->getMonth()->countWeekDays();
+        $weekDays -= $this->getNoWorkDaysBecauseOfEmployment();
+        return $weekDays -
             $journals->filter(fn($journal) => $journal->getVisit()->IsWeekend())->count();
     }
 
@@ -48,7 +50,11 @@ class GeneralJournalStaff extends Model
         $whole_days = $journals->filter(fn($journal) => $journal->getVisit()->IsWholeDat())->count();
         $half_days = $journals->filter(fn($journal) => $journal->getVisit()->IsHalfDat())->count() / 2;
         $vacation_days = $journals->filter(fn($journal) => $journal->getVisit()->IsVacation())->count() / 2;
-        return $whole_days + $half_days + $vacation_days;
+        $sum = $whole_days + $half_days + $vacation_days;
+        $days = $this->getDaysAttribute();
+        if ($sum>$days)
+            $sum = $days - ($sum - floor($sum));
+        return $sum;
     }
 
     public function getSickDaysAttribute()
@@ -71,14 +77,15 @@ class GeneralJournalStaff extends Model
 
     public function getSalaryAttribute()
     {
-        return ($this->getCostDayAttribute() * $this->getAttendanceAttribute()
+        return ceil(($this->getCostDayAttribute() * $this->getAttendanceAttribute()
                 - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute(
-            ) - $this->getAdvancePayment();
+            ) - $this->getAdvancePayment());
     }
 
     public function getCostDayAttribute()
     {
-        return $this->getStaff()->getSalary() / $this->getDaysAttribute();
+        $noWork = $this->getNoWorkDaysBecauseOfEmployment();
+        return ceil($this->getStaff()->getSalary() / ($this->getDaysAttribute() + $noWork));
     }
 
     public function getPaymentListAttribute()
@@ -96,7 +103,13 @@ class GeneralJournalStaff extends Model
         return $paid;
     }
 
-
+    public function getNoWorkDaysBecauseOfEmployment()
+    {
+        $noWork = 0;
+        if ($this->getMonth()->format("M Y") == $this->getStaff()->getDateEmployment()->format("M Y"))
+            $noWork = $this->getStaff()->getDateEmployment()->countWeekDays(true);
+        return $noWork;
+    }
 
     //</editor-fold>
 

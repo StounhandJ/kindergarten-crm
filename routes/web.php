@@ -120,5 +120,6 @@ Route::get('/login', [AuthController::class, "login"])->name("login.page")->midd
 Route::post('/login', [AuthActionController::class, "login"])->name("login")->middleware("guest");
 Route::get('/logout', [AuthActionController::class, "logout"])->name("logout")->middleware("auth");
 
-Route::get("/document/child", [DocumentController::class, "store"])->middleware("position:director,senior_tutor")->name("document.child");
+Route::get("/document/child", [DocumentController::class, "storeChild"])->middleware("position:director,senior_tutor")->name("document.child");
+Route::get("/document/vedomosty", [DocumentController::class, "storeVedomosty"])->middleware("position:director,senior_tutor")->name("document.child");
 //Route::post("134gs/sms/callback", [GeneralChildActionController::class, "notification"])->name("sms.callback");
