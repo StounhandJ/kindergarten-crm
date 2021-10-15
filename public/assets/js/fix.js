@@ -22,6 +22,9 @@ function changeColor(select, value) {
         case "5":
             select.parent().parent().addClass("out");
             break;
+        case "6":
+            select.parent().parent().addClass("weekend");
+            break;
         default:
             select.parent().parent().addClass("zero");
             break;
@@ -37,9 +40,8 @@ function createJournal(table_head, table_body, uri, array_name) {
         success: function (month) {
             tr_month = $(`<tr></tr>`);
             journal_date = $(`<input id="journal-date" class="form-control input-mask" type="month" value="${month.month}">`)
-            journal_date.change(function ()
-            {
-                createJournal(table_head, table_body, uri.split("?")[0]+"?date="+$(this)[0].value, array_name);
+            journal_date.change(function () {
+                createJournal(table_head, table_body, uri.split("?")[0] + "?date=" + $(this)[0].value, array_name);
             })
 
             tr_month.append($(`<th scope="col"></th>`).append(journal_date));
@@ -53,12 +55,13 @@ function createJournal(table_head, table_body, uri, array_name) {
                     td = $(`<td>
                                 <div class="input-group">
                                   <select class="custom-select_main">
-                                     <option value="0">Не выбрано</option>
-                                     <option value="1">Целый день</option>
-                                     <option value="2">Пол дня</option>
-                                     <option value="3">Больничный</option>
-                                     <option value="4">Отпуск</option>
-                                     <option value="5">Пропущено</option>
+                                     <option value="0" class="zero">Не выбрано</option>
+                                     <option value="1" class="full-day">Целый день</option>
+                                     <option value="2" class="half-day">Пол дня</option>
+                                     <option value="3" class="medic">Больничный</option>
+                                     <option value="4" class="arroad">Отпуск</option>
+                                     <option value="5" class="out">Пропущено</option>
+                                     <option value="6" class="weekend">Выходной</option>
                                   </select>
                                 </div>
                              </td>`);
@@ -96,7 +99,7 @@ $(document).ready(function () {
         changeColor($(this), $(this)[0].value);
     });
     if ($(".j_children_table").length != 0) {
-        createJournal($("#j_children_table_head"), $("#j_children_table_body"),"journal-children", "children");
+        createJournal($("#j_children_table_head"), $("#j_children_table_body"), "journal-children", "children");
     }
 
     if ($(".j_staffs_table").length != 0) {

@@ -17,16 +17,12 @@ class Visit extends Model
     public const SICK = 3;
     public const VACATION = 4;
     public const TRUANCY = 5;
+    public const WEEKEND = 6;
     public $timestamps = false;
 
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
-
-    public static function getById($id): Visit
-    {
-        return Visit::where("id", $id)->first() ?? new Visit();
-    }
 
     #[Pure] public function IsNotSelected(): bool
     {
@@ -57,13 +53,24 @@ class Visit extends Model
     {
         return $this->getId() == Visit::VACATION;
     }
-    //</editor-fold>
-
-    //<editor-fold desc="Search Branch">
 
     #[Pure] public function IsTruancy(): bool
     {
         return $this->getId() == Visit::TRUANCY;
     }
+
+    #[Pure] public function IsWeekend(): bool
+    {
+        return $this->getId() == Visit::WEEKEND;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Search Branch">
+
+    public static function getById($id): Visit|Model
+    {
+        return Visit::query()->where("id", $id)->firstOrNew();
+    }
+
     //</editor-fold>
 }

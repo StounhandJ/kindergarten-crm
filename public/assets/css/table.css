@@ -126,6 +126,15 @@ th[scope="col"]::first-letter{
     color: white;
 }
 
+.weekend {
+    background: #eb03f3;
+}
+
+.weekend select {
+    background: #eb03f3;
+    color: white;
+}
+
 .input-group{
     text-align: center;
 }

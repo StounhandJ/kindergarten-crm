@@ -14,7 +14,7 @@ class VisitSeeder extends Seeder
      */
     public function run()
     {
-        $positions = ["Не выбрано", "Целый день", "Пол дня", "Больничный", "Отпуск", "Пропущено"];
+        $positions = ["Не выбрано", "Целый день", "Пол дня", "Больничный", "Отпуск", "Пропущено", "Выходной"];
         $i = 0;
         foreach ($positions as $position_name) {
             if (!Visit::query()->where("name", $position_name)->exists()) {

@@ -46,25 +46,11 @@ class GeneralJournalChild extends Model
         return $this->getChild();
     }
 
-    public function getNeedPaidAttribute()
-    {
-        return ($this->getChild()->getRate() - $this->getTransferredAttribute()
-                - $this->getReductionFees() + $this->getIncreaseFees()) - $this->getPaidAttribute();
-    }
-
-    public function getTransferredAttribute()
-    {
-        return ceil($this->getCostDayAttribute() * ($this->getDaysAttribute() - $this->getAttendanceAttribute()) * 0.3);
-    }
-
-    public function getCostDayAttribute()
-    {
-        return ceil($this->getChild()->getRate() / $this->getDaysAttribute());
-    }
-
     public function getDaysAttribute()
     {
-        return $this->getMonth()->countWeekDays();
+        $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
+        return $this->getMonth()->countWeekDays() -
+            $journals->filter(fn($journal) => $journal->getVisit()->IsWeekend())->count();
     }
 
     public function getPaidAttribute()
@@ -77,10 +63,24 @@ class GeneralJournalChild extends Model
         return $paid;
     }
 
+    public function getNeedPaidAttribute()
+    {
+        return ($this->getChild()->getRate() - $this->getTransferredAttribute()
+                - $this->getReductionFees() + $this->getIncreaseFees()) - $this->getPaidAttribute();
+    }
+
     public function getDebtAttribute()
     {
         return Debts::getByChildAndMonth($this->getChild(), $this->getMonth()->clone()->addMonths(-1))->getAmount(
             ) ?? 0;
+    }
+
+    public function getAttendanceAttribute()
+    {
+        $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
+        $whole_days = $journals->filter(fn($journal) => $journal->getVisit()->IsWholeDat())->count();
+        $half_days = $journals->filter(fn($journal) => $journal->getVisit()->IsHalfDat())->count() / 2;
+        return $whole_days + $half_days;
     }
 
     public function getSickDaysAttribute()
@@ -95,19 +95,22 @@ class GeneralJournalChild extends Model
         return $journals->filter(fn($journal) => $journal->getVisit()->IsVacation())->count();
     }
 
+    public function getTransferredAttribute()
+    {
+        return ceil($this->getCostDayAttribute() * ($this->getDaysAttribute() - $this->getAttendanceAttribute()) * 0.3);
+    }
+
+    public function getCostDayAttribute()
+    {
+        return ceil($this->getChild()->getRate() / $this->getDaysAttribute());
+    }
+
     public function getTruancyDaysAttribute()
     {
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
         return $journals->filter(fn($journal) => $journal->getVisit()->IsTruancy())->count();
     }
 
-    public function getAttendanceAttribute()
-    {
-        $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
-        $whole_days = $journals->filter(fn($journal) => $journal->getVisit()->IsWholeDat())->count();
-        $half_days = $journals->filter(fn($journal) => $journal->getVisit()->IsHalfDat())->count() / 2;
-        return $whole_days + $half_days;
-    }
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
@@ -220,7 +223,7 @@ class GeneralJournalChild extends Model
 
     //</editor-fold>
 
-    public function getBeforeGeneralJournal(): GeneralJournalChild
+    public function getBeforeGeneralJournal(): GeneralJournalChild | Model
     {
         return GeneralJournalChild::query()
             ->where("child_id", $this->getChildId())
@@ -232,12 +235,13 @@ class GeneralJournalChild extends Model
     public function sendNotify(): GeneralJournalChild
     {
         try {
-
-            $this->notify(new SmsNotification(
-                $this->getNeedPaidAttribute(),
-                $this->getMonth(),
-                $this->getChild()
-            ));
+            $this->notify(
+                new SmsNotification(
+                    $this->getNeedPaidAttribute(),
+                    $this->getMonth(),
+                    $this->getChild()
+                )
+            );
 
             $this->setNotification(GeneralJournalChild::NOTIFY_SUCCESSES);
         } catch (Exception $exception) {

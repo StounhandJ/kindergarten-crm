@@ -30,40 +30,25 @@ class GeneralJournalStaff extends Model
         'paid'
     ];
 
-    public static function getById($id): GeneralJournalStaff
-    {
-        return GeneralJournalStaff::where("id", $id)->first() ?? new GeneralJournalStaff();
-    }
-
-    public static function getByChildAndMonth(Staff $staff, Carbon $month): GeneralJournalStaff
-    {
-        return GeneralJournalStaff::whereDate("month", ">=", $month->firstOfMonth())
-                ->whereDate("month", "<=", $month->lastOfMonth())->where("staff_id", $staff->getId())->first(
-                ) ?? new GeneralJournalStaff();
-    }
-
-    public static function getBuilderByMonth(Carbon $month): Builder
-    {
-        return GeneralJournalStaff::query()->whereDate("month", ">=", $month->firstOfMonth())
-            ->whereDate("month", "<=", $month->lastOfMonth());
-    }
-
-    public static function make(Staff $staff, Carbon $month, bool $notification = false)
-    {
-        return GeneralJournalStaff::factory([
-            "staff_id" => $staff->getId(),
-            "month" => $month
-        ])->make();
-    }
-
     public function getStaffAttribute()
     {
         return $this->getStaff();
     }
 
-    public function getStaff()
+    public function getDaysAttribute()
     {
-        return Staff::getById($this->staff_id);
+        $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
+        return $this->getMonth()->countWeekDays() -
+            $journals->filter(fn($journal) => $journal->getVisit()->IsWeekend())->count();
+    }
+
+    public function getAttendanceAttribute()
+    {
+        $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
+        $whole_days = $journals->filter(fn($journal) => $journal->getVisit()->IsWholeDat())->count();
+        $half_days = $journals->filter(fn($journal) => $journal->getVisit()->IsHalfDat())->count() / 2;
+        $vacation_days = $journals->filter(fn($journal) => $journal->getVisit()->IsVacation())->count() / 2;
+        return $whole_days + $half_days + $vacation_days;
     }
 
     public function getSickDaysAttribute()
@@ -87,45 +72,18 @@ class GeneralJournalStaff extends Model
     public function getSalaryAttribute()
     {
         return ($this->getCostDayAttribute() * $this->getAttendanceAttribute()
-                - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute() - $this->getAdvancePayment();
+                - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute(
+            ) - $this->getAdvancePayment();
     }
-
-    //</editor-fold>
-
-    //<editor-fold desc="Get Attribute">
 
     public function getCostDayAttribute()
     {
         return $this->getStaff()->getSalary() / $this->getDaysAttribute();
     }
 
-    public function getDaysAttribute()
+    public function getPaymentListAttribute()
     {
-        return $this->getMonth()->countWeekDays();
-    }
-
-    public function getMonth()
-    {
-        return Carbon::make($this->month);
-    }
-
-    public function getAttendanceAttribute()
-    {
-        $journals = $this->getStaff()->getJournalOnMonth($this->getMonth());
-        $whole_days = $journals->filter(fn($journal) => $journal->getVisit()->IsWholeDat())->count();
-        $half_days = $journals->filter(fn($journal) => $journal->getVisit()->IsHalfDat())->count() / 2;
-        $vacation_days = $journals->filter(fn($journal) => $journal->getVisit()->IsVacation())->count() / 2;
-        return $whole_days + $half_days + $vacation_days;
-    }
-
-    public function getReductionSalary()
-    {
-        return $this->reduction_salary;
-    }
-
-    public function getIncreaseSalary()
-    {
-        return $this->increase_salary;
+        return "#";
     }
 
     public function getPaidAttribute()
@@ -138,14 +96,11 @@ class GeneralJournalStaff extends Model
         return $paid;
     }
 
+
+
     //</editor-fold>
 
-    //<editor-fold desc="Set Attribute">
-
-    public function getPaymentListAttribute()
-    {
-        return "#";
-    }
+    //<editor-fold desc="Get Attribute">
 
     public function getId()
     {
@@ -162,9 +117,34 @@ class GeneralJournalStaff extends Model
         return $this->advance_payment;
     }
 
+    public function getStaff()
+    {
+        return Staff::getById($this->staff_id);
+    }
+
+    public function getMonth()
+    {
+        return Carbon::make($this->month);
+    }
+
+    public function getReductionSalary()
+    {
+        return $this->reduction_salary;
+    }
+
+    public function getIncreaseSalary()
+    {
+        return $this->increase_salary;
+    }
+
     //</editor-fold>
 
-    //<editor-fold desc="Search GeneralJournalChild">
+    //<editor-fold desc="Set Attribute">
+
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
 
     public function setAdvancePayment($advance_payment)
     {
@@ -189,8 +169,33 @@ class GeneralJournalStaff extends Model
 
     //</editor-fold>
 
-    public function setComment($comment)
+    //<editor-fold desc="Search GeneralJournalChild">
+
+    public static function getById($id): GeneralJournalStaff
     {
-        $this->comment = $comment;
+        return GeneralJournalStaff::where("id", $id)->first() ?? new GeneralJournalStaff();
+    }
+
+    public static function getByChildAndMonth(Staff $staff, Carbon $month): GeneralJournalStaff
+    {
+        return GeneralJournalStaff::whereDate("month", ">=", $month->firstOfMonth())
+                ->whereDate("month", "<=", $month->lastOfMonth())->where("staff_id", $staff->getId())->first(
+                ) ?? new GeneralJournalStaff();
+    }
+
+    //</editor-fold>
+
+    public static function getBuilderByMonth(Carbon $month): Builder
+    {
+        return GeneralJournalStaff::query()->whereDate("month", ">=", $month->firstOfMonth())
+            ->whereDate("month", "<=", $month->lastOfMonth());
+    }
+
+    public static function make(Staff $staff, Carbon $month, bool $notification = false)
+    {
+        return GeneralJournalStaff::factory([
+            "staff_id" => $staff->getId(),
+            "month" => $month
+        ])->make();
     }
 }
