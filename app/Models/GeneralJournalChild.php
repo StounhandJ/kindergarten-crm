@@ -65,8 +65,12 @@ class GeneralJournalChild extends Model
 
     public function getNeedPaidAttribute()
     {
-        return ($this->getChild()->getRate() - $this->getTransferredAttribute()
-                - $this->getReductionFees() + $this->getIncreaseFees()) - $this->getPaidAttribute();
+        $transferred_from_las_month = 0;
+        $before_general_journal = $this->getBeforeGeneralJournal();
+        if ($before_general_journal->exists)
+            $transferred_from_las_month = $before_general_journal->getTransferredAttribute();
+        return ($this->getChild()->getRate() - $this->getReductionFees() + $this->getIncreaseFees())
+            - $this->getPaidAttribute() - $transferred_from_las_month + $this->getDebtAttribute();
     }
 
     public function getDebtAttribute()
@@ -95,11 +99,6 @@ class GeneralJournalChild extends Model
         return $journals->filter(fn($journal) => $journal->getVisit()->IsVacation())->count();
     }
 
-    public function getTransferredAttribute()
-    {
-        return ceil($this->getCostDayAttribute() * ($this->getDaysAttribute() - $this->getAttendanceAttribute()) * 0.3);
-    }
-
     public function getCostDayAttribute()
     {
         return ceil($this->getChild()->getRate() / $this->getDaysAttribute());
@@ -110,6 +109,19 @@ class GeneralJournalChild extends Model
         $journals = $this->getChild()->getJournalOnMonth($this->getMonth());
         return $journals->filter(fn($journal) => $journal->getVisit()->IsTruancy())->count();
     }
+
+    public function getTransferredAttribute()
+    {
+        $transferred_truancy = $this->getCostDayAttribute() * $this->getTruancyDaysAttribute() * 0.3;
+        $transferred_sick = $this->getCostDayAttribute() * $this->getSickDaysAttribute() * 0.3;
+        $transferred_vacation = $this->getCostDayAttribute() * $this->getVacationDaysAttribute();
+        return $transferred_truancy + $transferred_sick + $transferred_vacation;
+    }
+    /*
+     * полный 0.3
+     * бол 0.3
+     * отпуск 1
+     */
 
     //</editor-fold>
 
@@ -223,7 +235,7 @@ class GeneralJournalChild extends Model
 
     //</editor-fold>
 
-    public function getBeforeGeneralJournal(): GeneralJournalChild | Model
+    public function getBeforeGeneralJournal(): GeneralJournalChild|Model
     {
         return GeneralJournalChild::query()
             ->where("child_id", $this->getChildId())
