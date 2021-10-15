@@ -61,43 +61,4 @@ class ChildDebtTest extends TestCase
 
         $this->assertEqualsWithDelta($expected, $actual, $delta);
     }
-
-    /**
-     * Full transfer of payment to debt.
-     *
-     * @return void
-     */
-    public function test_full_transfer_to_debt_double()
-    {
-        $expected = $this->needPaid * 2;
-        $delta = 5;
-
-        GeneralJournalChild::factory(
-            [
-                "child_id" => $this->child_id,
-                "month" => $this->next_month
-            ]
-        )->create();
-
-        Child::query()->where("id", $this->child_id)->first()->getJournalOnMonth($this->next_month)
-            ->map(
-                fn(JournalChild $journalChild) => $journalChild->setVisitIfNotEmpty(
-                    Visit::getById(Visit::WHOLE_DAT)
-                )->save()
-            );
-
-        GeneralJournalChild::factory(
-            [
-                "child_id" => $this->child_id,
-                "month" => $this->next_month->clone()->addMonth()
-            ]
-        )->create();
-
-        $actual = Debts::getByChildAndMonth(
-            Child::query()->where("id", $this->child_id)->first(),
-            $this->next_month
-        )->getAmount();
-
-        $this->assertEqualsWithDelta($expected, $actual, $delta);
-    }
 }
