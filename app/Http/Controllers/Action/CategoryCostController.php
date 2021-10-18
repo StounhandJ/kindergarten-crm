@@ -59,7 +59,7 @@ class CategoryCostController extends Controller
     public function update(CategoryCostUpdateRequest $request, CategoryCost $categoryCost)
     {
         $categoryCost->setNameIfNotEmpty($request->getName())
-            ->setNameIfNotEmpty($request->getIsProfit())
+            ->setIsProfitIfNotEmpty($request->getIsProfit())
             ->setIsSetChildIfNotEmpty($request->getIsSetChild())
             ->setIsSetStaffIfNotEmpty($request->getIsSetStaff())
             ->save();

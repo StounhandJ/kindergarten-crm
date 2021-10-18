@@ -92,7 +92,7 @@
                                     <label>Месяц</label>
                                     <div>
                                         <input name="month" id="input-date" class="form-control input-mask"
-                                               type="month">
+                                               type="date">
                                     </div>
                                 </div>
 

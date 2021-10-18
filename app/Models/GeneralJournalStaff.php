@@ -77,7 +77,7 @@ class GeneralJournalStaff extends Model
 
     public function getSalaryAttribute()
     {
-        return ceil(($this->getCostDayAttribute() * $this->getAttendanceAttribute()
+        return round(($this->getCostDayAttribute() * $this->getAttendanceAttribute()
                 - $this->getReductionSalary() + $this->getIncreaseSalary()) - $this->getPaidAttribute(
             ) - $this->getAdvancePayment());
     }
@@ -85,7 +85,7 @@ class GeneralJournalStaff extends Model
     public function getCostDayAttribute()
     {
         $noWork = $this->getNoWorkDaysBecauseOfEmployment();
-        return ceil($this->getStaff()->getSalary() / ($this->getDaysAttribute() + $noWork));
+        return round($this->getStaff()->getSalary() / ($this->getDaysAttribute() + $noWork), 3);
     }
 
     public function getPaymentListAttribute()
