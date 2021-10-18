@@ -23,7 +23,7 @@ class JournalResource extends JsonResource
         return [
             "name_month" => $month->monthName,
             "month" => $month->format("Y-m"),
-            "days" => $this->daysToDayAndName($month->weekDays()),
+            "days" => $this->daysToDayAndName(array_reverse($month->weekDays())),
         ];
     }
 
