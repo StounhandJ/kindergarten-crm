@@ -19,9 +19,33 @@ class Child extends Model
     use SoftDeletes;
 
     //<editor-fold desc="Setting">
+    protected $fillable = [
+        "fio",
+        "address",
+        "fio_mother",
+        "phone_mother",
+        "fio_father",
+        "phone_father",
+        "comment",
+        "rate",
+        "deleted_at",
+        "reason_exclusion",
+        "date_birth",
+        "date_enrollment",
+        "group_id",
+        "institution_id",
+    ];
+
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
-    protected $appends = ['branch_id', "branch_name", "institution_name", "group_name", "date_exclusion", "document_url"];
+    protected $appends = [
+        'branch_id',
+        "branch_name",
+        "institution_name",
+        "group_name",
+        "date_exclusion",
+        "document_url"
+    ];
 
     public function getBranchIdAttribute()
     {
@@ -50,7 +74,7 @@ class Child extends Model
 
     public function getDocumentUrlAttribute()
     {
-        return route("document.child", ["child_id"=>$this->getId()]);
+        return route("document.child", ["child_id" => $this->getId()]);
     }
 
     //</editor-fold>
@@ -318,7 +342,7 @@ class Child extends Model
         Group $group,
         Institution $institution
     ) {
-        return Child::factory([
+        return Child::query()->make([
             "fio" => $name,
             "address" => $address,
             "fio_mother" => $fio_mother,
@@ -333,6 +357,6 @@ class Child extends Model
             "date_enrollment" => $date_enrollment,
             "group_id" => $group->getId(),
             "institution_id" => $institution->getId(),
-        ])->make();
+        ]);
     }
 }

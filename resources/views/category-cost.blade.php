@@ -48,14 +48,14 @@
                                         <div class="form-group">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="is_profit"
-                                                       id="is_profit_on" checked>
+                                                       id="is_profit_on" checked value="true">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     Это доход
                                                 </label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="is_profit"
-                                                       id="is_profit_off">
+                                                       id="is_profit_off" value="false">
                                                 <label class="form-check-label" for="flexRadioDefault2">
                                                     Это не доход
                                                 </label>

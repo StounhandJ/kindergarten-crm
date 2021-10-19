@@ -19,6 +19,20 @@ class Staff extends Model
     //<editor-fold desc="Setting">
     protected $table = "staff";
 
+    protected $fillable = [
+        'fio',
+        'phone',
+        'address',
+        'date_birth',
+        'date_employment',
+        'deleted_at',
+        'reason_dismissal',
+        'salary',
+        'group_id',
+        'position_id',
+        'user_id'
+    ];
+
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
     protected $appends = [
@@ -286,7 +300,7 @@ class Staff extends Model
     ) {
         $user = User::make($login, $password);
         $user->save();
-        return Staff::factory([
+        return Staff::query()->make([
             "fio" => $fio,
             "phone" => $phone,
             "address" => $address,
@@ -298,6 +312,6 @@ class Staff extends Model
             "group_id" => $group->getId(),
             "position_id" => $position->getId(),
             "user_id" => $user->getId()
-        ])->make();
+        ]);
     }
 }

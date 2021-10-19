@@ -12,6 +12,12 @@ class Debts extends Model
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
+
+    protected $fillable = [
+        'child_id',
+        'amount',
+        'month'
+    ];
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
@@ -28,11 +34,11 @@ class Debts extends Model
     public static function create(Child $child, int $amount, Carbon $month)
     {
         /** @var GeneralJournalChild $generalJournalChild */
-        return Debts::factory([
+        return Debts::query()->create([
             "child_id" => $child->getId(),
             "amount" => $amount,
             "month" => $month
-        ])->create();
+        ]);
     }
 
     public function getId()

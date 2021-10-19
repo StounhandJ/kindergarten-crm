@@ -16,6 +16,13 @@ class Cost extends Model
     use HasFactory;
 
     //<editor-fold desc="Setting">
+    protected $fillable = [
+        'category_id',
+        'amount',
+        'comment',
+        'created_at',
+    ];
+
     protected $hidden = [
         'created_at',
         'updated_at',
@@ -143,11 +150,11 @@ class Cost extends Model
 
     public static function create(CategoryCost $categoryCost, $amount, $comment, Child $child, Staff $staff, Carbon $month): Cost
     {
-        return Cost::factory([
+        return Cost::query()->create([
             "category_id"=>$categoryCost->getId(),
             "amount" => $amount,
             "comment" => $comment,
             "created_at" => $month
-        ])->create()->attachChildOrStaff($child, $staff);
+        ])->attachChildOrStaff($child, $staff);
     }
 }

@@ -442,7 +442,7 @@ function current_table(table) {
             column["columns"] = [
                 {field: "id", hidden: true},
                 {field: "name", title: "Название", editor: true},
-                {field: "is_profit", title: "Это доход", type: 'checkbox', editor: true, align: 'center'},
+                {field: "is_profit", title: "Это доход", type: 'checkbox', editor: false, align: 'center'},
                 {field: "is_set_child", title: "Указывать ребенка", type: 'checkbox', editor: true, align: 'center'},
                 {field: "is_set_staff", title: "Указывать сотрудника", type: 'checkbox', editor: true, align: 'center'}
             ];
@@ -551,7 +551,7 @@ $(document).ready(function () {
                 if (item.name == "is_set_child" || item.name == "is_set_staff")
                     data[item.name] = true;
                 else if (item.name == "is_profit")
-                    data["is_profit"] = $('input[data-parsley-id="8"]')[0].id == "is_profit_on" ? true : false;
+                    data["is_profit"] = $('input[name=is_profit]:checked', '.custom-validation').value;
                 else
                     data[item.name] = item.value;
             });

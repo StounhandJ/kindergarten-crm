@@ -13,17 +13,23 @@ class JournalChild extends Model
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
+
+    protected $fillable = [
+        'child_id',
+        'visit_id',
+        'create_date'
+    ];
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
 
     public static function make(Child $child, Visit $visit, Carbon $date)
     {
-        return JournalChild::factory([
+        return JournalChild::query()->make([
             "child_id" => $child->getId(),
             "visit_id" => $visit->getId(),
             "create_date" => $date
-        ])->make();
+        ]);
     }
 
     public function getId()

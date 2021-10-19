@@ -12,6 +12,11 @@ class Group extends Model
     use SoftDeletes;
 
     //<editor-fold desc="Setting">
+    protected $fillable = [
+        'name',
+        'children_age',
+        'branch_id'
+    ];
     public $timestamps = true;
 
     protected $hidden = ['delete_at', 'created_at', 'updated_at'];
@@ -83,10 +88,10 @@ class Group extends Model
 
     public static function make($name, $children_age, Branch $branch)
     {
-        return Group::factory([
+        return Group::query()->make([
             "name" => $name,
             "children_age" => $children_age,
             "branch_id" => $branch->getId()
-        ])->make();
+        ]);
     }
 }

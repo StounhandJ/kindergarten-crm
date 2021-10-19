@@ -12,6 +12,9 @@ class Branch extends Model
     use SoftDeletes;
 
     //<editor-fold desc="Setting">
+    protected $fillable = [
+        'name'
+    ];
     public $timestamps = true;
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
     //</editor-fold>
@@ -25,7 +28,7 @@ class Branch extends Model
 
     public static function make($name)
     {
-        return Branch::factory(["name" => $name])->make();
+        return Branch::query()->make(["name" => $name]);
     }
     //</editor-fold>
 

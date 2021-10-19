@@ -20,8 +20,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
-        'email',
+        'login',
         'password',
     ];
 
@@ -61,8 +60,7 @@ class User extends Authenticatable
 
     public static function make($login, $password)
     {
-        return User::factory(["login" => $login, "password" => $password])
-            ->make();
+        return User::query()->make(["login" => $login, "password" => $password]);
     }
 
     public function setPasswordAttribute($password)

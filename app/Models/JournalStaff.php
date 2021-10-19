@@ -13,17 +13,23 @@ class JournalStaff extends Model
 
     //<editor-fold desc="Setting">
     public $timestamps = false;
+
+    protected $fillable = [
+        'staff_id',
+        'visit_id',
+        'create_date'
+    ];
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
 
     public static function make(Staff $staff, Visit $visit, Carbon $date)
     {
-        return JournalStaff::factory([
+        return JournalStaff::query()->make([
             "staff_id" => $staff->getId(),
             "visit_id" => $visit->getId(),
             "create_date" => $date
-        ])->make();
+        ]);
     }
 
     public function getId()

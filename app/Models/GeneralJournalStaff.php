@@ -15,6 +15,11 @@ class GeneralJournalStaff extends Model
     //<editor-fold desc="Setting">
     public $timestamps = true;
 
+    protected $fillable = [
+        'staff_id',
+        'month'
+    ];
+
     protected $hidden = ['staff_id', 'created_at', 'updated_at'];
 
     protected $appends = [
@@ -206,9 +211,9 @@ class GeneralJournalStaff extends Model
 
     public static function make(Staff $staff, Carbon $month, bool $notification = false)
     {
-        return GeneralJournalStaff::factory([
+        return GeneralJournalStaff::query()->make([
             "staff_id" => $staff->getId(),
             "month" => $month
-        ])->make();
+        ]);
     }
 }

@@ -25,6 +25,11 @@ class GeneralJournalChild extends Model
     //<editor-fold desc="Setting">
     public $timestamps = true;
 
+    protected $fillable = [
+        'child_id',
+        'month'
+    ];
+
     protected $hidden = ['child_id', 'created_at', 'updated_at'];
 
     protected $appends = [
@@ -277,10 +282,10 @@ class GeneralJournalChild extends Model
     public static function create(Child $child, Carbon $month, bool $notification = false)
     {
         /** @var GeneralJournalChild $generalJournalChild */
-        return GeneralJournalChild::factory([
+        return GeneralJournalChild::query()->create([
             "child_id" => $child->getId(),
             "month" => $month
-        ])->create();
+        ]);
     }
 
     /**
