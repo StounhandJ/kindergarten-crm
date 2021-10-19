@@ -341,7 +341,7 @@ function current_table(table) {
                 {field: "increase_salary", title: "Увеличить З/П", editor: true},
                 {field: "salary", title: "З/П К выплате"},
                 {field: "paid", title: "З/П выплачена"},
-                {field: "advance_payment", title: "Аванс", editor: true},
+                // {field: "advance_payment", title: "Аванс", editor: true},
                 {field: "comment", title: "Комментарий", editor: true},
                 {
                     field: "payment_list", renderer: (value) => {
