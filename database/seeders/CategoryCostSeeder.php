@@ -19,7 +19,6 @@ class CategoryCostSeeder extends Seeder
         foreach ($categoryCosts as $category) {
             if (!CategoryCost::query()->where("id", $category["id"])->exists()) {
                 CategoryCost::factory([
-                    "id" => $category["id"],
                     "name" => $category["name"],
                     "is_profit" => $category["is_profit"],
                     "is_set_child" => $category["is_set_child"],

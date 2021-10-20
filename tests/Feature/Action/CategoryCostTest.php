@@ -41,7 +41,7 @@ class CategoryCostTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonCount(2);
+            ->assertJsonCount(4);
     }
 
     public function test_category_cost_array_not_active()
@@ -53,7 +53,7 @@ class CategoryCostTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonCount(1);
+            ->assertJsonCount(3);
     }
 
     public function test_category_cost_store()
