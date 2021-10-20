@@ -448,6 +448,15 @@ function current_table(table) {
             ];
             break;
         case "cost":
+            editManager = function (value, record, $cell, $displayEl, id, $grid) {
+                var data = $grid.data(),
+                    $delete = $('<button role="delete" class="gj-button-md"><i class="gj-icon delete"></i> Удалить</button>').attr('data-key', id);
+
+                $delete.on('click', function (e) {
+                    $grid.removeRow($(this).data('key'));
+                });
+                $displayEl.empty().append($delete);
+            }
             column["columns"] = [
                 {field: "id", hidden: true},
                 {field: "amount", title: "Сумма"},
@@ -466,7 +475,6 @@ function current_table(table) {
                 {field: "branch_name", title: "Филиал"},
                 {field: "comment", title: "Комментарий", editor: true},
             ];
-            isEditManager = false;
             break;
     }
     if (isEditManager)
@@ -488,9 +496,9 @@ function current_table(table) {
         });
     });
     grid.on("rowRemoving", function (e, $row, id, record) {
-        if (confirm("Are you sure?")) {
+        if (confirm("Вы уверены?")) {
             $.ajax({
-                url: "/action/" + tapath + "/" + id,
+                url: "/action/" + tapath.split('?')[0] + "/" + id,
                 data: {_method: "DELETE"},
                 method: "POST",
             })
@@ -551,7 +559,7 @@ $(document).ready(function () {
                 if (item.name == "is_set_child" || item.name == "is_set_staff")
                     data[item.name] = true;
                 else if (item.name == "is_profit")
-                    data["is_profit"] = $('input[name=is_profit]:checked', '.custom-validation').value;
+                    data["is_profit"] = $('input[name=is_profit]:checked', '.custom-validation')[0].value;
                 else
                     data[item.name] = item.value;
             });
@@ -676,19 +684,21 @@ $(document).ready(function () {
             $("#income_staff").show();
     })
 
-    $.ajax({
-        url: "/action/category-cost-array",
-        method: "GET",
-        success: function (data) {
-            data.forEach((item) => {
-                $('#category_id').append(
-                    $(`<option show_child="${item.is_set_child}" show_staff="${item.is_set_staff}" value="${item.id}">${item.name} - ${item.is_profit ? "Доход" : "Расход"}</option>`)
-                );
-            });
-            $('#category_id').val($('#category_id option:first')[0].value).change();
+    if ($('#category_id').length) {
+        $.ajax({
+            url: "/action/category-cost-array",
+            method: "GET",
+            success: function (data) {
+                data.forEach((item) => {
+                    $('#category_id').append(
+                        $(`<option show_child="${item.is_set_child}" show_staff="${item.is_set_staff}" value="${item.id}">${item.name} - ${item.is_profit ? "Доход" : "Расход"}</option>`)
+                    );
+                });
+                $('#category_id').val($('#category_id option:first')[0].value).change();
 
-        },
-    });
+            },
+        });
+    }
 
     function allHideIncome() {
         $("#income_child").hide();

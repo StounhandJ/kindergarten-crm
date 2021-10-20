@@ -23,8 +23,7 @@ class ChildCost extends Pivot
             ->join("costs", "costs.id", "=", "cost_id")
             ->whereDate("costs.created_at", ">=", $month->firstOfMonth())
             ->whereDate("costs.created_at", "<=", $month->lastOfMonth())
-            ->join('category_costs', 'category_costs.id', '=', 'costs.category_id')
-            ->where("category_costs.is_profit", "=", true)
+            ->where("costs.category_id", "=", CategoryCost::CHILD_PAY)
             ->where("child_id", "=", $child->getId())
             ->get();
     }

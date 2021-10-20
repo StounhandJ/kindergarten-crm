@@ -23,8 +23,7 @@ class CostStaff extends Pivot
             ->join("costs", "costs.id", "=", "cost_id")
             ->whereDate("costs.created_at", ">=", $month->firstOfMonth())
             ->whereDate("costs.created_at", "<=", $month->lastOfMonth())
-            ->join('category_costs', 'category_costs.id', '=', 'costs.category_id')
-            ->where("category_costs.is_profit", "=", false)
+            ->where("costs.category_id", "=", CategoryCost::ZP)
             ->where("staff_id", "=", $staff->getId())
             ->get();
     }

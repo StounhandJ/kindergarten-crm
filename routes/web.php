@@ -48,8 +48,7 @@ Route::prefix("action")->middleware("position")->name("action.")->group(function
 
     Route::apiResource("staff", StaffActionController::class);
 
-    Route::apiResource("cost", CostActionController::class)
-        ->only("index", "show", "store");
+    Route::apiResource("cost", CostActionController::class);
 
     Route::get("cost-cash", [CostActionController::class, "cash"]);
 

@@ -59,6 +59,18 @@ class CostActionController extends Controller
         return response()->json(["message" => "success", "records" => $cost], 200);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Cost $cost
+     * @return JsonResponse
+     */
+    public function destroy(Cost $cost)
+    {
+        $result = $cost->delete();
+        return response()->json(["message" => $result ? "success" : "error"], $result ? 200 : 500);
+    }
+
     public function cash()
     {
         $sum = 0;

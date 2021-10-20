@@ -10,6 +10,16 @@ class CategoryCost extends Model
     use HasFactory;
 
     //<editor-fold desc="Setting">
+    public const ZP = 1;
+    public const CHILD_PAY = 2;
+
+    protected $fillable = [
+        'name',
+        'is_profit',
+        'is_set_child',
+        'is_set_staff',
+    ];
+
     public $timestamps = true;
 
     protected $hidden = [
@@ -91,7 +101,7 @@ class CategoryCost extends Model
 
     //<editor-fold desc="Search Branch">
 
-    public static function getById($id): CategoryCost | Model
+    public static function getById($id): CategoryCost|Model
     {
         return CategoryCost::query()->where("id", $id)->firstOrNew();
     }
@@ -100,11 +110,31 @@ class CategoryCost extends Model
 
     public static function make($name, $is_profit, $is_set_child, $is_set_staff)
     {
-        return CategoryCost::factory([
+        return CategoryCost::query()->make([
             "name" => $name,
             "is_profit" => $is_profit,
             "is_set_child" => $is_set_child,
             "is_set_staff" => $is_set_staff
-        ])->make();
+        ]);
+    }
+
+    public static function getBaseArrayCategory(): array
+    {
+        return [
+            [
+                "id" => 1,
+                "name" => "ЗП",
+                "is_profit" => false,
+                "is_set_child" => false,
+                "is_set_staff" => true
+            ],
+            [
+                "id" => 2,
+                "name" => "Оплата за детей",
+                "is_profit" => true,
+                "is_set_child" => true,
+                "is_set_staff" => false
+            ]
+        ];
     }
 }

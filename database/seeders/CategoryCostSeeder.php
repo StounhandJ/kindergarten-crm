@@ -14,24 +14,30 @@ class CategoryCostSeeder extends Seeder
      */
     public function run()
     {
-        $categoryCosts = [
-            [
-                "name" => "ЗП",
-                "is_profit" => false,
-                "is_set_child" => false,
-                "is_set_staff" => true
-            ],
-            [
-                "name" => "Оплата за детей",
-                "is_profit" => true,
-                "is_set_child" => true,
-                "is_set_staff" => false
-            ]
-        ];
-        if (CategoryCost::query()->count() == 0) {
-            foreach ($categoryCosts as $categoryCost) {
-                CategoryCost::factory($categoryCost)->create();
-        }
+        $categoryCosts = CategoryCost::getBaseArrayCategory();
+
+        foreach ($categoryCosts as $category) {
+            if (!CategoryCost::query()->where("id", $category["id"])->exists()) {
+                CategoryCost::factory([
+                    "id" => $category["id"],
+                    "name" => $category["name"],
+                    "is_profit" => $category["is_profit"],
+                    "is_set_child" => $category["is_set_child"],
+                    "is_set_staff" => $category["is_set_staff"]
+                ])->create();
+            } elseif (!CategoryCost::query()
+                ->where("name", $category["name"])
+                ->where("is_profit", $category["is_profit"])
+                ->where("is_set_child", $category["is_set_child"])
+                ->where("is_set_staff", $category["is_set_staff"])
+                ->exists()) {
+                CategoryCost::query()->where("id", $category["id"])->update([
+                    "name" => $category["name"],
+                    "is_profit" => $category["is_profit"],
+                    "is_set_child" => $category["is_set_child"],
+                    "is_set_staff" => $category["is_set_staff"]
+                ]);
+            }
         }
     }
 }

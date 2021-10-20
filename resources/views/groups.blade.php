@@ -90,9 +90,9 @@
 @section('script')
     <!-- Plugins js -->
 
-    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.js" type="text/javascript"></script>
+    <script src="{{ URL::asset('/js/gijgo.js') }}" type="text/javascript"></script>
 
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ URL::asset('/assets/css/gijgo.css') }}" rel="stylesheet" type="text/css"/>
 
     <script src="{{ URL::asset('/assets/libs/parsleyjs/parsleyjs.min.js') }}"></script>
 
