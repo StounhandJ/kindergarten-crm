@@ -96,6 +96,11 @@ class Child extends Model
         return $this->deleted_at;
     }
 
+    public function isExclusion(): bool
+    {
+        return !is_null($this->getDateExclusion());
+    }
+
     /**
      * @param Carbon $data
      * @return Collection|JournalChild[]
@@ -315,12 +320,12 @@ class Child extends Model
 
     public static function getByGroup(Group $group): Collection
     {
-        return Child::query()->where("group_id", $group->getId())->orderBy("fio")->get();
+        return Child::withTrashed()->where("group_id", $group->getId())->orderBy("fio")->get();
     }
 
     public static function allOrderByFio(): Collection
     {
-        return Child::query()->orderBy("fio")->get();
+        return Child::withTrashed()->orderBy("fio")->get();
     }
 
     //</editor-fold>

@@ -194,18 +194,21 @@ class GeneralJournalStaff extends Model
         return GeneralJournalStaff::where("id", $id)->first() ?? new GeneralJournalStaff();
     }
 
-    public static function getByChildAndMonth(Staff $staff, Carbon $month): GeneralJournalStaff
+    public static function getByChildAndMonth(Staff $staff, Carbon $month): GeneralJournalStaff | Model
     {
-        return GeneralJournalStaff::whereDate("month", ">=", $month->firstOfMonth())
-                ->whereDate("month", "<=", $month->lastOfMonth())->where("staff_id", $staff->getId())->first(
-                ) ?? new GeneralJournalStaff();
+        return GeneralJournalStaff::query()
+            ->whereDate("month", ">=", $month->firstOfMonth())
+            ->whereDate("month", "<=", $month->lastOfMonth())
+            ->where("staff_id", $staff->getId())
+            ->firstOrNew();
     }
 
     //</editor-fold>
 
     public static function getBuilderByMonth(Carbon $month): Builder
     {
-        return GeneralJournalStaff::query()->whereDate("month", ">=", $month->firstOfMonth())
+        return GeneralJournalStaff::query()
+            ->whereDate("month", ">=", $month->firstOfMonth())
             ->whereDate("month", "<=", $month->lastOfMonth());
     }
 

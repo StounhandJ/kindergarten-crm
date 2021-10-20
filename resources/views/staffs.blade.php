@@ -94,7 +94,7 @@
                                         <div class="form-group">
                                             <label>Позиция</label>
                                             <div>
-                                                <select name="position_id" class="form-control">
+                                                <select name="position_id" class="form-control" required>
 
                                                 </select>
                                             </div>
@@ -112,7 +112,7 @@
                                         <div class="form-group">
                                             <label>Дата найма</label>
                                             <div>
-                                                <input name="date_employment" type="date" class="form-control">
+                                                <input name="date_employment" type="date" class="form-control" required>
                                             </div>
                                         </div>
 

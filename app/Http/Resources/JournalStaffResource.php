@@ -3,10 +3,12 @@
 namespace App\Http\Resources;
 
 use App\Http\Requests\TableRequest;
+use App\Models\JournalStaff;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class JournalStaffResource extends JsonResource
 {
@@ -22,20 +24,27 @@ class JournalStaffResource extends JsonResource
         $this->withoutWrapping();
 
         $data = JournalResource::make($month)->toArray($request);
-        $data["staff"] = $this->resource->map(function ($item) use ($month) {
-            return [
-                "fio" => $item->getFio(),
-                "days" => $this->days($item, $month),
-            ];
-        });
+
+        $data["staff"] = [];
+
+        /** @var Staff $staff */
+        foreach ($this->resource as $staff) {
+            $journals = $staff->getJournalOnMonth($month);
+            if (!$journals->isEmpty()) {
+                $data["staff"][] = [
+                    "fio" => $staff->getFio(),
+                    "days" => $this->days($journals),
+                ];
+            }
+        }
 
         return $data;
     }
 
-    private function days(Staff $child, Carbon $month): array
+    private function days(Collection $journals): array
     {
-        $journals = $child->getJournalOnMonth($month);
         $daysArray = [];
+        /** @var JournalStaff $journal */
         foreach ($journals as $journal) {
             $daysArray[] = ["id" => $journal->getId(), "visit" => $journal->getVisitId()];
         }

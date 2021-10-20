@@ -20,7 +20,7 @@ class JournalStaffActionController extends Controller
      */
     public function index()
     {
-        return JournalStaffResource::make(Staff::all());
+        return JournalStaffResource::make(Staff::withTrashed()->get());
     }
 
     /**

@@ -122,6 +122,11 @@ class Staff extends Model
         return $this->deleted_at;
     }
 
+    public function isDismissal(): bool
+    {
+        return !is_null($this->getDateDismissal());
+    }
+
     public function getUser(): User
     {
         return $this->hasOne(User::class, "id", "user_id")->getResults();

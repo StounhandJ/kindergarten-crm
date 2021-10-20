@@ -19,7 +19,9 @@ class GeneralStaffActionController extends Controller
      */
     public function index(TableRequest $request)
     {
-        $paginate = GeneralJournalStaff::getBuilderByMonth($request->getDate())->orderBy("updated_at", "desc")->paginate($request->getLimit());
+        $paginate = GeneralJournalStaff::getBuilderByMonth($request->getDate())
+            ->orderBy("general_journal_staff.updated_at", "desc")
+            ->paginate($request->getLimit());
         return response()->json([
             "message" => "success",
             "records" => $paginate->items(),

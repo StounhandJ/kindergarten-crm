@@ -236,16 +236,18 @@ class GeneralJournalChild extends Model
         return GeneralJournalChild::where("id", $id)->first() ?? new GeneralJournalChild();
     }
 
-    public static function getByChildAndMonth(Child $child, Carbon $month): GeneralJournalChild
+    public static function getByChildAndMonth(Child $child, Carbon $month): GeneralJournalChild | Model
     {
-        return GeneralJournalChild::whereDate("month", ">=", $month->firstOfMonth())
-                ->whereDate("month", "<=", $month->lastOfMonth())->where("child_id", $child->getId())->first(
-                ) ?? new GeneralJournalChild();
+        return GeneralJournalChild::query()->whereDate("month", ">=", $month->firstOfMonth())
+                ->whereDate("month", "<=", $month->lastOfMonth())
+                ->where("child_id", $child->getId())
+                ->firstOrNew();
     }
 
     public static function getBuilderByMonth(Carbon $month): Builder
     {
-        return GeneralJournalChild::query()->whereDate("month", ">=", $month->firstOfMonth())
+        return GeneralJournalChild::query()
+            ->whereDate("month", ">=", $month->firstOfMonth())
             ->whereDate("month", "<=", $month->lastOfMonth());
     }
 
