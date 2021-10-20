@@ -4,6 +4,7 @@ namespace App\Models\Cost;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class CategoryCost extends Model
 {
@@ -18,6 +19,7 @@ class CategoryCost extends Model
         'is_profit',
         'is_set_child',
         'is_set_staff',
+        'is_active'
     ];
 
     public $timestamps = true;
@@ -54,6 +56,11 @@ class CategoryCost extends Model
     public function isSetStaff()
     {
         return $this->is_set_staff;
+    }
+
+    public function isActive()
+    {
+        return $this->is_active;
     }
     //</editor-fold>
 
@@ -96,6 +103,15 @@ class CategoryCost extends Model
         return $this;
     }
 
+    public function setIsActiveIfNotEmpty($is_active): static
+    {
+        if (!is_null($is_active)) {
+            $this->is_active = $is_active;
+        }
+
+        return $this;
+    }
+
 
     //</editor-fold>
 
@@ -106,6 +122,11 @@ class CategoryCost extends Model
         return CategoryCost::query()->where("id", $id)->firstOrNew();
     }
 
+    public static function getAllActive(): Collection
+    {
+        return CategoryCost::query()->where("is_active", true)->orderBy("updated_at", "desc")->get();
+    }
+
     //</editor-fold>
 
     public static function make($name, $is_profit, $is_set_child, $is_set_staff)
@@ -114,7 +135,8 @@ class CategoryCost extends Model
             "name" => $name,
             "is_profit" => $is_profit,
             "is_set_child" => $is_set_child,
-            "is_set_staff" => $is_set_staff
+            "is_set_staff" => $is_set_staff,
+            "is_active" => true
         ]);
     }
 
@@ -126,14 +148,16 @@ class CategoryCost extends Model
                 "name" => "ЗП",
                 "is_profit" => false,
                 "is_set_child" => false,
-                "is_set_staff" => true
+                "is_set_staff" => true,
+                "is_active" => true
             ],
             [
                 "id" => 2,
                 "name" => "Оплата за детей",
                 "is_profit" => true,
                 "is_set_child" => true,
-                "is_set_staff" => false
+                "is_set_staff" => false,
+                "is_active" => true
             ]
         ];
     }

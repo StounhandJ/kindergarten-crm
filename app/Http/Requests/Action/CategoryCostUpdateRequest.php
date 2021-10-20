@@ -13,7 +13,8 @@ class CategoryCostUpdateRequest extends CategoryCostRequest
             "name" => "string|min:1|max:60",
             "is_profit" => "in:true,false",
             "is_set_child" => "in:true,false",
-            "is_set_staff" => "in:true,false"
+            "is_set_staff" => "in:true,false",
+            "is_active" => "in:true,false"
         ];
     }
 }

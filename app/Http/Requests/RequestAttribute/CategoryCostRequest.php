@@ -30,4 +30,9 @@ class CategoryCostRequest extends FormRequest
     {
         return $this->input("is_set_staff")=="true";
     }
+
+    public function getIsActive()
+    {
+        return $this->input("is_active")=="true";
+    }
 }

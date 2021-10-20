@@ -25,7 +25,8 @@ class CategoryCostFactory extends Factory
             "name" => $this->withFaker()->userName(),
             "is_profit" => $this->withFaker()->boolean(),
             "is_set_child" => $this->withFaker()->boolean(),
-            "is_set_staff" => $this->withFaker()->boolean()
+            "is_set_staff" => $this->withFaker()->boolean(),
+            "is_active" => true
         ];
     }
 }

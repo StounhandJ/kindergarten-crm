@@ -36,8 +36,11 @@ class CostActionController extends Controller
      */
     public function store(CostCreateRequest $request)
     {
+        $categoryCost = $request->getCategoryCost();
+        if (!$categoryCost->isActive())
+            return response()->json(["message" => "Category cost no active"], 422);
         $cost = Cost::create(
-            $request->getCategoryCost(),
+            $categoryCost,
             $request->getAmount(),
             $request->getComment(),
             $request->getChild(),

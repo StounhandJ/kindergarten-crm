@@ -33,6 +33,29 @@ class CategoryCostTest extends TestCase
         $response_one->assertJsonPath("records.2", $response_two->json("records.0"));
     }
 
+    public function test_category_cost_array()
+    {
+        CategoryCost::factory()->count(2)->create();
+
+        $response = $this->json('GET', '/action/category-cost-array');
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(2);
+    }
+
+    public function test_category_cost_array_not_active()
+    {
+        CategoryCost::factory()->create();
+        CategoryCost::factory(["is_active" => false])->create();
+
+        $response = $this->json('GET', '/action/category-cost-array');
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(1);
+    }
+
     public function test_category_cost_store()
     {
         $data = [

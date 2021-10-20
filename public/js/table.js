@@ -444,7 +444,8 @@ function current_table(table) {
                 {field: "name", title: "Название", editor: true},
                 {field: "is_profit", title: "Это доход", type: 'checkbox', editor: false, align: 'center'},
                 {field: "is_set_child", title: "Указывать ребенка", type: 'checkbox', editor: true, align: 'center'},
-                {field: "is_set_staff", title: "Указывать сотрудника", type: 'checkbox', editor: true, align: 'center'}
+                {field: "is_set_staff", title: "Указывать сотрудника", type: 'checkbox', editor: true, align: 'center'},
+                {field: "is_active", title: "Активно", type: 'checkbox', editor: true, align: 'center'}
             ];
             break;
         case "cost":
@@ -570,7 +571,7 @@ $(document).ready(function () {
                 $("#input-date")[0] ? $("#input-date")[0].value = data : "";
             })
             .fail(function () {
-                alert("Failed to delete.");
+                alert("Ошибка при создании");
             });
         return false;
     });

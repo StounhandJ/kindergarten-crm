@@ -32,7 +32,7 @@ class CategoryCostController extends Controller
 
     public function indexArray()
     {
-        return response()->json(CategoryCost::query()->orderBy("updated_at", "desc")->get(), 200);
+        return response()->json(CategoryCost::getAllActive(), 200);
     }
 
     /**
@@ -62,6 +62,7 @@ class CategoryCostController extends Controller
             ->setIsProfitIfNotEmpty($request->getIsProfit())
             ->setIsSetChildIfNotEmpty($request->getIsSetChild())
             ->setIsSetStaffIfNotEmpty($request->getIsSetStaff())
+            ->setIsActiveIfNotEmpty($request->getIsActive())
             ->save();
 
         return response()->json(["message" => "success", "records" => $categoryCost], 200);
