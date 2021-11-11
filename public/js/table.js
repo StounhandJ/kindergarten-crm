@@ -11,19 +11,20 @@ function* entries(obj) {
 }
 
 function closeForm(clear = false) {
-    $(".form-create").css("display", "none");
-    $(".form-create").css("padding-right", "");
-    $(".form-create").removeClass("show");
+    const form_create = $(".form-create");
+    form_create.css("display", "none");
+    form_create.css("padding-right", "");
+    form_create.removeClass("show");
     $(".form-create-dark").remove();
     if (clear) {
-        $(".form-create")
+        form_create
             .find("input")
             .each(function (i, item) {
-                if (item.id != "income_bool" && item.id != "input-date")
+                if (item.id !== "income_bool" && item.id !== "input-date")
                     item.value = "";
             });
 
-        $(".form-create")
+        form_create
             .find("select")
             .each(function (i, item) {
                 item.value = "";
@@ -33,34 +34,34 @@ function closeForm(clear = false) {
 }
 
 function current_table(table) {
-    var tapath = table[0].attributes.getNamedItem("tapath").value;
+    const tapath = table[0].attributes.getNamedItem("tapath").value;
     let grid;
 
     let isEditManager = true;
     let editManager = function (value, record, $cell, $displayEl, id, $grid) {
-        var data = $grid.data(),
+        let data = $grid.data(),
             $edit = $('<button role="edit" class="gj-button-md"><i class="gj-icon pencil"></i> Изменить</button>').attr('data-key', id),
             $delete = $('<button role="delete" class="gj-button-md"><i class="gj-icon delete"></i> Удалить</button>').attr('data-key', id),
             $update = $('<button role="update" class="gj-button-md"><i class="gj-icon check-circle"></i> Сохранить</button>').attr('data-key', id).hide(),
             $cancel = $('<button role="cancel" class="gj-button-md"><i class="gj-icon cancel"></i> Отмена</button>').attr('data-key', id).hide();
-        $edit.on('click', function (e) {
+        $edit.on('click', function () {
             $grid.edit($(this).data('key'));
             $edit.hide();
             $delete.hide();
             $update.show();
             $cancel.show();
         });
-        $delete.on('click', function (e) {
+        $delete.on('click', function () {
             $grid.removeRow($(this).data('key'));
         });
-        $update.on('click', function (e) {
+        $update.on('click', function () {
             $grid.update($(this).data('key'));
             $edit.show();
             $delete.show();
             $update.hide();
             $cancel.hide();
         });
-        $cancel.on('click', function (e) {
+        $cancel.on('click', function () {
             $grid.cancel($(this).data('key'));
             $edit.show();
             $delete.show();
@@ -390,8 +391,8 @@ function current_table(table) {
                         var id = data["id"];
                         var month = data["month"];
 
-                        var color = value == -1 ? "red" : (value == 0 ? "with" : "green")
-                        var text = value == -1 ? "Ошибка" : (value == 0 ? "Отправить" : "Успешно")
+                        var color = value === -1 ? "red" : (value === 0 ? "with" : "green")
+                        var text = value === -1 ? "Ошибка" : (value === 0 ? "Отправить" : "Успешно")
 
                         var button_notification = $(`<button style="background-color: ${color};">${text}</>`)
                         button_notification.click(function () {
@@ -415,23 +416,23 @@ function current_table(table) {
             break;
         case "category-cost":
             editManager = function (value, record, $cell, $displayEl, id, $grid) {
-                var data = $grid.data(),
+                const data = $grid.data(),
                     $edit = $('<button role="edit" class="gj-button-md"><i class="gj-icon pencil"></i> Изменить</button>').attr('data-key', id),
                     $update = $('<button role="update" class="gj-button-md"><i class="gj-icon check-circle"></i> Сохранить</button>').attr('data-key', id).hide(),
                     $cancel = $('<button role="cancel" class="gj-button-md"><i class="gj-icon cancel"></i> Отмена</button>').attr('data-key', id).hide();
-                $edit.on('click', function (e) {
+                $edit.on('click', function () {
                     $grid.edit($(this).data('key'));
                     $edit.hide();
                     $update.show();
                     $cancel.show();
                 });
-                $update.on('click', function (e) {
+                $update.on('click', function () {
                     $grid.update($(this).data('key'));
                     $edit.show();
                     $update.hide();
                     $cancel.hide();
                 });
-                $cancel.on('click', function (e) {
+                $cancel.on('click', function () {
                     $grid.cancel($(this).data('key'));
                     $edit.show();
                     $update.hide();
@@ -453,7 +454,7 @@ function current_table(table) {
                 var data = $grid.data(),
                     $delete = $('<button role="delete" class="gj-button-md"><i class="gj-icon delete"></i> Удалить</button>').attr('data-key', id);
 
-                $delete.on('click', function (e) {
+                $delete.on('click', function () {
                     $grid.removeRow($(this).data('key'));
                 });
                 $displayEl.empty().append($delete);
@@ -485,9 +486,9 @@ function current_table(table) {
         var new_record = [];
         for (let [key, value] of entries(record)) {
             console.log(key, value);
-            if (value !== "" || key == "date_exclusion" || key == "date_dismissal") new_record[key] = value;
+            if (value !== "" || key === "date_exclusion" || key === "date_dismissal") new_record[key] = value;
         }
-        var data = $.extend(true, {_method: "PUT"}, new_record);
+        const data = $.extend(true, {_method: "PUT"}, new_record);
         $.ajax({
             url: "/action/" + tapath + "/" + id,
             data: data,
@@ -513,9 +514,10 @@ function current_table(table) {
     });
 
     $(".btn-create-row").click(function () {
-        $(".form-create").css("display", "block");
-        $(".form-create").css("padding-right", "17px");
-        $(".form-create").addClass("show");
+        const form_create = $(".form-create");
+        form_create.css("display", "block");
+        form_create.css("padding-right", "17px");
+        form_create.addClass("show");
         $("body").append(
             '<div class="modal-backdrop fade show form-create-dark"></div>'
         );
@@ -526,7 +528,7 @@ function current_table(table) {
             }
         });
 
-        $(".modal-header>.close").click(function (event) {
+        $(".modal-header>.close").click(function () {
             closeForm();
         });
     });
@@ -543,23 +545,27 @@ function current_table(table) {
 }
 
 $(document).ready(function () {
-    table1 = $("#grid");
-    table2 = $("#grid2");
-    if (table1.length == 1) {
+    let table1 = $("#grid");
+    let table2 = $("#grid2");
+    const journal_date = $("#journal-date");
+    const income_date = $("#income-date");
+    const input_date = $("#input-date");
+
+    if (table1.length === 1) {
         current_table(table1);
     }
-    if (table2.length == 1) {
+    if (table2.length === 1) {
         current_table(table2);
     }
 
-    $(".custom-validation").submit(function (d) {
-        var data = {};
+    $(".custom-validation").submit(function () {
+        const data = {};
         $(this)
             .serializeArray()
             .forEach((item) => {
-                if (item.name == "is_set_child" || item.name == "is_set_staff")
+                if (item.name === "is_set_child" || item.name === "is_set_staff")
                     data[item.name] = true;
-                else if (item.name == "is_profit")
+                else if (item.name === "is_profit")
                     data["is_profit"] = $('input[name=is_profit]:checked', '.custom-validation')[0].value;
                 else
                     data[item.name] = item.value;
@@ -568,7 +574,7 @@ $(document).ready(function () {
         $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
             .done(function () {
                 closeForm(true);
-                $("#input-date")[0] ? $("#input-date")[0].value = data : "";
+                input_date[0] ? input_date[0].value = data : "";
             })
             .fail(function () {
                 alert("Ошибка при создании");
@@ -576,105 +582,120 @@ $(document).ready(function () {
         return false;
     });
 
-    $.ajax({
-        url: "/action/month",
-        method: "GET",
-        success: function (data) {
-            $("#journal-date")[0] ? $("#journal-date")[0].value = data : "";
-            $("#income-date")[0] ? $("#income-date")[0].value = data : "";
-            $("#input-date")[0] ? $("#input-date")[0].value = data : "";
-        },
-    });
+    if (journal_date[0] || income_date[0] || input_date[0]) {
+        $.ajax({
+            url: "/action/month",
+            method: "GET",
+            success: function (data) {
+                journal_date[0] ? journal_date[0].value = data : "";
+                income_date[0] ? income_date[0].value = data : "";
+                input_date[0] ? input_date[0].value = data : "";
+            },
+        });
+    }
 
-    $.ajax({
-        url: "/action/cost-cash",
-        method: "GET",
-        success: function (data) {
-            $("#cash")[0] ? $("#cash")[0].innerText = data["amount"] : "";
-        },
-    });
-
+    if ($("#cash")[0]) {
+        $.ajax({
+            url: "/action/cost-cash",
+            method: "GET",
+            success: function (data) {
+                $("#cash")[0].innerText = data["amount"];
+            },
+        });
+    }
     // Формы //
-    $.ajax({
-        url: "/action/branch-array",
-        method: "GET",
-        success: function (data) {
-            data.forEach((item) => {
-                $('select[name="branch_id"]').append(
-                    new Option(item.name, item.id)
-                );
-            });
-        },
-    });
+    if ($('select[name="branch_id"]')[0]) {
+        $.ajax({
+            url: "/action/branch-array",
+            method: "GET",
+            success: function (data) {
+                data.forEach((item) => {
+                    $('select[name="branch_id"]').append(
+                        new Option(item.name, item.id)
+                    );
+                });
+            },
+        });
+    }
 
-    $.ajax({
-        url: "/action/group-array",
-        method: "GET",
-        success: function (data) {
-            $('select[name="group_id"]').prepend(
-                new Option("Не выбрано", "", false, true)
-            );
-            data.forEach((item) => {
-                $('select[name="group_id"]').append(
-                    new Option(item.name, item.id)
+    if ($('select[name="group_id"]')[0]) {
+        $.ajax({
+            url: "/action/group-array",
+            method: "GET",
+            success: function (data) {
+                $('select[name="group_id"]').prepend(
+                    new Option("Не выбрано", "", false, true)
                 );
-            });
-        },
-    });
+                data.forEach((item) => {
+                    $('select[name="group_id"]').append(
+                        new Option(item.name, item.id)
+                    );
+                });
+            },
+        });
+    }
 
-    $.ajax({
-        url: "/action/children",
-        method: "GET",
-        success: function (data) {
-            $('select[name="child_id"]').prepend(
-                new Option("Не выбрано", "", false, true)
-            );
-            data.records.forEach((item) => {
-                $('select[name="child_id"]').append(
-                    new Option(item.fio, item.id)
+    if ($('select[name="child_id"]')[0]) {
+        $.ajax({
+            url: "/action/children",
+            method: "GET",
+            success: function (data) {
+                $('select[name="child_id"]').prepend(
+                    new Option("Не выбрано", "", false, true)
                 );
-            });
-        },
-    });
+                data.records.forEach((item) => {
+                    $('select[name="child_id"]').append(
+                        new Option(item.fio, item.id)
+                    );
+                });
+            },
+        });
+    }
 
-    $.ajax({
-        url: "/action/staff",
-        method: "GET",
-        success: function (data) {
-            $('select[name="staff_id"]').prepend(
-                new Option("Не выбрано", "", false, true)
-            );
-            data.records.forEach((item) => {
-                $('select[name="staff_id"]').append(
-                    new Option(item.fio, item.id)
+    if ($('select[name="staff_id"]')[0]) {
+        $.ajax({
+            url: "/action/staff",
+            method: "GET",
+            success: function (data) {
+                $('select[name="staff_id"]').prepend(
+                    new Option("Не выбрано", "", false, true)
                 );
-            });
-        },
-    });
+                data.records.forEach((item) => {
+                    $('select[name="staff_id"]').append(
+                        new Option(item.fio, item.id)
+                    );
+                });
+            },
+        });
+    }
 
-    $.ajax({
-        url: "/action/institution",
-        method: "GET",
-        success: function (data) {
-            data.forEach((item) => {
-                $('select[name="institution_id"]').append(
-                    new Option(item.name, item.id)
-                );
-            });
-        },
-    });
+    if ($('select[name="institution_id"]')[0]) {
+        $.ajax({
+            url: "/action/institution",
+            method: "GET",
+            success: function (data) {
+                data.forEach((item) => {
+                    $('select[name="institution_id"]').append(
+                        new Option(item.name, item.id)
+                    );
+                });
+            },
+        });
+    }
 
-    $.ajax({
-        url: "/action/position",
-        method: "GET",
-        success: function (data) {
-            data.forEach((item) => {
-                $('select[name="position_id"]').append(
-                    new Option(item.name, item.id)
-                );
-            });
-        },
-    });
+    if ($('select[name="position_id"]')[0]) {
+        $.ajax({
+            url: "/action/position",
+            method: "GET",
+            success: function (data) {
+                data.forEach((item) => {
+                    $('select[name="position_id"]').append(
+                        new Option(item.name, item.id)
+                    );
+                });
+            },
+        });
+    }
 
     $("#category_id").on('change', function () {
         allHideIncome();
@@ -704,11 +725,6 @@ $(document).ready(function () {
     function allHideIncome() {
         $("#income_child").hide();
         $("#income_staff").hide();
-    }
-
-
-    if ($("#type_income").length == 1) {
-        $("#type_income").val(0).change();
     }
 
     $(".btn-download-vedomosty").click(function () {
