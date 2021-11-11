@@ -79,7 +79,7 @@
                                         <div class="form-group">
                                             <label>Дата рождения</label>
                                             <div>
-                                                <input name="date_birth" class="form-control input-mask" type="date">
+                                                <input name="date_birth" class="form-control input-mask" type="date" required>
                                             </div>
                                         </div>
 
