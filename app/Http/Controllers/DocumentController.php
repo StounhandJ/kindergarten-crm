@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TableRequest;
+use App\Models\Child;
 use App\Models\GeneralJournalStaff;
 use App\Services\GeneratorDocument;
 use Illuminate\Support\Carbon;
@@ -16,16 +17,14 @@ class DocumentController extends Controller
     /**
      * Generate Child Document
      *
-     * @param TableRequest $request
+     * @param Child $child
      * @return BinaryFileResponse
      * @throws CopyFileException
      * @throws CreateTemporaryFileException
      * @throws Exception
      */
-    public function storeChild(TableRequest $request)
+    public function storeChild(Child $child)
     {
-        $child = $request->getChild();
-
         return response()->download(
             GeneratorDocument::generateChildDocument($child),
             sprintf("Договор %s.docx", $child->getFio()));

@@ -74,7 +74,7 @@ class Child extends Model
 
     public function getDocumentUrlAttribute()
     {
-        return route("document.child", ["child_id" => $this->getId()]);
+        return route("document.child", ["child" => $this->getId()]);
     }
 
     //</editor-fold>
