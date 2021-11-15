@@ -233,7 +233,7 @@ function current_table(table) {
                 },
                 {
                     field: "document_url", renderer: (value) => {
-                        return `<a href="${value}">Скачать</a>`
+                        return `<a target="_blank" href="${value}">Скачать</a>`
                     }, title: "Договор"
                 },
 
@@ -346,7 +346,7 @@ function current_table(table) {
                 {field: "comment", title: "Комментарий", editor: true},
                 {
                     field: "payment_list", renderer: (value) => {
-                        return `<a href="${value}">Скачать</a>`
+                        return `<a target="_blank" href="${value}">Скачать</a>`
                     }, title: "Расчётный лист"
                 },
             ];
