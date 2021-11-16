@@ -25,6 +25,8 @@ class PositionTest extends TestCase
                     ["id" => 2, "name" => "Старший воспитатель", "e_name" => "senior_tutor"],
                     ["id" => 3, "name" => "Воспитатель", "e_name" => "tutor"],
                     ["id" => 4, "name" => "Повар", "e_name" => "cook"],
+                    ["id" => 5, "name" => "Няня", "e_name" => "babysitter"],
+                    ["id" => 6, "name" => "Учитель", "e_name" => "teacher"]
                 ]
             );
     }
