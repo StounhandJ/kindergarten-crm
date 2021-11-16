@@ -141,7 +141,7 @@ class Child extends Model
         return $this->phone_mother;
     }
 
-    public function getСleanPhoneMother()
+    public function getCleanPhoneMother(): array|string
     {
         return ChangePhone::clear($this->getPhoneMother());
     }
@@ -156,7 +156,7 @@ class Child extends Model
         return $this->phone_father;
     }
 
-    public function getСleanPhoneFather()
+    public function getCleanPhoneFather()
     {
         return ChangePhone::clear($this->getPhoneFather());
     }
@@ -313,8 +313,10 @@ class Child extends Model
 
     //<editor-fold desc="Search Branch">
 
-    public static function getById($id): Child
+    public static function getById($id, $withTrashed = false): Child
     {
+        if ($withTrashed)
+            return Child::withTrashed()->where("id", $id)->first() ?? new Child();
         return Child::where("id", $id)->firstOrNew();
     }
 

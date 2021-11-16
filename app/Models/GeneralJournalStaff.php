@@ -135,9 +135,9 @@ class GeneralJournalStaff extends Model
         return $this->advance_payment;
     }
 
-    public function getStaff()
+    public function getStaff(): Staff
     {
-        return Staff::getById($this->staff_id);
+        return Staff::getById($this->staff_id, true);
     }
 
     public function getMonth()

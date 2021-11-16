@@ -277,8 +277,10 @@ class Staff extends Model
 
     //<editor-fold desc="Search Branch">
 
-    public static function getById($id): Staff
+    public static function getById($id, $withTrashed = false): Staff
     {
+        if ($withTrashed)
+            return Staff::withTrashed()->where("id", $id)->first() ?? new Staff();
         return Staff::where("id", $id)->first() ?? new Staff();
     }
 

@@ -49,7 +49,7 @@ class JournalChild extends Model
 
     public function getChild(): Child
     {
-        return Child::getById($this->child_id);
+        return Child::getById($this->child_id, true);
     }
     //</editor-fold>
 

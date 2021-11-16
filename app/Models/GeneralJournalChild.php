@@ -150,7 +150,7 @@ class GeneralJournalChild extends Model
 
     public function getChild()
     {
-        return Child::getById($this->child_id);
+        return Child::getById($this->child_id, true);
     }
 
     public function getReductionFees()
@@ -298,6 +298,6 @@ class GeneralJournalChild extends Model
      */
     public function routeNotificationForNexmo($notification)
     {
-        return $this->getChild()->getСleanPhoneMother() ?? $this->getChild()->getСleanPhoneFather();
+        return $this->getChild()->getCleanPhoneMother() ?? $this->getChild()->getCleanPhoneFather();
     }
 }

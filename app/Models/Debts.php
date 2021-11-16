@@ -22,7 +22,7 @@ class Debts extends Model
 
     //<editor-fold desc="Get Attribute">
 
-    public static function getByChildAndMonth(Child $child, Carbon $month): Debts
+    public static function getByChildAndMonth(Child $child, Carbon $month): Model|Debts
     {
         return Debts::query()
             ->where("child_id", $child->getId())
@@ -53,7 +53,7 @@ class Debts extends Model
 
     public function getChild()
     {
-        return Child::getById($this->child_id);
+        return Child::getById($this->child_id, true);
     }
 
     //</editor-fold>

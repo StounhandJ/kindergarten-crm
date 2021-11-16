@@ -49,7 +49,7 @@ class JournalStaff extends Model
 
     public function getStaff(): Staff
     {
-        return Staff::getById($this->staff_id);
+        return Staff::getById($this->staff_id, true);
     }
     //</editor-fold>
 
