@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Action;
 
 use App\Http\Requests\RequestAttribute\StaffRequest;
+use App\Models\Branch;
 use App\Models\Group;
 use App\Models\Types\Position;
 use Illuminate\Validation\Rule;
@@ -28,6 +29,7 @@ class StaffUpdateRequest extends StaffRequest
             "reason_dismissal" => "string",
             "salary" => "integer|min:0",
             "group_id" => "bail|nullable|integer|exists:" . Group::class . ",id",
+            "branch_id" => "bail|nullable|integer|exists:" . Branch::class . ",id",
             "position_id" => "bail|integer|exists:" . Position::class . ",id"
         ];
     }

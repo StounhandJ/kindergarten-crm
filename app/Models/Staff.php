@@ -29,6 +29,7 @@ class Staff extends Model
         'reason_dismissal',
         'salary',
         'group_id',
+        'branch_id',
         'position_id',
         'user_id'
     ];
@@ -36,7 +37,7 @@ class Staff extends Model
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
     protected $appends = [
-        'branch_id',
+        'id_branch',
         "branch_name",
         "group_name",
         "position_name",
@@ -48,14 +49,20 @@ class Staff extends Model
         "vacation_for_today"
     ];
 
-    public function getBranchIdAttribute()
+    public function getIdBranchAttribute()
     {
-        return $this->getGroup()->getBranch()->getId();
+        $group = $this->getGroup();
+        if ($group->exists)
+            return $this->getGroup()->getBranch()->getId();
+        return $this->branch_id;
     }
 
     public function getBranchNameAttribute()
     {
-        return $this->getGroup()->getBranch()->getName();
+        $group = $this->getGroup();
+        if ($group->exists)
+            return $this->getGroup()->getBranch()->getName();
+        return $this->getBranch()->getName();
     }
 
     public function getLoginAttribute()
@@ -107,9 +114,14 @@ class Staff extends Model
         return $this->id;
     }
 
-    public function getGroup()
+    public function getGroup(): Group
     {
         return $this->belongsTo(Group::class, "group_id")->getResults() ?? new Group();
+    }
+
+    public function getBranch(): Branch
+    {
+        return $this->belongsTo(Branch::class, "branch_id")->getResults() ?? new Branch();
     }
 
     public function getPosition(): Position
@@ -258,6 +270,13 @@ class Staff extends Model
         }
     }
 
+    public function setBranchIfNotEmpty(Branch $branch)
+    {
+        if ($branch->exists) {
+            $this->branch_id = $branch->getId();
+        }
+    }
+
     public function setPositionIfNotEmpty(Position $position)
     {
         if ($position->exists) {
@@ -301,6 +320,7 @@ class Staff extends Model
         $reason_dismissal,
         $salary,
         Group $group,
+        Branch $branch,
         Position $position,
         $login,
         $password
@@ -317,6 +337,7 @@ class Staff extends Model
             "reason_dismissal" => $reason_dismissal,
             "salary" => $salary,
             "group_id" => $group->getId(),
+            "branch_id" => $branch->getId(),
             "position_id" => $position->getId(),
             "user_id" => $user->getId()
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\RequestAttribute;
 
+use App\Models\Branch;
 use App\Models\Group;
 use App\Models\Types\Position;
 use Illuminate\Foundation\Http\FormRequest;
@@ -61,6 +62,11 @@ class StaffRequest extends FormRequest
     public function getGroup(): Group
     {
         return Group::getById($this->input("group_id"));
+    }
+
+    public function getBranch(): Branch
+    {
+        return Branch::getById($this->input("branch_id"));
     }
 
     public function getPosition(): Position

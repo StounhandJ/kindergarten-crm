@@ -388,13 +388,13 @@ function current_table(table) {
                 {field: "comment", title: "Комментарий", editor: true},
                 {
                     field: "notification", renderer: (value, data) => {
-                        var id = data["id"];
-                        var month = data["month"];
+                        const id = data["id"];
+                        const month = data["month"];
 
-                        var color = value === -1 ? "red" : (value === 0 ? "with" : "green")
-                        var text = value === -1 ? "Ошибка" : (value === 0 ? "Отправить" : "Успешно")
+                        const color = value === -1 ? "red" : (value === 0 ? "with" : "green")
+                        const text = value === -1 ? "Ошибка" : (value === 0 ? "Отправить" : "Успешно")
 
-                        var button_notification = $(`<button style="background-color: ${color};">${text}</>`)
+                        const button_notification = $(`<button style="background-color: ${color};">${text}</>`)
                         button_notification.click(function () {
                             $(this).css("background-color", "blue")
                             $(this)[0].innerText = "Отправка..."
@@ -497,7 +497,7 @@ function current_table(table) {
             alert("Ошибка при сохранение");
         });
     });
-    grid.on("rowRemoving", function (e, $row, id, record) {
+    grid.on("rowRemoving", function (e, $row, id) {
         if (confirm("Вы уверены?")) {
             $.ajax({
                 url: "/action/" + tapath.split('?')[0] + "/" + id,

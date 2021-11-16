@@ -48,6 +48,7 @@ class StaffActionController extends Controller
             $request->getReasonDismissal(),
             $request->getSalary(),
             $request->getGroup(),
+            $request->getBranch(),
             $request->getPosition(),
             $request->getLogin(),
             $request->getPassword()
@@ -86,6 +87,7 @@ class StaffActionController extends Controller
         $staff->setReasonDismissalIfNotEmpty($request->getReasonDismissal());
         $staff->setSalaryIfNotEmpty($request->getSalary());
         $staff->setGroup($request->getGroup());
+        $staff->setBranchIfNotEmpty($request->getBranch());
         $staff->setPositionIfNotEmpty($request->getPosition());
         $staff->setLoginIfNotEmpty($request->getLogin());
         $staff->setPasswordIfNotEmpty($request->getPassword());

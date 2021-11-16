@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Branch;
 use App\Models\Group;
 use App\Models\Staff;
 use App\Models\Types\Position;
@@ -28,6 +29,7 @@ class StaffSeeder extends Seeder
                 null,
                 25000,
                 new Group(),
+                new Branch(),
                 Position::getById(Position::DIRECTOR),
                 "admin",
                 "admin"

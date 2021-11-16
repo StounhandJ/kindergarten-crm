@@ -110,6 +110,15 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label>Филиал (Если не указана группа)</label>
+                                            <div>
+                                                <select name="branch_id" class="form-control">
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label>Дата найма</label>
                                             <div>
                                                 <input name="date_employment" type="date" class="form-control" required>
