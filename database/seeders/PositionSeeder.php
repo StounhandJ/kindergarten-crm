@@ -30,6 +30,14 @@ class PositionSeeder extends Seeder
             [
                 "name" => "Повар",
                 "e_name" => "cook"
+            ],
+            [
+                "name" => "Няня",
+                "e_name" => "babysitter"
+            ],
+            [
+                "name" => "Учитель",
+                "e_name" => "teacher"
             ]
         ];
         $i = 1;

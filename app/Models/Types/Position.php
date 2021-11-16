@@ -16,6 +16,8 @@ class Position extends Model
     public const SENIOR_TUTOR = 2;
     public const TUTOR = 3;
     public const COOK = 4;
+    public const BABYSITTER =5;
+    public const TEACHER = 6;
     //</editor-fold>
 
     //<editor-fold desc="Get Attribute">
