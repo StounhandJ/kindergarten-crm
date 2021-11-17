@@ -168,7 +168,7 @@ function current_table(table) {
                     title: "Дата рождения",
                     type: "date",
                     editor: true,
-                    format: "dd-mm-yyyy",
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "institution_name",
@@ -186,7 +186,7 @@ function current_table(table) {
                     title: "Дата зачисления",
                     type: "date",
                     editor: true,
-                    format: "dd-mm-yyyy",
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "address",
@@ -224,7 +224,7 @@ function current_table(table) {
                     title: "Дата ухода",
                     type: "date",
                     editor: true,
-                    format: "dd-mm-yyyy",
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "reason_exclusion",
@@ -274,7 +274,7 @@ function current_table(table) {
                     title: "Дата рождения",
                     type: "date",
                     editor: true,
-                    format: "dd-mm-yyyy",
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "address",
@@ -286,7 +286,7 @@ function current_table(table) {
                     title: "Дата принятия",
                     type: "date",
                     editor: true,
-                    format: "dd-mm-yyyy",
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "group_name",
@@ -308,7 +308,7 @@ function current_table(table) {
                     title: "Дата увольнения",
                     type: "date",
                     editor: true,
-                    format: "dd-mm-yyyy",
+                    format: "yyyy-mm-dd",
                 },
                 {
                     field: "reason_dismissal",
