@@ -14,7 +14,7 @@ class AuthActionController extends Controller
 {
     public function login(Request $request)
     {
-        if (!auth()->attemptWhen($request->only(["login", "password"]), fn(User $user) => !is_null($user->getStaff())
+        if (!auth()->attemptWhen($request->only(["login", "password"]), fn(User $user) => !is_null($user->getStaff()), true
         )) {
             return redirect(route("login.page"))->withErrors([
                 "login" => "Неправильные данные"
