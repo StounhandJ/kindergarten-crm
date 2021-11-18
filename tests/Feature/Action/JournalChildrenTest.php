@@ -5,6 +5,7 @@ namespace Tests\Feature\Action;
 use App\Models\Child;
 use App\Models\Group;
 use App\Models\Staff;
+use App\Models\Types\Position;
 use Tests\TestCase;
 
 class JournalChildrenTest extends TestCase
@@ -14,7 +15,7 @@ class JournalChildrenTest extends TestCase
         parent::setUp();
         $group = Group::factory()->create();
         Child::factory(["group_id"=>$group->getId()])->count(4)->create();
-        $staff = Staff::factory(["group_id"=>$group->getId()])->create();
+        $staff = Staff::factory(["group_id"=>$group->getId(), "position_id"=> Position::getById(Position::SENIOR_TUTOR)])->create();
         $this->actingAs($staff->getUser());
     }
 
