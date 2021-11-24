@@ -20,7 +20,7 @@ function closeForm(clear = false) {
         form_create
             .find("input")
             .each(function (i, item) {
-                if (item.id !== "income_bool" && item.id !== "input-date")
+                if (item.id !== "income_bool" && item.id !== "input-date" && item.id !== "is_profit_on" && item.id !== "is_profit_off")
                     item.value = "";
             });
 
@@ -570,7 +570,7 @@ $(document).ready(function () {
                 else
                     data[item.name] = item.value;
             });
-        var tapath = $(this)[0].attributes.getNamedItem("tapath").value;
+        const tapath = $(this)[0].attributes.getNamedItem("tapath").value;
         $.ajax({url: "/action/" + tapath, data: data, method: "POST"})
             .done(function () {
                 closeForm(true);
