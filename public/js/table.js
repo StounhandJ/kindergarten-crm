@@ -388,7 +388,7 @@ function current_table(table) {
                 {field: "comment", title: "Комментарий", editor: true},
                 {
                     field: "notification", renderer: (value, data) => {
-                        const id = data["id"];
+                        const id = data["child"]["id"];
                         const month = data["month"];
 
                         const color = value === -1 ? "red" : (value === 0 ? "with" : "green")
