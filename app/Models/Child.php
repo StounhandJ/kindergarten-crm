@@ -141,7 +141,7 @@ class Child extends Model
         return $this->phone_mother;
     }
 
-    public function getCleanPhoneMother(): array|string
+    public function getCleanPhoneMother(): string
     {
         return ChangePhone::clear($this->getPhoneMother());
     }
@@ -156,7 +156,7 @@ class Child extends Model
         return $this->phone_father;
     }
 
-    public function getCleanPhoneFather()
+    public function getCleanPhoneFather(): string
     {
         return ChangePhone::clear($this->getPhoneFather());
     }
