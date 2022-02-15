@@ -3,19 +3,25 @@
 namespace App\Services;
 
 
+use App\Models\Child;
+use App\Models\JournalChild;
 use App\Models\JournalStaff;
 use App\Models\Staff;
 use App\Models\Types\Visit;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class ParserJournal
 {
-    public static function parse()
+    /**
+     * @param string $path
+     * @param bool $type True - Generation for employees
+     *                    False - Generation for children
+     */
+    public static function parse(string $path, bool $type = true)
     {
         $reader = new Xlsx();
-        $spreadsheet = $reader->load(Storage::path("Табель персонал сводный.xlsx"));
+        $spreadsheet = $reader->load($path);
         $sheet = $spreadsheet->getActiveSheet();
 
         $rows = [];
@@ -33,21 +39,32 @@ class ParserJournal
             if ($row[0] != "Месяц") {
                 $month_name = $row[0];
                 $year = $row[1];
-                $staff = Staff::getByFio($row[2]);
-                if (!$staff->exists()){
-                    continue;
+                if ($type) {
+                    $staff = Staff::getByFio($row[2]);
+                    if (!$staff->exists())
+                        continue;
+                }
+                else{
+                    $child = Child::getByFio($row[2]);
+                    if (!$child->exists())
+                        continue;
                 }
 
                 for ($i = 1; $i <= 31; $i++) {
                     $visit = $row[$i + 2];
+                    if ($visit=="-")
+                        continue;
                     $date = ParserJournal::getCarbon($year, $month_name, $i);
-                    JournalStaff::make($staff, Visit::WHOLE_DAT, $date);
+                    if ($type)
+                        JournalStaff::make($staff, ParserJournal::getVisit($visit), $date);
+                    else
+                        JournalChild::make($child, ParserJournal::getVisit($visit), $date);
                 }
             }
         }
     }
 
-    private static function getCarbon($year, $month, $day): bool|\Carbon\Carbon
+    private static function getCarbon($year, $month, $day): Carbon|bool
     {
         $months = [
             "Январь",
@@ -68,21 +85,14 @@ class ParserJournal
     }
 
     private static function getVisit($visit): Visit{
-        $id = -1;
-        switch ($visit){
-            case 9:
-                $id = Visit::WHOLE_DAT;
-                break;
-            case 4:
-                $id = Visit::HALF_DAT;
-                break;
-            case "В":
-                $id = Visit::WEEKEND;
-                break;
-            case "Н":
-                $id = Visit::SICK;
-                break;
-        }
+        $id = match ($visit) {
+            9 => Visit::WHOLE_DAT,
+            4 => Visit::HALF_DAT,
+            "В" => Visit::WEEKEND,
+            "Н" => Visit::TRUANCY,
+            "О" => Visit::VACATION,
+            default => -1,
+        };
         return Visit::getById($id);
     }
 }

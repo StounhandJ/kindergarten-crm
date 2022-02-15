@@ -330,6 +330,11 @@ class Child extends Model
         return Child::withTrashed()->orderBy("fio")->get();
     }
 
+    public static function getByFio($fio): \Illuminate\Database\Eloquent\Builder|Child
+    {
+        return Child::withTrashed()->where("fio", $fio)->firstOrNew();
+    }
+
     //</editor-fold>
 
 

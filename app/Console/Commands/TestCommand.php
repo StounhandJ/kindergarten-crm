@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\ParserJournal;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class TestCommand extends Command
 {
@@ -38,7 +39,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        ParserJournal::parse();
+        ParserJournal::parse(Storage::path("Табель персонал сводный.xlsx"));
         return 0;
     }
 }
