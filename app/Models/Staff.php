@@ -296,16 +296,21 @@ class Staff extends Model
 
     //<editor-fold desc="Search Branch">
 
-    public static function getById($id, $withTrashed = false): Staff
+    public static function getById($id, $withTrashed = false): \Illuminate\Database\Eloquent\Builder|Staff
     {
         if ($withTrashed)
-            return Staff::withTrashed()->where("id", $id)->first() ?? new Staff();
-        return Staff::where("id", $id)->first() ?? new Staff();
+            return Staff::withTrashed()->where("id", $id)->firstOrNew();
+        return Staff::query()->where("id", $id)->firstOrNew();
     }
 
-    public static function getByUserId($id): Staff
+    public static function getByUserId($id): \Illuminate\Database\Eloquent\Builder|Staff
     {
-        return Staff::where("user_id", $id)->first() ?? new Staff();
+        return Staff::query()->where("user_id", $id)->firstOrNew();
+    }
+
+    public static function getByFio($fio): \Illuminate\Database\Eloquent\Builder|Staff
+    {
+        return Staff::withTrashed()->where("fio", $fio)->firstOrNew();
     }
 
     //</editor-fold>

@@ -2,7 +2,7 @@ FROM composer as composer
 COPY composer.* /app/
 RUN composer install --ignore-platform-reqs --no-scripts --optimize-autoloader
 
-FROM php:8.0-fpm
+FROM php:8.1-fpm
 
 COPY composer.lock composer.json /var/www/
 
