@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands;
 
-use App\Services\ParserJournal;
+use App\Services\ParserChild;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
-class TestCommand extends Command
+class ParserChildCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'parse:journal {path : path to the parsing file} {--employees : Generation for employees}';
+    protected $signature = 'parse:child {path : path to the parsing file}';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class TestCommand extends Command
         if (Storage::exists($this->argument('path')))
             $path = Storage::path($this->argument('path'));
 
-        ParserJournal::parse($path, $this->option("employees"));
+        ParserChild::parse($path);
         return 0;
     }
 }

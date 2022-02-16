@@ -79,9 +79,14 @@ class Group extends Model
 
     //<editor-fold desc="Search Branch">
 
-    public static function getById($id): Group
+    public static function getById($id): \Illuminate\Database\Eloquent\Builder|Group
     {
-        return Group::where("id", $id)->firstOrNew();
+        return Group::query()->where("id", $id)->firstOrNew();
+    }
+
+    public static function getFirst(): \Illuminate\Database\Eloquent\Builder|Group
+    {
+        return Group::query()->firstOrNew();
     }
 
     //</editor-fold>

@@ -194,7 +194,7 @@ class GeneralJournalStaff extends Model
         return GeneralJournalStaff::where("id", $id)->first() ?? new GeneralJournalStaff();
     }
 
-    public static function getByChildAndMonth(Staff $staff, Carbon $month): GeneralJournalStaff | Model
+    public static function getByStaffAndMonth(Staff $staff, Carbon $month): GeneralJournalStaff | Model
     {
         return GeneralJournalStaff::query()
             ->whereDate("month", ">=", $month->firstOfMonth())
