@@ -122,6 +122,11 @@ class CategoryCost extends Model
         return CategoryCost::query()->where("id", $id)->firstOrNew();
     }
 
+     public static function getByName($name): CategoryCost|Model
+    {
+        return CategoryCost::query()->where("name", $name)->firstOrNew();
+    }
+
     public static function getAllActive(): Collection
     {
         return CategoryCost::query()->where("is_active", true)->orderBy("updated_at", "desc")->get();
