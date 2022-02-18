@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Child;
 use App\Models\Cost\CategoryCost;
 use App\Models\Cost\Cost;
 use App\Models\Staff;
 use Illuminate\Support\Carbon;
+use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class CostParser
@@ -33,17 +35,21 @@ class CostParser
                 $categoryCost = CategoryCost::make($row[6], $row[1]=="Доход", false, false);
                 $categoryCost->save();
             }
-            $staff = null;
+
+            $staff = new Staff();
             if ($row[8]!=""){
                 $staff = Staff::getByFio($row[8]);
-                if (!$staff->exists)
-                    $staff = null;
             }
+
+            $amount = $row[5];
+            if (!is_numeric($amount))
+                $amount = Calculation::getInstance()->_calculateFormulaValue($amount);
+
             Cost::create(
                 $categoryCost,
-                $row[5],
+                (int)$amount,
                 $row[7],
-                null,
+                new Child(),
                 $staff,
                 Carbon::make(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[2])))->save();
         }
