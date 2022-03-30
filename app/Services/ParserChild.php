@@ -52,7 +52,7 @@ class ParserChild
     {
         $var = false;
         if (isset($date)) {
-            $var = Carbon::make( \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($date));
+            $var = Carbon::make(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($date));
         }
         return $var ? $var : null;
     }
