@@ -76,7 +76,7 @@
         "morris.js": "^0.5.0",
         "node-waves": "^0.7.6",
         "parsleyjs": "^2.9.1",
-        "pdfmake": "^0.1.60",
+        "pdfmake": "^0.2.4",
         "peity": "^3.3.0",
         "raphael": "^2.3.0",
         "select2": "^4.0.12",
