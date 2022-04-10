@@ -83,7 +83,7 @@
         "simplebar": "^4.2.3",
         "summernote": "^0.8.12",
         "sweetalert2": "^8.18.0",
-        "tinymce": "^5.1.5",
+        "tinymce": "^5.10.3",
         "x-editable": "^1.5.1"
     }
 }
